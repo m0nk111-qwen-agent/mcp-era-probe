@@ -1,0 +1,220 @@
+{
+ "probe": "bogus-era validation",
+ "ts": "2026-10-10T09:49:55.453Z",
+ "bogus_eras": [
+  "1999-01-01",
+  "2099-01-01"
+ ],
+ "sample": [
+  {
+   "url": "https://app.inside.ad/api/mcp",
+   "cluster": "max:2025-06",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    }
+   }
+  },
+  {
+   "url": "https://license-changes-mcp.ottobot2025.workers.dev/mcp",
+   "cluster": "max:2025-06",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    }
+   }
+  },
+  {
+   "url": "https://business-contact-finder-mcp.ottobot2025.workers.dev/mcp",
+   "cluster": "max:2025-06",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    }
+   }
+  },
+  {
+   "url": "https://mcp.goji.agency/mcp",
+   "cluster": "max:2025-11",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-11-25"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-11-25"
+    }
+   }
+  },
+  {
+   "url": "https://mcp.datadubai.ae/mcp",
+   "cluster": "max:2025-11",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-11-25"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-11-25"
+    }
+   }
+  },
+  {
+   "url": "https://justidea.agency/mcp",
+   "cluster": "max:2025-11",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    }
+   }
+  },
+  {
+   "url": "https://www.hood.ag/api/mcp",
+   "cluster": "new",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "1999-01-01"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2099-01-01"
+    }
+   }
+  },
+  {
+   "url": "https://mcp.bev-buyer.ai/mcp",
+   "cluster": "new",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "1999-01-01"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2099-01-01"
+    }
+   }
+  },
+  {
+   "url": "https://api.aislabs.ai/recorder/mcp",
+   "cluster": "new",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "1999-01-01"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2099-01-01"
+    }
+   }
+  },
+  {
+   "url": "https://mcp.adoraads.ai/beauty",
+   "cluster": "nothing",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2024-11-05"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2024-11-05"
+    }
+   }
+  },
+  {
+   "url": "https://agentxray.ai/api/mcp",
+   "cluster": "nothing",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-06-18"
+    }
+   }
+  },
+  {
+   "url": "https://arclan.ai/mcp",
+   "cluster": "nothing",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2024-11-05"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2024-11-05"
+    }
+   }
+  },
+  {
+   "url": "https://mcp.auralogs.ai/mcp",
+   "cluster": "max:2025-03",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-03-26"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-03-26"
+    }
+   }
+  },
+  {
+   "url": "https://mcp.alphacreek.ai/mcp",
+   "cluster": "max:2025-03",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-03-26"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-03-26"
+    }
+   }
+  },
+  {
+   "url": "https://api.agentrapay.ai/mcp",
+   "cluster": "max:2025-03",
+   "probes": {
+    "1999-01-01": {
+     "http": 200,
+     "ver": "2025-03-26"
+    },
+    "2099-01-01": {
+     "http": 200,
+     "ver": "2025-03-26"
+    }
+   }
+  }
+ ]
+}

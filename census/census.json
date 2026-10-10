@@ -1,0 +1,4723 @@
+{
+ "probe": "mcp-era-probe/0.2.0 cohort driver v0.3",
+ "ts": "2026-10-10T09:45:37.054Z",
+ "cohort_source": "/workspace/data/artifacts/mcp-sec-scorecard-2026-10-06/sec-scorecard-2026-10-06.json",
+ "n": 78,
+ "counters": {
+  "by_newest_served": {
+   "max-2025-06": 19,
+   "max-2025-11": 43,
+   "serves-2026-07-28": 6,
+   "serves-nothing-verbatim": 6,
+   "max-2025-03": 4
+  },
+  "silent_downgraders_of_2026-07-28": 66,
+  "full_compat_all4": 6,
+  "one_initialize_stateful": 0
+ },
+ "results": [
+  {
+   "url": "https://app.inside.ad/api/mcp",
+   "registry_name": "ad.inside/inside-ads",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 1441,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 611
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 155
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 172
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "3 tool(s) listed",
+      "ms": 156
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:03.760Z"
+   }
+  },
+  {
+   "url": "https://license-changes-mcp.ottobot2025.workers.dev/mcp",
+   "registry_name": "agency.ottobot/contractor-license-changes",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 1550,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 643
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 205
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 188
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 224
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:03.882Z"
+   }
+  },
+  {
+   "url": "https://business-contact-finder-mcp.ottobot2025.workers.dev/mcp",
+   "registry_name": "agency.ottobot/business-contact-finder",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 1665,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 696
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 237
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 232
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 206
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:03.993Z"
+   }
+  },
+  {
+   "url": "https://tandem.ac/mcp",
+   "registry_name": "ac.tandem/docs-mcp",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2046,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "13 tool(s) listed",
+      "ms": 797
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "13 tool(s) listed",
+      "ms": 337
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "13 tool(s) listed",
+      "ms": 334
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "13 tool(s) listed",
+      "ms": 289
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:04.371Z"
+   }
+  },
+  {
+   "url": "https://mcp.goji.agency/mcp",
+   "registry_name": "agency.goji/goji",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2196,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "9 tool(s) listed",
+      "ms": 1090
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "9 tool(s) listed",
+      "ms": 278
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "9 tool(s) listed",
+      "ms": 290
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "9 tool(s) listed",
+      "ms": 243
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:04.526Z"
+   }
+  },
+  {
+   "url": "https://mcp.datadubai.ae/mcp",
+   "registry_name": "ae.datadubai/dubai-real-estate",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2264,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 1083
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 283
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "6 tool(s) listed",
+      "ms": 285
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 290
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:04.604Z"
+   }
+  },
+  {
+   "url": "https://justidea.agency/mcp",
+   "registry_name": "agency.justidea/justidea-agency",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2501,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "8 tool(s) listed",
+      "ms": 1086
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "8 tool(s) listed",
+      "ms": 340
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "8 tool(s) listed",
+      "ms": 390
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "8 tool(s) listed",
+      "ms": 370
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:04.816Z"
+   }
+  },
+  {
+   "url": "https://mcp.projectory.ae/mcp",
+   "registry_name": "ae.projectory/mcp",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2573,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 1135
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 549
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 255
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 320
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:04.893Z"
+   }
+  },
+  {
+   "url": "https://www.hood.ag/api/mcp",
+   "registry_name": "ag.hood/name-service",
+   "oct6_negotiated": "2026-07-28",
+   "ms": 2906,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2026-07-28",
+      "detail": "5 tool(s) listed",
+      "ms": 973
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 565
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 504
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 541
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25",
+     "2026-07-28"
+    ],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves the 2026-07-28 era",
+    "probed_at": "2026-10-10T09:45:05.233Z",
+    "validation": "blind-echo: answers ANY protocolVersion verbatim incl. 1999-01-01 and 2099-01-01 (bogus-era probes 2026-10-10); session works at echoed era"
+   }
+  },
+  {
+   "url": "https://mcp.getle.ad/mcp",
+   "registry_name": "ad.getle/leads",
+   "oct6_negotiated": "2026-07-28",
+   "ms": 2993,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served-no-live",
+      "served": "2026-07-28",
+      "detail": "tools/list HTTP 400",
+      "ms": 779
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "35 tool(s) listed",
+      "ms": 187
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "35 tool(s) listed",
+      "ms": 1545
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "35 tool(s) listed",
+      "ms": 171
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:05.306Z",
+    "validation": "validates (answers real latest to bogus eras) but 2026-07-28 handshake accepted then tools/list HTTP 400 \u2014 accepts era, broken session (2026-10-10; served the new era on 2026-10-06 per scorecard)"
+   }
+  },
+  {
+   "url": "https://house-painters.ottobot.agency/mcp",
+   "registry_name": "agency.ottobot/licensed-house-painters",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 1870,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 885
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 231
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 264
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 189
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:05.751Z"
+   }
+  },
+  {
+   "url": "https://house-painters-mcp.ottobot2025.workers.dev/mcp",
+   "registry_name": "agency.ottobot/licensed-house-painters",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2004,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 750
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 334
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 360
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 264
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:05.770Z"
+   }
+  },
+  {
+   "url": "https://mcp.bev-buyer.ai/mcp",
+   "registry_name": "ai.agent-bev/bev-door",
+   "oct6_negotiated": "2026-07-28",
+   "ms": 2156,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2026-07-28",
+      "detail": "9 tool(s) listed",
+      "ms": 807
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "9 tool(s) listed",
+      "ms": 267
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "9 tool(s) listed",
+      "ms": 542
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "9 tool(s) listed",
+      "ms": 233
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25",
+     "2026-07-28"
+    ],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves the 2026-07-28 era",
+    "probed_at": "2026-10-10T09:45:06.153Z",
+    "validation": "blind-echo: answers ANY protocolVersion verbatim incl. 1999-01-01 and 2099-01-01 (bogus-era probes 2026-10-10); session works at echoed era"
+   }
+  },
+  {
+   "url": "https://afmr.ai/api/rpc",
+   "registry_name": "ai.afmr/discovery",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 1806,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 880
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 225
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 212
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "4 tool(s) listed",
+      "ms": 183
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:06.173Z"
+   }
+  },
+  {
+   "url": "https://afmr.ai/mcp",
+   "registry_name": "ai.afmr/discovery",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 1633,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 696
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 243
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 207
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "4 tool(s) listed",
+      "ms": 200
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:06.448Z"
+   }
+  },
+  {
+   "url": "https://advisorsai.ai/mcp",
+   "registry_name": "ai.advisorsai/service-navigator",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2823,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 1078
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 524
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 484
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 451
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:07.360Z"
+   }
+  },
+  {
+   "url": "https://advisorsai.ai/store-readiness-mcp",
+   "registry_name": "ai.advisorsai/store-readiness",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2839,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "1 tool(s) listed",
+      "ms": 1013
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "1 tool(s) listed",
+      "ms": 531
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 518
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "1 tool(s) listed",
+      "ms": 503
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:07.438Z"
+   }
+  },
+  {
+   "url": "https://mcp.adoraads.ai/beauty",
+   "registry_name": "ai.adoraads/beauty",
+   "oct6_negotiated": "2024-11-05",
+   "ms": 3157,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2024-11-05",
+      "detail": "6 tool(s) listed",
+      "ms": 1010
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2024-11-05",
+      "detail": "6 tool(s) listed",
+      "ms": 609
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2024-11-05",
+      "detail": "6 tool(s) listed",
+      "ms": 602
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2024-11-05",
+      "detail": "6 tool(s) listed",
+      "ms": 597
+     }
+    ],
+    "served": [],
+    "downgradedTo": [
+     "2024-11-05"
+    ],
+    "one_initialize": false,
+    "verdict": "serves NOTHING verbatim; downgrades to 2024-11-05 \u2014 every answered handshake used an older era (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:08.053Z",
+    "recheck_gentle": {
+     "class": "nothing-verbatim-default-downgrade",
+     "note": "downgrades every request to 2024-11-05"
+    }
+   }
+  },
+  {
+   "url": "https://afg.ai/mcp",
+   "registry_name": "ai.afg/afg",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3083,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "18 tool(s) listed",
+      "ms": 1220
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "18 tool(s) listed",
+      "ms": 366
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "18 tool(s) listed",
+      "ms": 374
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "18 tool(s) listed",
+      "ms": 356
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:08.835Z"
+   }
+  },
+  {
+   "url": "https://solar.agentlookups.ai/mcp",
+   "registry_name": "ai.agentlookups/greenlight",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2775,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 1192
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 430
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 432
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "2 tool(s) listed",
+      "ms": 426
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:08.944Z"
+   }
+  },
+  {
+   "url": "https://mcp.agenticterminal.ai/mcp",
+   "registry_name": "ai.agenticterminal/directory",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2996,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 1170
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 521
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "6 tool(s) listed",
+      "ms": 510
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 500
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:09.156Z"
+   }
+  },
+  {
+   "url": "https://rx.agentlookups.ai/mcp",
+   "registry_name": "ai.agentlookups/counterscript",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2754,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 1159
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 435
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 435
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "1 tool(s) listed",
+      "ms": 424
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:09.194Z"
+   }
+  },
+  {
+   "url": "https://agentxray.ai/api/mcp",
+   "registry_name": "ai.agentxray/mcp",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 1918,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "tools/list HTTP 401",
+      "ms": 827
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "tools/list HTTP 401",
+      "ms": 296
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served-no-live",
+      "served": "2025-06-18",
+      "detail": "tools/list HTTP 401",
+      "ms": 255
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served-no-live",
+      "served": "2025-03-26",
+      "detail": "tools/list HTTP 401",
+      "ms": 236
+     }
+    ],
+    "served": [],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves NOTHING verbatim; downgrades to 2025-06-18 \u2014 every answered handshake used an older era (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:09.275Z",
+    "recheck_gentle": {
+     "class": "nothing-verbatim-default-downgrade",
+     "note": "downgrades every request to 2025-06-18"
+    }
+   }
+  },
+  {
+   "url": "https://agentberg.ai/mcp",
+   "registry_name": "ai.agentberg/agentberg",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3978,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "11 tool(s) listed",
+      "ms": 1058
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "11 tool(s) listed",
+      "ms": 610
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "11 tool(s) listed",
+      "ms": 599
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "11 tool(s) listed",
+      "ms": 615
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:09.287Z"
+   }
+  },
+  {
+   "url": "https://agenticfabricationnetwork.ai/mcp",
+   "registry_name": "ai.agenticfabricationnetwork/ufp",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3650,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "13 tool(s) listed",
+      "ms": 1153
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "13 tool(s) listed",
+      "ms": 695
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "13 tool(s) listed",
+      "ms": 861
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "13 tool(s) listed",
+      "ms": 648
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:09.419Z"
+   }
+  },
+  {
+   "url": "https://contractors.agentlookups.ai/mcp",
+   "registry_name": "ai.agentlookups/plumbline",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2581,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 1099
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 405
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 396
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "1 tool(s) listed",
+      "ms": 404
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:10.022Z"
+   }
+  },
+  {
+   "url": "https://prices.brainy.ae/mcp",
+   "registry_name": "ae.brainy/grocery-prices",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 5210,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "20 tool(s) listed",
+      "ms": 1960
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "20 tool(s) listed",
+      "ms": 1175
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "20 tool(s) listed",
+      "ms": 983
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "20 tool(s) listed",
+      "ms": 780
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:10.441Z"
+   }
+  },
+  {
+   "url": "https://overassessed.agentlookups.ai/mcp",
+   "registry_name": "ai.agentlookups/overassessed",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2683,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 1114
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 428
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "1 tool(s) listed",
+      "ms": 420
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "1 tool(s) listed",
+      "ms": 432
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:10.750Z"
+   }
+  },
+  {
+   "url": "https://api.aislabs.ai/recorder/mcp",
+   "registry_name": "ai.aislabs/recorder",
+   "oct6_negotiated": "2026-07-28",
+   "ms": 1714,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2026-07-28",
+      "detail": "5 tool(s) listed",
+      "ms": 720
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 225
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 251
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 215
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25",
+     "2026-07-28"
+    ],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves the 2026-07-28 era",
+    "probed_at": "2026-10-10T09:45:10.914Z",
+    "validation": "blind-echo: answers ANY protocolVersion verbatim incl. 1999-01-01 and 2099-01-01 (bogus-era probes 2026-10-10); session works at echoed era"
+   }
+  },
+  {
+   "url": "https://api.aislabs.ai/cve/mcp",
+   "registry_name": "ai.aislabs/cve",
+   "oct6_negotiated": "2026-07-28",
+   "ms": 1645,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2026-07-28",
+      "detail": "4 tool(s) listed",
+      "ms": 684
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 209
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 236
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "4 tool(s) listed",
+      "ms": 226
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25",
+     "2026-07-28"
+    ],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves the 2026-07-28 era",
+    "probed_at": "2026-10-10T09:45:10.925Z",
+    "validation": "blind-echo: answers ANY protocolVersion verbatim incl. 1999-01-01 and 2099-01-01 (bogus-era probes 2026-10-10); session works at echoed era"
+   }
+  },
+  {
+   "url": "https://api.aislabs.ai/mcp",
+   "registry_name": "ai.aislabs/gateway",
+   "oct6_negotiated": "2026-07-28",
+   "ms": 1601,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2026-07-28",
+      "detail": "3 tool(s) listed",
+      "ms": 622
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "3 tool(s) listed",
+      "ms": 249
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 229
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "3 tool(s) listed",
+      "ms": 220
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25",
+     "2026-07-28"
+    ],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves the 2026-07-28 era",
+    "probed_at": "2026-10-10T09:45:11.019Z",
+    "validation": "blind-echo: answers ANY protocolVersion verbatim incl. 1999-01-01 and 2099-01-01 (bogus-era probes 2026-10-10); session works at echoed era"
+   }
+  },
+  {
+   "url": "https://env.agentlookups.ai/mcp",
+   "registry_name": "ai.agentlookups/groundtruth",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2586,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 1093
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 398
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 405
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "4 tool(s) listed",
+      "ms": 403
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:11.428Z"
+   }
+  },
+  {
+   "url": "https://mcp.aivonic.ai",
+   "registry_name": "ai.aivonic/mcp",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 1540,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 559
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 168
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 164
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 161
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:11.985Z"
+   }
+  },
+  {
+   "url": "https://aient.ai/mcp",
+   "registry_name": "ai.aient/mcp",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2015,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "2 tool(s) listed",
+      "ms": 750
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "2 tool(s) listed",
+      "ms": 358
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 302
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "2 tool(s) listed",
+      "ms": 303
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:12.033Z"
+   }
+  },
+  {
+   "url": "https://ai-akari.ai/mcp",
+   "registry_name": "ai.ai-akari/one-minute-akari",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 3591,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 935
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 562
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 561
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 547
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:12.740Z"
+   }
+  },
+  {
+   "url": "https://ai-akari.ai/mcp-trust",
+   "registry_name": "ai.ai-akari/agent-trust-receipt",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 3851,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 1399
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 493
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 498
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 509
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:12.794Z"
+   }
+  },
+  {
+   "url": "https://www.ai-portal.ai/mcp",
+   "registry_name": "ai.ai-portal/ai-portal",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 3805,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 1302
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 762
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 762
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "4 tool(s) listed",
+      "ms": 679
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:13.099Z"
+   }
+  },
+  {
+   "url": "https://arclan.ai/mcp",
+   "registry_name": "ai.arclan/registry",
+   "oct6_negotiated": "2024-11-05",
+   "ms": 2765,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2024-11-05",
+      "detail": "4 tool(s) listed",
+      "ms": 775
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2024-11-05",
+      "detail": "4 tool(s) listed",
+      "ms": 565
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2024-11-05",
+      "detail": "4 tool(s) listed",
+      "ms": 550
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2024-11-05",
+      "detail": "4 tool(s) listed",
+      "ms": 569
+     }
+    ],
+    "served": [],
+    "downgradedTo": [
+     "2024-11-05"
+    ],
+    "one_initialize": false,
+    "verdict": "serves NOTHING verbatim; downgrades to 2024-11-05 \u2014 every answered handshake used an older era (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:13.685Z",
+    "recheck_gentle": {
+     "class": "nothing-verbatim-default-downgrade",
+     "note": "downgrades every request to 2024-11-05"
+    }
+   }
+  },
+  {
+   "url": "https://analyticslegends.ai/mcp",
+   "registry_name": "ai.analyticslegends/sap-analytics",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3023,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "22 tool(s) listed",
+      "ms": 1032
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "22 tool(s) listed",
+      "ms": 594
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "22 tool(s) listed",
+      "ms": 574
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "22 tool(s) listed",
+      "ms": 531
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:13.944Z"
+   }
+  },
+  {
+   "url": "https://mcp.auralogs.ai/mcp",
+   "registry_name": "ai.auralogs/auralogs",
+   "oct6_negotiated": "2025-03-26",
+   "ms": 1819,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "7 tool(s) listed",
+      "ms": 802
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "7 tool(s) listed",
+      "ms": 245
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "7 tool(s) listed",
+      "ms": 244
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "7 tool(s) listed",
+      "ms": 218
+     }
+    ],
+    "served": [
+     "2025-03-26"
+    ],
+    "downgradedTo": [
+     "2025-03-26"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-03-26 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:14.915Z"
+   }
+  },
+  {
+   "url": "https://argushq.ai/api/mcp",
+   "registry_name": "ai.argushq/enforcement-database",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3000,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 902
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 599
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 593
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 588
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:15.025Z"
+   }
+  },
+  {
+   "url": "https://app.aqta.ai/api/mcp",
+   "registry_name": "ai.aqta/seal",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2268,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "10 tool(s) listed",
+      "ms": 829
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "10 tool(s) listed",
+      "ms": 413
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "10 tool(s) listed",
+      "ms": 358
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "10 tool(s) listed",
+      "ms": 352
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:15.069Z"
+   }
+  },
+  {
+   "url": "https://agentroam.ai/api/mcp",
+   "registry_name": "ai.agentroam/agentroam",
+   "oct6_negotiated": "2025-03-26",
+   "ms": 3256,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "11 tool(s) listed",
+      "ms": 1340
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "11 tool(s) listed",
+      "ms": 533
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "11 tool(s) listed",
+      "ms": 539
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "11 tool(s) listed",
+      "ms": 531
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-03-26"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:15.241Z"
+   }
+  },
+  {
+   "url": "https://api.atako.ai/mcp/public",
+   "registry_name": "ai.atako/mcp",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 1580,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "3 tool(s) listed",
+      "ms": 656
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "3 tool(s) listed",
+      "ms": 185
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 187
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "3 tool(s) listed",
+      "ms": 218
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:15.255Z"
+   }
+  },
+  {
+   "url": "https://mcp.alphacreek.ai/mcp",
+   "registry_name": "ai.alphacreek/alphacreek-mcp",
+   "oct6_negotiated": "2025-03-26",
+   "ms": 4684,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 2537
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 568
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 534
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 726
+     }
+    ],
+    "served": [
+     "2025-03-26"
+    ],
+    "downgradedTo": [
+     "2025-03-26"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-03-26 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:15.706Z"
+   }
+  },
+  {
+   "url": "https://api.agentrapay.ai/mcp",
+   "registry_name": "ai.agentrapay/agentra",
+   "oct6_negotiated": "2025-03-26",
+   "ms": 5673,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 2198
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 1210
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 1067
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 892
+     }
+    ],
+    "served": [
+     "2025-03-26"
+    ],
+    "downgradedTo": [
+     "2025-03-26"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-03-26 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:16.421Z"
+   }
+  },
+  {
+   "url": "https://mcp.autonomad.ai/mcp",
+   "registry_name": "ai.autonomad/travel",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 1623,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "9 tool(s) listed",
+      "ms": 574
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "9 tool(s) listed",
+      "ms": 188
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "9 tool(s) listed",
+      "ms": 186
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "9 tool(s) listed",
+      "ms": 168
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:16.538Z"
+   }
+  },
+  {
+   "url": "https://api.askmiles.ai/mcp",
+   "registry_name": "ai.askmiles/catalog",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2723,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 1115
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 413
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 494
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 395
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:16.668Z"
+   }
+  },
+  {
+   "url": "https://mcp-server-295985738387.europe-west1.run.app/mcp",
+   "registry_name": "ai.bankee/inferventis-mcp",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 1729,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "20 tool(s) listed",
+      "ms": 749
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "20 tool(s) listed",
+      "ms": 229
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "20 tool(s) listed",
+      "ms": 233
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "20 tool(s) listed",
+      "ms": 239
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:16.984Z"
+   }
+  },
+  {
+   "url": "https://mcp.airshelf.ai/mcp",
+   "registry_name": "ai.airshelf/catalog",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 5759,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "8 tool(s) listed",
+      "ms": 1882
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "8 tool(s) listed",
+      "ms": 1217
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "8 tool(s) listed",
+      "ms": 1189
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "8 tool(s) listed",
+      "ms": 1157
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:17.186Z"
+   }
+  },
+  {
+   "url": "https://mcp.askwatch.ai/gsc",
+   "registry_name": "ai.askwatch/gsc",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2329,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "11 tool(s) listed",
+      "ms": 818
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "11 tool(s) listed",
+      "ms": 404
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "11 tool(s) listed",
+      "ms": 419
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "11 tool(s) listed",
+      "ms": 407
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:17.369Z"
+   }
+  },
+  {
+   "url": "https://bankrolled.ai/mcp",
+   "registry_name": "ai.bankrolled/agent-hub",
+   "oct6_negotiated": "2026-07-28",
+   "ms": 1658,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2026-07-28",
+      "detail": "4 tool(s) listed",
+      "ms": 686
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 246
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 218
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "4 tool(s) listed",
+      "ms": 217
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25",
+     "2026-07-28"
+    ],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves the 2026-07-28 era",
+    "probed_at": "2026-10-10T09:45:18.078Z",
+    "validation": "blind-echo: answers ANY protocolVersion verbatim incl. 1999-01-01 and 2099-01-01 (bogus-era probes 2026-10-10); session works at echoed era"
+   }
+  },
+  {
+   "url": "https://app.augenix.ai/api/mcp/public",
+   "registry_name": "ai.augenix/build",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3109,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "3 tool(s) listed",
+      "ms": 1043
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "3 tool(s) listed",
+      "ms": 627
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 593
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "3 tool(s) listed",
+      "ms": 557
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:18.344Z"
+   }
+  },
+  {
+   "url": "https://alpix.alpic.ai",
+   "registry_name": "ai.alpic.alpix/Alpix",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 5632,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "3 tool(s) listed",
+      "ms": 1548
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "3 tool(s) listed",
+      "ms": 969
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "3 tool(s) listed",
+      "ms": 1005
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "3 tool(s) listed",
+      "ms": 813
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:18.368Z"
+   }
+  },
+  {
+   "url": "https://artidrop.ai/mcp",
+   "registry_name": "ai.artidrop/artidrop",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3461,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 1171
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 690
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 691
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "4 tool(s) listed",
+      "ms": 627
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:18.526Z"
+   }
+  },
+  {
+   "url": "https://mcp.biel.ai/sse?project_slug={project_slug}&domain={domain}",
+   "registry_name": "ai.biel/biel-ai",
+   "oct6_negotiated": null,
+   "ms": 910,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 530,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "rejected",
+      "detail": "HTTP 530"
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 530,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "rejected",
+      "detail": "HTTP 530"
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 530,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "rejected",
+      "detail": "HTTP 530"
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 530,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "rejected",
+      "detail": "HTTP 530"
+     }
+    ],
+    "served": [],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves NOTHING (all handshakes failed)",
+    "probed_at": "2026-10-10T09:45:18.984Z",
+    "recheck_gentle": {
+     "class": "dead",
+     "note": "all handshakes failed (registry template-URL artifact)"
+    }
+   }
+  },
+  {
+   "url": "https://app.autoposting.ai/mcp",
+   "registry_name": "ai.autoposting/autoposting",
+   "oct6_negotiated": "2025-03-26",
+   "ms": 3410,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "tools/list HTTP 401",
+      "ms": 1095
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "tools/list HTTP 401",
+      "ms": 663
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "tools/list HTTP 401",
+      "ms": 681
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served-no-live",
+      "served": "2025-03-26",
+      "detail": "tools/list HTTP 401",
+      "ms": 664
+     }
+    ],
+    "served": [],
+    "downgradedTo": [
+     "2025-03-26"
+    ],
+    "one_initialize": false,
+    "verdict": "serves NOTHING verbatim; downgrades to 2025-03-26 \u2014 every answered handshake used an older era (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:19.119Z",
+    "recheck_gentle": {
+     "class": "nothing-verbatim-default-downgrade",
+     "note": "downgrades every request to 2025-03-26"
+    }
+   }
+  },
+  {
+   "url": "https://mcp.bcited.ai/public",
+   "registry_name": "ai.bcited/bcited",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2144,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 1067
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 250
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "6 tool(s) listed",
+      "ms": 291
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 225
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:19.325Z"
+   }
+  },
+  {
+   "url": "https://b4-index.vercel.app/mcp",
+   "registry_name": "ai.benroberts/b4-index",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3252,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 1106
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 653
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 631
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 559
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:20.241Z"
+   }
+  },
+  {
+   "url": "https://auteng.ai/mcp/docs",
+   "registry_name": "ai.auteng/docs",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 4134,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 1199
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 768
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "6 tool(s) listed",
+      "ms": 920
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 763
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:20.496Z"
+   }
+  },
+  {
+   "url": "https://api.betslipdoctor.ai/api/mcp",
+   "registry_name": "ai.betslipdoctor/mcp",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 3789,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "46 tool(s) listed",
+      "ms": 884
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "46 tool(s) listed",
+      "ms": 575
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "46 tool(s) listed",
+      "ms": 609
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "46 tool(s) listed",
+      "ms": 1446
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:21.154Z"
+   }
+  },
+  {
+   "url": "https://blast-radius.ai/mcp",
+   "registry_name": "ai.blast-radius/blast-radius",
+   "oct6_negotiated": "2025-06-18",
+   "ms": 2106,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "9 tool(s) listed",
+      "ms": 1004
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "9 tool(s) listed",
+      "ms": 273
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "9 tool(s) listed",
+      "ms": 290
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-06-18",
+      "detail": "9 tool(s) listed",
+      "ms": 247
+     }
+    ],
+    "served": [
+     "2025-06-18"
+    ],
+    "downgradedTo": [
+     "2025-06-18"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:21.438Z"
+   }
+  },
+  {
+   "url": "https://app.bezal.ai/api/mcp",
+   "registry_name": "ai.bezal/local-commerce",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3159,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "13 tool(s) listed",
+      "ms": 1021
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "13 tool(s) listed",
+      "ms": 629
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "13 tool(s) listed",
+      "ms": 615
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "13 tool(s) listed",
+      "ms": 549
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:21.503Z"
+   }
+  },
+  {
+   "url": "https://docs.bithuman.ai/docs-mcp",
+   "registry_name": "ai.bithuman/docs",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 2704,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "2 tool(s) listed",
+      "ms": 860
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "2 tool(s) listed",
+      "ms": 493
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "2 tool(s) listed",
+      "ms": 486
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "2 tool(s) listed",
+      "ms": 564
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:21.690Z"
+   }
+  },
+  {
+   "url": "https://betterpost.ai/mcp",
+   "registry_name": "ai.betterpost/server",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 3695,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "23 tool(s) listed",
+      "ms": 1440
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "23 tool(s) listed",
+      "ms": 652
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "23 tool(s) listed",
+      "ms": 565
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "23 tool(s) listed",
+      "ms": 750
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:22.225Z"
+   }
+  },
+  {
+   "url": "https://awardcast.ai/mcp",
+   "registry_name": "ai.awardcast/federal-contracts",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 5656,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "8 tool(s) listed",
+      "ms": 2462
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "8 tool(s) listed",
+      "ms": 809
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "8 tool(s) listed",
+      "ms": 1331
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "8 tool(s) listed",
+      "ms": 770
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:22.324Z"
+   }
+  },
+  {
+   "url": "https://mcp.botinfo.ai/mcp",
+   "registry_name": "ai.botinfo/robot-market-data",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 1774,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 834
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "4 tool(s) listed",
+      "ms": 229
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "4 tool(s) listed",
+      "ms": 199
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "4 tool(s) listed",
+      "ms": 178
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:23.207Z"
+   }
+  },
+  {
+   "url": "https://app.bitroad.ai/api/v1/mcp",
+   "registry_name": "ai.bitroad/bitroad",
+   "oct6_negotiated": "2025-03-26",
+   "ms": 2558,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "65 tool(s) listed",
+      "ms": 1018
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "65 tool(s) listed",
+      "ms": 444
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-03-26",
+      "detail": "65 tool(s) listed",
+      "ms": 412
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "65 tool(s) listed",
+      "ms": 404
+     }
+    ],
+    "served": [
+     "2025-03-26"
+    ],
+    "downgradedTo": [
+     "2025-03-26"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-03-26 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:23.233Z"
+   }
+  },
+  {
+   "url": "https://aviado.ai/api/mcp",
+   "registry_name": "ai.aviado/health",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 4907,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "9 tool(s) listed",
+      "ms": 2938
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "9 tool(s) listed",
+      "ms": 561
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "9 tool(s) listed",
+      "ms": 569
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "9 tool(s) listed",
+      "ms": 565
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:24.022Z"
+   }
+  },
+  {
+   "url": "https://bidclub.ai/api/mcp",
+   "registry_name": "ai.bidclub/bidclub",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 4488,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 1311
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "6 tool(s) listed",
+      "ms": 910
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "6 tool(s) listed",
+      "ms": 1091
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "6 tool(s) listed",
+      "ms": 916
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:24.734Z"
+   }
+  },
+  {
+   "url": "https://backengine.ai/mcp",
+   "registry_name": "ai.backengine/backengine-mcp",
+   "oct6_negotiated": null,
+   "ms": 3612,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "session": "none",
+      "outcome": "rejected",
+      "detail": "HTTP 200 (SSE) but no initialize response object (content-type \"text/html; charset=utf-8\")"
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "session": "none",
+      "outcome": "rejected",
+      "detail": "HTTP 200 (SSE) but no initialize response object (content-type \"text/html; charset=utf-8\")"
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "session": "none",
+      "outcome": "rejected",
+      "detail": "HTTP 200 (SSE) but no initialize response object (content-type \"text/html; charset=utf-8\")"
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "session": "none",
+      "outcome": "rejected",
+      "detail": "HTTP 200 (SSE) but no initialize response object (content-type \"text/html; charset=utf-8\")"
+     }
+    ],
+    "served": [],
+    "downgradedTo": [],
+    "one_initialize": false,
+    "verdict": "serves NOTHING (all handshakes failed)",
+    "probed_at": "2026-10-10T09:45:25.293Z",
+    "recheck_gentle": {
+     "class": "dead",
+     "note": "all handshakes failed"
+    }
+   }
+  },
+  {
+   "url": "https://bizmoon.ai/api/mcp",
+   "registry_name": "ai.bizmoon/regulatory",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 4586,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 1717
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "5 tool(s) listed",
+      "ms": 651
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "5 tool(s) listed",
+      "ms": 977
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "5 tool(s) listed",
+      "ms": 965
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:26.088Z"
+   }
+  },
+  {
+   "url": "https://borealhost.ai/mcp/",
+   "registry_name": "ai.borealhost/mcp",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 4447,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "184 tool(s) listed",
+      "ms": 1765
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "184 tool(s) listed",
+      "ms": 598
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "184 tool(s) listed",
+      "ms": 591
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "184 tool(s) listed",
+      "ms": 588
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:26.669Z"
+   }
+  },
+  {
+   "url": "https://api.bowmark.ai/mcp/registry",
+   "registry_name": "ai.bowmark/bowmark",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 4545,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "10 tool(s) listed",
+      "ms": 1897
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "10 tool(s) listed",
+      "ms": 859
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "10 tool(s) listed",
+      "ms": 758
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "10 tool(s) listed",
+      "ms": 723
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:26.867Z"
+   }
+  },
+  {
+   "url": "https://api.bowmark.ai/mcp?s=r",
+   "registry_name": "ai.bowmark/bowmark",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 4734,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "10 tool(s) listed",
+      "ms": 1892
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "10 tool(s) listed",
+      "ms": 744
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "10 tool(s) listed",
+      "ms": 1014
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "10 tool(s) listed",
+      "ms": 778
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:27.961Z"
+   }
+  },
+  {
+   "url": "https://api.bowmark.ai/mcp",
+   "registry_name": "ai.bowmark/bowmark",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 4876,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "10 tool(s) listed",
+      "ms": 1889
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "10 tool(s) listed",
+      "ms": 984
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "10 tool(s) listed",
+      "ms": 693
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "10 tool(s) listed",
+      "ms": 983
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:28.077Z"
+   }
+  },
+  {
+   "url": "https://supershopping-mcp.atdev.ai/mcp",
+   "registry_name": "ai.atdev/supershopping",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 7843,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "8 tool(s) listed",
+      "ms": 2477
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "8 tool(s) listed",
+      "ms": 1520
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "8 tool(s) listed",
+      "ms": 1067
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "session": "granted",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "8 tool(s) listed",
+      "ms": 1048
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:28.996Z"
+   }
+  },
+  {
+   "url": "https://agents.alphaquantlabs.ai/v1/mcp",
+   "registry_name": "ai.alphaquantlabs/propertycheck",
+   "oct6_negotiated": "2025-11-25",
+   "ms": 18663,
+   "result": {
+    "rows": [
+     {
+      "era": "2026-07-28",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "downgraded",
+      "served": "2025-11-25",
+      "detail": "10 tool(s) listed",
+      "ms": 4947
+     },
+     {
+      "era": "2025-11-25",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-11-25",
+      "detail": "10 tool(s) listed",
+      "ms": 4684
+     },
+     {
+      "era": "2025-06-18",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-06-18",
+      "detail": "10 tool(s) listed",
+      "ms": 4395
+     },
+     {
+      "era": "2025-03-26",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "session": "none",
+      "outcome": "served",
+      "served": "2025-03-26",
+      "detail": "10 tool(s) listed",
+      "ms": 4337
+     }
+    ],
+    "served": [
+     "2025-03-26",
+     "2025-06-18",
+     "2025-11-25"
+    ],
+    "downgradedTo": [
+     "2025-11-25"
+    ],
+    "one_initialize": false,
+    "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+    "probed_at": "2026-10-10T09:45:37.036Z"
+   }
+  }
+ ],
+ "note": "2026-10-10: counters recomputed from intact per-era rows after a driver bug (served.sort().pop() mutated the served arrays in place during counter computation; rows unaffected). Driver fixed same day.",
+ "bogus_echo_validation": "bogus-era probes (1999-01-01/2099-01-01) on 18 endpoints: 6/6 of the 2026-07-28-serving cluster = blind echo; 12 sampled validators answered their real latest (per-era rows meaningful); see bogus-echo-validation.json"
+}
