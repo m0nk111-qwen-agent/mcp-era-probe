@@ -2,19 +2,18 @@
 
 **Which MCP protocol eras does your server actually serve?**
 
-A zero-dependency Node script that launches your MCP stdio server once per known
-protocol version ("era"), sends a real `initialize` handshake for each, and reports —
-per era — whether the server **accepted** it, **downgraded** it to an older version,
-or **rejected** it.
+A zero-dependency Node script that sends your MCP server a real `initialize`
+handshake for each known protocol version ("era") and reports what it accepted /
+downgraded / rejected — over **stdio** or **streamable-HTTP**.
 
-Eras probed: `2025-03-26`, `2025-06-18`, `2025-11-25`, `2026-07-28`.
+Eras probed: `2026-07-28`, `2025-11-25`, `2025-06-18`, `2025-03-26` (newest first).
 
 ## Why
 
 The July 2026 MCP spec revision split the ecosystem into servers that speak the new
-era and servers that still negotiate the 2025-11-25 era. The break is **invisible from
-inside a server project**: a migrated server compiles, passes its default-client tests,
-answers the Inspector — and yet only serves the 2025 era
+era and servers that still negotiate the 2025 eras. The break is **invisible from
+inside a server project**: a migrated server compiles, passes its default-client
+tests, answers the Inspector — and yet only serves the 2025 era
 ([typescript-sdk#2977](https://github.com/modelcontextprotocol/typescript-sdk/issues/2977)).
 Version-negotiation bugs are an active failure class
 ([#2969](https://github.com/modelcontextprotocol/typescript-sdk/issues/2969),
@@ -25,7 +24,12 @@ Version-negotiation bugs are an active failure class
 ## Usage
 
 ```bash
-node era-probe.js -- <command that launches your MCP stdio server> [args...]
+# stdio server (one fresh process per era)
+node era-probe.js -- <command that launches your server> [args...]
+
+# streamable-HTTP endpoint (the transport most hosted servers use; Node >= 18)
+node era-probe.js --http https://your-host.example/mcp
+node era-probe.js --http https://your-host.example/mcp --header "Authorization: Bearer sk-..."
 ```
 
 Exit code 0 if the probe ran (regardless of results). Add `--strict` to exit 1 when
@@ -39,12 +43,12 @@ A server built with `@modelcontextprotocol/sdk@1.32.1` + `StdioServerTransport`
 see `fixtures/v1-stdio`):
 
 ```
-ACCEPTED   2025-03-26    (1 tool(s) listed)
-ACCEPTED   2025-06-18    (1 tool(s) listed)
-ACCEPTED   2025-11-25    (1 tool(s) listed)
-DOWNGRADE  2026-07-28  -> serves 2025-11-25
+DOWNGRADE  2026-07-28  -> serves 2025-11-25  (1 tool(s) listed)
+ACCEPTED   2025-11-25              (1 tool(s) listed)
+ACCEPTED   2025-06-18              (1 tool(s) listed)
+ACCEPTED   2025-03-26              (1 tool(s) listed)
 ---
-served verbatim : 2025-03-26, 2025-06-18, 2025-11-25
+served verbatim : 2025-11-25, 2025-06-18, 2025-03-26
 downgraded to   : 2025-11-25  <- 2026-07-28-era clients will NOT get this era
 VERDICT: serves 2025-11-25 only — a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)
 ```
@@ -55,40 +59,102 @@ downgrades `2026-07-28` to `2025-11-25` (`fixtures/v2-stdio`). Installing the ne
 major does not mean getting the new era; that package's exported
 `LATEST_PROTOCOL_VERSION` is still `2025-11-25`.
 
-A strict era-current server (positive control, `fixtures/current-only-stdio`)
-looks like this:
+A strict era-current server (positive control, `fixtures/current-only-stdio`):
 
 ```
-REJECTED   2025-03-26    (error -32602: unsupported protocolVersion 2025-03-26; this server serves 2026-07-28 only)
-REJECTED   2025-06-18    (error -32602: ...)
-REJECTED   2025-11-25    (error -32602: ...)
 ACCEPTED   2026-07-28    (1 tool(s) listed)
+REJECTED   2025-11-25    (error -32602: unsupported protocolVersion ...)
 VERDICT: serves the 2026-07-28 era
 ```
+
+## Streamable-HTTP probing
+
+```bash
+node era-probe.js --http https://mcp.deepwiki.com/mcp
+```
+
+```
+DOWNGRADE  2026-07-28  -> serves 2025-11-25  (HTTP 200 3 tool(s) listed)
+ACCEPTED   2025-11-25              (HTTP 200 3 tool(s) listed)
+...
+VERDICT: serves 2025-11-25 only — a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)
+```
+
+Real probe, 2026-10-10: DeepWiki's public endpoint answers `text/event-stream` and
+serves the 2025-11-25 era; the 2026-07-28 request is downgraded silently. The tool
+handles plain-JSON and SSE responses, stateless and stateful (`Mcp-Session-Id`)
+servers, closes granted sessions after the matrix, and reports HTTP status codes on
+failure rows.
+
+**Stateful caveat.** A server that allows only one `initialize` per process (the
+SDK's own stateful example shape) answers the FIRST handshake fully and then
+rejects repeats with `400 "Server already initialized"`. The probe therefore goes
+newest-era first — the one handshake it grants is the most informative — and adds a
+`note:` line to the verdict when it sees this shape. Its single-session behavior is
+itself a real interop hazard: a second client gets `400 Server already initialized`.
+
+## CI example
+
+```yaml
+# .github/workflows/era.yml — fail the build when the server is not era-current
+name: mcp-era
+on: [push]
+jobs:
+  era:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci
+      - name: probe the server's protocol era
+        run: node path/to/era-probe.js -- node dist/server.js --strict
+        # stdio: flags go after the server command, as shown; for a hosted HTTP
+        # endpoint use: node era-probe.js --http $MCP_URL --strict
+```
+
+## Era badge
+
+Put the probe's verdict in your README as a one-liner your users can check:
+
+```md
+**MCP protocol era:** ![serves 2025-11-25](https://img.shields.io/badge/MCP%20era-2025--11--25-orange)
+# (green badge when the verdict line reads "serves the 2026-07-28 era")
+```
+
+Generate it from the JSON summary line's `verdict` field; `--strict` in CI keeps it
+honest.
 
 ## Fixtures
 
 ```bash
 cd fixtures/v1-stdio && npm install && cd ../..
 node era-probe.js -- node fixtures/v1-stdio/server.js
+node era-probe.js -- node fixtures/v2-stdio/server.js          # the published v2 line
+node era-probe.js -- node fixtures/current-only-stdio/server.js # positive control
 ```
 
 - `fixtures/v1-stdio` — pre-2026 shape: `@modelcontextprotocol/sdk` (v1 line) + `StdioServerTransport`
 - `fixtures/v2-stdio` — published v2 npm line: `@modelcontextprotocol/server@2.3.1` + `serveStdio` (note the factory API)
 - `fixtures/current-only-stdio` — dependency-free server that serves `2026-07-28` only (positive control)
+- `fixtures/v1-http` — the same v1-line SDK over streamable-HTTP, stateless (fresh transport per POST — the canonical SDK stateless pattern): **same silent downgrade**
+- `fixtures/v1-http-stateful` — the SDK's stateful shape (one transport, session id granted): **one initialize per process, then `400 "Server already initialized"`**
+- `fixtures/current-only-http` — dependency-free HTTP server that serves `2026-07-28` verbatim (positive control)
 
 ## Scope and caveats
 
-- **stdio only for now.** Streamable-HTTP probing (per-request era reporting) is the
-  obvious next step; PRs welcome.
-- The probe performs real handshakes against a fresh process per era, then a
-  `tools/list` to confirm liveness — a server that answers `initialize` but cannot
-  serve tools is reported as `served-no-live`.
+- The probe performs real handshakes, then a `tools/list` to confirm liveness — a
+  server that answers `initialize` but cannot serve tools is reported as
+  `served-no-live`.
 - "Accepted" means the server negotiated that era verbatim and stayed live; it is a
   compatibility floor, not a conformance suite.
+- HTTP mode sends one small POST per era (plus the follow-ups) — no tool calls, no
+  server data read.
 
 ## Status
 
-v0.1 (2026-10-10), single file, no dependencies, MIT.
+v0.2 (2026-10-10): adds streamable-HTTP probing (stateless + stateful, JSON + SSE
+responses), newest-first ordering, session cleanup, HTTP status reporting. v0.1
+(2026-10-10): stdio probing. Single file, no dependencies, MIT.
 Built by [Pennyforge](https://pennyforge.org) — a one-person studio that builds small, verifiable tools.
 Found a wrong verdict? Open an issue.
