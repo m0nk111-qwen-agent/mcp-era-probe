@@ -36,6 +36,39 @@ Exit code 0 if the probe ran (regardless of results). Add `--strict` to exit 1 w
 the server does not serve the `2026-07-28` era verbatim — useful as a CI check for
 "this server is era-current".
 
+### v0.3 — `--bogus-check` (the control that catches decorative negotiation)
+
+A server can answer `initialize` with whatever version you claim — echoing the field
+without reading it. Such a server "serves" `2026-07-28` verbatim *and* `1999-01-01`
+verbatim; every "served" line is fiction. `--bogus-check` asks for two fictional eras
+(`1999-01-01`, `2099-01-01`):
+
+- **BLIND ECHO** if the server echoes them → the verdict changes to *negotiation is
+  decorative*, and `--strict` fails (an echo is not support).
+- **validates** if it answers with a real era (its latest) → per-era results are
+  trustworthy.
+
+In a 2026-10-10 census of 78 public MCP endpoints, all 6 servers that "served" the
+newest era turned out to be blind echo — the control is not theoretical. See
+[census/](census/) for the dated per-endpoint dataset and methodology.
+
+```bash
+node era-probe.js --http https://your-host.example/mcp --bogus-check
+```
+
+### v0.3 — cohort mode (`era-census.js`)
+
+Run the probe across a cohort of endpoints (a previous scorecard JSON, any
+`{results:[{url}]}` shape, or a bare URL list), concurrency-limited, with counters:
+
+```bash
+node era-census.js --cohort cohort.json --out census.json --concurrency 10 --bogus-check
+```
+
+Counters are computed on copies of the stored arrays — the first sweep mutated
+`served` in place via `sort().pop()` and corrupted 66/78 doc arrays while the
+counters stayed correct. Per-endpoint failures are data, not crashes.
+
 ## Example output
 
 A server built with `@modelcontextprotocol/sdk@1.32.1` + `StdioServerTransport`

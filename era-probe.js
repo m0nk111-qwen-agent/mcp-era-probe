@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* mcp-era-probe v0.2 — which protocol eras does an MCP server actually serve?
+/* mcp-era-probe v0.3 — which protocol eras does an MCP server actually serve?
  *
  * Sends a real `initialize` handshake for each known MCP protocol version ("era") and
  * reports what the server accepted / downgraded / rejected, newest era first. Two
@@ -7,6 +7,7 @@
  *
  *   stdio:  node era-probe.js -- <server command> [args...]
  *   http:   node era-probe.js --http <endpoint-url> [--header "Authorization: Bearer x"]
+ *                                  [--strict] [--bogus-check]
  *
  * HTTP mode speaks the streamable-HTTP transport (POST JSON-RPC, Accept both
  * application/json and text/event-stream, honor Mcp-Session-Id), the transport most
@@ -19,9 +20,12 @@
  * serves the previous era — invisibly.
  *
  * Output: per-era lines + a verdict block (stderr) + one JSON summary line (stdout).
+ * --bogus-check (v0.3): also asks for two FICTIONAL eras (1999-01-01, 2099-01-01). A
+ * server that echoes those verbatim does not read protocolVersion at all — "served
+ * verbatim" then proves nothing, and the verdict says so (blind echo).
  * Exit 0 always (probe succeeded); use --strict to exit 1 when the server does not
- * serve the 2026-07-28 era verbatim — useful as a CI check for "this server is
- * era-current". No dependencies; HTTP mode needs Node >= 18 (global fetch). */
+ * genuinely serve the 2026-07-28 era (blind echo counts as NOT served) — useful as a
+ * CI check for "this server is era-current". No dependencies; HTTP mode needs Node >= 18. */
 'use strict';
 const { spawn } = require('child_process');
 
@@ -29,7 +33,8 @@ const ERAS_OLDEST_FIRST = ['2025-03-26', '2025-06-18', '2025-11-25', '2026-07-28
 const ERAS = [...ERAS_OLDEST_FIRST].reverse(); // newest first — see header note
 const LATEST = ERAS_OLDEST_FIRST[ERAS_OLDEST_FIRST.length - 1];
 const HANDSHAKE_TIMEOUT_MS = Number(process.env.ERA_PROBE_TIMEOUT || 10000);
-const CLIENT_INFO = { name: 'mcp-era-probe', version: '0.2.0' };
+const CLIENT_INFO = { name: 'mcp-era-probe', version: '0.3.0' };
+const BOGUS_ERAS = ['1999-01-01', '2099-01-01']; // fictional eras for --bogus-check
 
 function splitArgv(argv) {
   const i = argv.indexOf('--');
@@ -241,13 +246,19 @@ function report(target, rows, strict, extra) {
   const oneInit = rows.some((r) => /already initialized/i.test(String(r.detail)));
   if (oneInit) console.error('note            : server refused repeat initialize ("already initialized") — single-session/stateful shape; era evidence comes from the first handshake only');
   const newest = newestServed(served);
-  const verdict = served.includes(LATEST) ? `serves the ${LATEST} era`
+  const bc = extra && extra.bogus_check;
+  if (bc) {
+    if (bc.echo) console.error('BOGUS-CHECK     : BLIND ECHO — the server also "serves" ' + BOGUS_ERAS.join(' and ') + ' verbatim; it does not read protocolVersion, so every "served verbatim" line above proves nothing');
+    else console.error(`BOGUS-CHECK     : validates (answered ${BOGUS_ERAS.map((be) => bc[be] || 'nothing').join(', ')} to fictional eras)`);
+  }
+  const verdict = (served.includes(LATEST) && !(bc && bc.echo)) ? `serves the ${LATEST} era`
+    : (bc && bc.echo) ? `echoes ANY requested era verbatim (${BOGUS_ERAS.join(', ')} confirmed) — negotiation is decorative (typescript-sdk#2977 failure class, decorative-negotiation variant)`
     : newest ? `serves ${newest} only — a ${LATEST}-only client cannot use this server (typescript-sdk#2977 failure class)`
     : downgradedTo.length ? `serves NOTHING verbatim; downgrades to ${downgradedTo.join(', ')} — every answered handshake used an older era (typescript-sdk#2977 failure class)`
     : 'serves NOTHING (all handshakes failed)';
   console.error(`VERDICT: ${verdict}`);
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.2.0', ...extra }));
-  if (strict && !served.includes(LATEST)) process.exit(1);
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.3.0', ...extra }));
+  if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
 }
 
 async function main() {
@@ -267,11 +278,24 @@ async function main() {
   if (argv.includes('--http')) {
     const i = argv.indexOf('--http');
     const url = argv[i + 1];
-    if (!url) { console.error('usage: era-probe.js --http <url> [--header "Name: value"] [--strict]'); process.exit(64); }
+    if (!url) { console.error('usage: era-probe.js --http <url> [--header "Name: value"] [--strict] [--bogus-check]'); process.exit(64); }
     rows = [];
     for (const era of ERAS) {
       rows.push(await probeEraHttp(url, headers, era));
       await SLEEP(50); // be gentle: one small POST per era
+    }
+    let bogus = null;
+    if (argv.includes('--bogus-check')) {
+      // validation control (v0.3): a server that echoes a FICTIONAL era verbatim does
+      // not read protocolVersion at all — its per-era "served verbatim" rows prove
+      // nothing. Two fictional eras, one below and one above every real one.
+      bogus = {};
+      for (const be of BOGUS_ERAS) {
+        const r = await probeEraHttp(url, headers, be);
+        bogus[be] = r.served || null;
+        await SLEEP(50);
+      }
+      bogus.echo = BOGUS_ERAS.every((be) => bogus[be] === be);
     }
     // polite-client cleanup: close the sessions we opened, once, after the matrix
     const sids = [...new Set(rows.map((r) => r.session_id).filter(Boolean))];
@@ -283,7 +307,7 @@ async function main() {
         clearTimeout(killer);
       } catch (_) { /* best effort */ }
     }
-    report(url, rows, strict, { transport: 'streamable-http' });
+    report(url, rows, strict, { transport: 'streamable-http', ...(bogus ? { bogus_check: bogus } : {}) });
   } else {
     const { cmd, args } = splitArgv(argv);
     rows = [];
