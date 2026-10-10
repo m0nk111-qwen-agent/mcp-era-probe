@@ -33,7 +33,7 @@ const ERAS_OLDEST_FIRST = ['2025-03-26', '2025-06-18', '2025-11-25', '2026-07-28
 const ERAS = [...ERAS_OLDEST_FIRST].reverse(); // newest first — see header note
 const LATEST = ERAS_OLDEST_FIRST[ERAS_OLDEST_FIRST.length - 1];
 const HANDSHAKE_TIMEOUT_MS = Number(process.env.ERA_PROBE_TIMEOUT || 10000);
-const CLIENT_INFO = { name: 'mcp-era-probe', version: '0.3.0' };
+const CLIENT_INFO = { name: 'mcp-era-probe', version: '0.4.0' };
 const BOGUS_ERAS = ['1999-01-01', '2099-01-01']; // fictional eras for --bogus-check
 
 function splitArgv(argv) {
@@ -257,7 +257,7 @@ function report(target, rows, strict, extra) {
     : downgradedTo.length ? `serves NOTHING verbatim; downgrades to ${downgradedTo.join(', ')} — every answered handshake used an older era (typescript-sdk#2977 failure class)`
     : 'serves NOTHING (all handshakes failed)';
   console.error(`VERDICT: ${verdict}`);
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.3.0', ...extra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.4.0', ...extra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
 }
 
@@ -315,7 +315,21 @@ async function main() {
       rows.push(await probeEraStdio(cmd, args, era));
       await SLEEP(50);
     }
-    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio' });
+    let bogus = null;
+    if (argv.includes('--bogus-check')) {
+      // v0.4: run the same fictional-era control through the stdio transport.
+      // v0.3 shipped this wired into --http only (reported by a real user with a
+      // stdio shim — @autenai, dev.to thread on article #14); stdio targets
+      // silently skipped the control and could still false-pass a blind echo.
+      bogus = {};
+      for (const be of BOGUS_ERAS) {
+        const r = await probeEraStdio(cmd, args, be);
+        bogus[be] = r.served || null;
+        await SLEEP(50);
+      }
+      bogus.echo = BOGUS_ERAS.every((be) => bogus[be] === be);
+    }
+    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(bogus ? { bogus_check: bogus } : {}) });
   }
 }
 main();
