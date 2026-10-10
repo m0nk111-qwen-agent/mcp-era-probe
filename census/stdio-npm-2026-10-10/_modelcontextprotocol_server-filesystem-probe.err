@@ -1,0 +1,9 @@
+DOWNGRADE  2026-07-28  -> serves 2025-11-25 (14 tool(s) listed)
+ACCEPTED   2025-11-25  (14 tool(s) listed)
+ACCEPTED   2025-06-18  (14 tool(s) listed)
+ACCEPTED   2025-03-26  (14 tool(s) listed)
+---
+served verbatim : 2025-11-25, 2025-06-18, 2025-03-26
+downgraded to   : 2025-11-25  <- 2026-07-28-era clients will NOT get this era
+BOGUS-CHECK     : validates (answered 2025-11-25, 2025-11-25 to fictional eras)
+VERDICT: serves 2025-11-25 only — a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)

@@ -36,6 +36,20 @@ Exit code 0 if the probe ran (regardless of results). Add `--strict` to exit 1 w
 the server does not serve the `2026-07-28` era verbatim — useful as a CI check for
 "this server is era-current".
 
+### v0.5 — `constant-answer` verdict (spec-compliant fallback ≠ echo)
+
+The fictional-era control distinguishes three post-echo shapes, and v0.5 labels them
+explicitly (spec, basic lifecycle: an unsupported requested version may be answered
+with *another version the server supports*):
+
+- **BLIND ECHO** — answers the fictional era with the fictional era: false claims, negotiation decorative (typescript-sdk#2977 variant).
+- **constant-answer** — answers EVERY era (real and fictional) with one fixed old era: the field never varies with the request; negotiation fully decorative (fixture `fixtures/stdio-constant-answer.js`).
+- **negotiates-known + bogus-fallback** — serves known eras verbatim, answers fictional eras with its own latest: spec-compliant; the field carries true information but no validation signal.
+
+All three validated via fixtures; the 2026-10-10 npm stdio census (`census/stdio-npm-2026-10-10.md`)
+used v0.5-classification post-hoc on v0.4 data (16 popular packages: 0 echo, 1 constant-answer,
+9 negotiates-known, 6 spawn-fail without credentials, 16/16 strict-fail).
+
 ### v0.4 — `--bogus-check` now covers stdio too
 
 v0.3 wired the fictional-era control into the `--http` path only — on stdio the flag

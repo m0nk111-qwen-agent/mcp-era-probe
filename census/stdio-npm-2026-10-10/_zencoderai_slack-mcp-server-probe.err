@@ -1,0 +1,8 @@
+CRASHED    2026-07-28  (server exited (code 1) before responding)
+CRASHED    2025-11-25  (server exited (code 1) before responding)
+CRASHED    2025-06-18  (server exited (code 1) before responding)
+CRASHED    2025-03-26  (server exited (code 1) before responding)
+---
+served verbatim : (none)
+BOGUS-CHECK     : validates (answered nothing, nothing to fictional eras)
+VERDICT: serves NOTHING (all handshakes failed)

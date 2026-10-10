@@ -33,7 +33,7 @@ const ERAS_OLDEST_FIRST = ['2025-03-26', '2025-06-18', '2025-11-25', '2026-07-28
 const ERAS = [...ERAS_OLDEST_FIRST].reverse(); // newest first — see header note
 const LATEST = ERAS_OLDEST_FIRST[ERAS_OLDEST_FIRST.length - 1];
 const HANDSHAKE_TIMEOUT_MS = Number(process.env.ERA_PROBE_TIMEOUT || 10000);
-const CLIENT_INFO = { name: 'mcp-era-probe', version: '0.4.0' };
+const CLIENT_INFO = { name: 'mcp-era-probe', version: '0.5.0' };
 const BOGUS_ERAS = ['1999-01-01', '2099-01-01']; // fictional eras for --bogus-check
 
 function splitArgv(argv) {
@@ -247,17 +247,35 @@ function report(target, rows, strict, extra) {
   if (oneInit) console.error('note            : server refused repeat initialize ("already initialized") — single-session/stateful shape; era evidence comes from the first handshake only');
   const newest = newestServed(served);
   const bc = extra && extra.bogus_check;
+  // v0.5: two honest shapes beyond blind echo that the fictional-era control distinguishes.
+  // spec (basic lifecycle): if the requested version is unsupported the server responds with
+  // another version it supports — so "answers bogus eras with its latest" is COMPLIANT;
+  // but when the server answers EVERYTHING (real or fictional) with the same fixed era,
+  // negotiation is fully decorative: the field never varies with the request.
+  let bogusNote = null;
+  if (bc && !bc.echo) {
+    const b1 = bc[BOGUS_ERAS[0]], b2 = bc[BOGUS_ERAS[1]];
+    if (b1 && b2 && b1 === b2) {
+      const downgradedAll = rows.length && rows.every((r) => r.outcome === 'downgraded' && r.served === b1);
+      if (downgradedAll) {
+        bogusNote = `constant-answer — the server answered every era (real and fictional) with ${b1}; protocolVersion never varies with the request, negotiation is fully decorative`;
+      } else if (served.length) {
+        bogusNote = `negotiates known eras verbatim; answers unknown/fictional eras with its fallback (${b1}) — spec-compliant downgrade path (basic lifecycle: unsupported version -> another supported version)`;
+      }
+    }
+  }
   if (bc) {
     if (bc.echo) console.error('BOGUS-CHECK     : BLIND ECHO — the server also "serves" ' + BOGUS_ERAS.join(' and ') + ' verbatim; it does not read protocolVersion, so every "served verbatim" line above proves nothing');
-    else console.error(`BOGUS-CHECK     : validates (answered ${BOGUS_ERAS.map((be) => bc[be] || 'nothing').join(', ')} to fictional eras)`);
+    else console.error(`BOGUS-CHECK     : ${bogusNote ? bogusNote : `validates (answered ${BOGUS_ERAS.map((be) => bc[be] || 'nothing').join(', ')} to fictional eras)`}`);
   }
   const verdict = (served.includes(LATEST) && !(bc && bc.echo)) ? `serves the ${LATEST} era`
     : (bc && bc.echo) ? `echoes ANY requested era verbatim (${BOGUS_ERAS.join(', ')} confirmed) — negotiation is decorative (typescript-sdk#2977 failure class, decorative-negotiation variant)`
+    : (bc && bogusNote && bogusNote.startsWith('constant-answer')) ? bogusNote
     : newest ? `serves ${newest} only — a ${LATEST}-only client cannot use this server (typescript-sdk#2977 failure class)`
     : downgradedTo.length ? `serves NOTHING verbatim; downgrades to ${downgradedTo.join(', ')} — every answered handshake used an older era (typescript-sdk#2977 failure class)`
     : 'serves NOTHING (all handshakes failed)';
   console.error(`VERDICT: ${verdict}`);
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.4.0', ...extra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.5.0', ...extra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
 }
 

@@ -1,0 +1,9 @@
+DOWNGRADE  2026-07-28  -> serves 2024-11-05 (7 tool(s) listed)
+DOWNGRADE  2025-11-25  -> serves 2024-11-05 (7 tool(s) listed)
+DOWNGRADE  2025-06-18  -> serves 2024-11-05 (7 tool(s) listed)
+DOWNGRADE  2025-03-26  -> serves 2024-11-05 (7 tool(s) listed)
+---
+served verbatim : (none)
+downgraded to   : 2024-11-05  <- 2026-07-28-era clients will NOT get this era
+BOGUS-CHECK     : validates (answered 2024-11-05, 2024-11-05 to fictional eras)
+VERDICT: serves NOTHING verbatim; downgrades to 2024-11-05 — every answered handshake used an older era (typescript-sdk#2977 failure class)
