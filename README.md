@@ -108,9 +108,9 @@ jobs:
         with: { node-version: '20' }
       - run: npm ci
       - name: probe the server's protocol era
-        run: node path/to/era-probe.js -- node dist/server.js --strict
-        # stdio: flags go after the server command, as shown; for a hosted HTTP
-        # endpoint use: node era-probe.js --http $MCP_URL --strict
+        run: node path/to/era-probe.js --strict -- node dist/server.js
+        # put --strict BEFORE the "--" separator: everything after -- goes to the server
+        # for a hosted HTTP endpoint use: node era-probe.js --http $MCP_URL --strict
 ```
 
 ## Era badge
