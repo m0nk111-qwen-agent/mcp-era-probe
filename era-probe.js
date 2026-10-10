@@ -7,7 +7,20 @@
  *
  *   stdio:  node era-probe.js -- <server command> [args...]
  *   http:   node era-probe.js --http <endpoint-url> [--header "Authorization: Bearer x"]
- *                                  [--strict] [--bogus-check]
+ *                                  [--strict] [--bogus-check] [--discover] [--strict-modern]
+ *
+ * v0.6 — --discover: the 2026-07-28 spec (SEP-2575) REMOVED the initialize handshake.
+ * "Modern" servers (2026-07-28+) are stateless: every request carries its protocol
+ * version in _meta, and servers MUST implement `server/discover` — which the spec
+ * explicitly frames as the stdio backward-compatibility probe. Consequence: an
+ * initialize-based probe CANNOT detect a genuine modern-era server (a true modern
+ * server never negotiates 2026-07-28 via initialize). --discover sends the spec's
+ * own discovery request and classifies the answer:
+ *   discover-ok        -> modern-era (or dual-era) server; supportedVersions returned
+ *   method-not-found   -> legacy-only server (<= 2025-11-25) — expected for nearly all
+ *                         servers as of 2026-10
+ *   unsupported-version(-32022) -> server implements modern error semantics (dual-era signal)
+ * --strict-modern: exit 1 unless discover-ok AND supportedVersions includes 2026-07-28.
  *
  * HTTP mode speaks the streamable-HTTP transport (POST JSON-RPC, Accept both
  * application/json and text/event-stream, honor Mcp-Session-Id), the transport most
@@ -226,6 +239,109 @@ async function probeEraHttp(url, extraHeaders, era) {
 
 /* ---------- shared reporting ---------- */
 
+/** spec-exact modern-era discovery request (2026-07-28 server/discover) */
+function discoverRequest(id) {
+  return {
+    jsonrpc: '2.0', id: id || 'discover-1', method: 'server/discover',
+    params: { _meta: {
+      'io.modelcontextprotocol/protocolVersion': LATEST,
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.6.0' },
+      'io.modelcontextprotocol/clientCapabilities': {},
+    } },
+  };
+}
+
+/** classify a raw JSON-RPC response (or error) for server/discover */
+function classifyDiscover(json, httpStatus, detail) {
+  if (json && json.result) {
+    const sv = Array.isArray(json.result.supportedVersions) ? json.result.supportedVersions : null;
+    const info = json.result._meta && json.result._meta['io.modelcontextprotocol/serverInfo'];
+    return { outcome: 'discover-ok', supportedVersions: sv, serverInfo: info || undefined,
+             resultType: json.result.resultType || undefined, detail: detail || undefined };
+  }
+  const code = json && json.error && json.error.code;
+  if (code === -32601) return { outcome: 'method-not-found', detail: 'no server/discover — legacy (<= 2025-11-25) implementation', ...({ http_status: httpStatus }) };
+  if (code === -32022) {
+    const sup = json.error.data && Array.isArray(json.error.data.supported) ? json.error.data.supported : null;
+    return { outcome: 'unsupported-version', supportedVersions: sup || undefined, detail: 'modern-era error semantics (UnsupportedProtocolVersionError) — dual-era signal', http_status: httpStatus };
+  }
+  return { outcome: 'error', error: code != null ? code : undefined,
+           message: (json && json.error && json.error.message) || detail || 'no parseable response', http_status: httpStatus };
+}
+
+/** HTTP server/discover probe (v0.6); opts.sessionId = run it inside an established
+ *  session (--discover-last) — many legacy HTTP servers reject session-less requests. */
+async function probeDiscoverHttp(url, extraHeaders, opts = {}) {
+  const started = Date.now();
+  const ctrl = new AbortController();
+  const killer = setTimeout(() => ctrl.abort(), 10000);
+  let raw, json = null, httpStatus = null;
+  const headers = { 'Content-Type': 'application/json', 'Accept': 'application/json, text/event-stream',
+                    'MCP-Protocol-Version': LATEST,
+                    // 2026-07-28 Streamable HTTP requires these on every POST (SEP-2243);
+                    // strict modern servers REJECT the request without them (-32020
+                    // "the required Mcp-Method header is absent"). Legacy servers ignore them.
+                    'Mcp-Method': 'server/discover', 'Mcp-Name': 'mcp-era-probe',
+                    ...extraHeaders };
+  if (opts.sessionId) headers['Mcp-Session-Id'] = opts.sessionId;
+  try {
+    const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(discoverRequest()), signal: ctrl.signal });
+    httpStatus = res.status;
+    raw = await res.text();
+  } catch (e) {
+    clearTimeout(killer);
+    return { outcome: 'transport-error', message: String(e && e.message || e) };
+  }
+  clearTimeout(killer);
+  try { const parsed = responseFromBody(raw); json = parsed && parsed.msg ? parsed.msg : null; } catch (_) { /* fallthrough */ }
+  return classifyDiscover(json, httpStatus, json ? undefined : `unparseable: ${String(raw).slice(0, 120)}`);
+}
+
+/** stdio server/discover probe (v0.6): fresh spawn, one request, read the response */
+function probeDiscoverStdio(cmd, args) {
+  return new Promise((resolve) => {
+    let child;
+    try {
+      child = spawn(cmd, args, { stdio: ['pipe', 'pipe', 'pipe'] });
+    } catch (e) {
+      resolve({ outcome: 'spawn-fail', message: String(e && e.message || e) });
+      return;
+    }
+    const started = Date.now();
+    let buf = '';
+    const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch (_) {} }, 8000);
+    const finish = (r) => { clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} resolve(r); };
+    child.on('error', (e) => finish({ outcome: 'spawn-fail', message: String(e && e.message || e) }));
+    child.stdout.on('data', (d) => {
+      buf += d.toString();
+      for (const line of buf.split('\n')) {
+        const t = line.trim();
+        if (!t) continue;
+        try {
+          const j = JSON.parse(t);
+          if (j.id === 'discover-1' || j.result || j.error) { finish(classifyDiscover(j, null)); return; }
+        } catch (_) { /* not JSON yet */ }
+      }
+    });
+    child.stderr.on('data', () => {});
+    child.on('exit', () => {
+      if (buf.trim()) {
+        for (const line of buf.split('\n')) {
+          const t = line.trim();
+          if (!t) continue;
+          try {
+            const j = JSON.parse(t);
+            if (j.id === 'discover-1' || j.result || j.error) { finish(classifyDiscover(j, null)); return; }
+          } catch (_) {}
+        }
+      }
+      finish({ outcome: 'no-answer', detail: 'process exited before answering server/discover' });
+    });
+    try { child.stdin.write(JSON.stringify(discoverRequest()) + '\n'); } catch (_) {}
+  });
+}
+
+
 /** newest era the server served verbatim (order-independent) */
 function newestServed(served) {
   return ERAS_OLDEST_FIRST.filter((e) => served.includes(e)).pop();
@@ -247,6 +363,8 @@ function report(target, rows, strict, extra) {
   if (oneInit) console.error('note            : server refused repeat initialize ("already initialized") — single-session/stateful shape; era evidence comes from the first handshake only');
   const newest = newestServed(served);
   const bc = extra && extra.bogus_check;
+  const disc = extra && (extra.discover || extra.discover_in_session);
+  const discIn = extra && extra.discover_in_session;
   // v0.5: two honest shapes beyond blind echo that the fictional-era control distinguishes.
   // spec (basic lifecycle): if the requested version is unsupported the server responds with
   // another version it supports — so "answers bogus eras with its latest" is COMPLIANT;
@@ -268,15 +386,30 @@ function report(target, rows, strict, extra) {
     if (bc.echo) console.error('BOGUS-CHECK     : BLIND ECHO — the server also "serves" ' + BOGUS_ERAS.join(' and ') + ' verbatim; it does not read protocolVersion, so every "served verbatim" line above proves nothing');
     else console.error(`BOGUS-CHECK     : ${bogusNote ? bogusNote : `validates (answered ${BOGUS_ERAS.map((be) => bc[be] || 'nothing').join(', ')} to fictional eras)`}`);
   }
-  const verdict = (served.includes(LATEST) && !(bc && bc.echo)) ? `serves the ${LATEST} era`
+  const modernOk = disc && disc.outcome === 'discover-ok' && Array.isArray(disc.supportedVersions) && disc.supportedVersions.includes(LATEST);
+  if (disc) {
+    if (disc.outcome === 'discover-ok') {
+      console.error(`DISCOVER       : server/discover OK — supportedVersions: ${disc.supportedVersions ? disc.supportedVersions.join(', ') : '(none listed)'}${modernOk ? '  <- genuine MODERN-era server (stateless, per-request _meta)' : ''}`);
+    } else {
+      console.error(`DISCOVER       : ${disc.outcome}${disc.detail ? ' — ' + disc.detail : ''}${disc.message ? ' (' + disc.message + ')' : ''}`);
+    }
+    if (discIn && extra.discover && discIn.outcome !== extra.discover.outcome) {
+      console.error(`DISCOVER(in-session): ${discIn.outcome}${discIn.supportedVersions ? ' — supportedVersions: ' + discIn.supportedVersions.join(', ') : discIn.detail ? ' — ' + discIn.detail : ''}`);
+    }
+  }
+  const verdict = modernOk ? `modern-era server (${LATEST}, stateless) — implements server/discover with ${LATEST} in supportedVersions`
+    : (served.includes(LATEST) && !(bc && bc.echo)) ? `serves the ${LATEST} era via initialize`
     : (bc && bc.echo) ? `echoes ANY requested era verbatim (${BOGUS_ERAS.join(', ')} confirmed) — negotiation is decorative (typescript-sdk#2977 failure class, decorative-negotiation variant)`
     : (bc && bogusNote && bogusNote.startsWith('constant-answer')) ? bogusNote
     : newest ? `serves ${newest} only — a ${LATEST}-only client cannot use this server (typescript-sdk#2977 failure class)`
     : downgradedTo.length ? `serves NOTHING verbatim; downgrades to ${downgradedTo.join(', ')} — every answered handshake used an older era (typescript-sdk#2977 failure class)`
     : 'serves NOTHING (all handshakes failed)';
   console.error(`VERDICT: ${verdict}`);
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.5.0', ...extra }));
+  const strictModern = extra && extra._strictModern;
+  const restExtra = extra ? (({ discover, _strictModern, ...rest }) => rest)(extra) : {};
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.6.0', ...restExtra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
+  if (strictModern && !modernOk) process.exit(1);
 }
 
 async function main() {
@@ -296,7 +429,14 @@ async function main() {
   if (argv.includes('--http')) {
     const i = argv.indexOf('--http');
     const url = argv[i + 1];
-    if (!url) { console.error('usage: era-probe.js --http <url> [--header "Name: value"] [--strict] [--bogus-check]'); process.exit(64); }
+    if (!url) { console.error('usage: era-probe.js --http <url> [--header "Name: value"] [--strict] [--bogus-check] [--discover]'); process.exit(64); }
+    // v0.6: modern-era discovery FIRST (a modern client calls server/discover before
+    // anything else; legacy servers answer method-not-found, which is itself evidence).
+    let discover = null;
+    if (argv.includes('--discover')) {
+      discover = await probeDiscoverHttp(url, headers);
+      await SLEEP(50);
+    }
     rows = [];
     for (const era of ERAS) {
       rows.push(await probeEraHttp(url, headers, era));
@@ -316,6 +456,14 @@ async function main() {
       bogus.echo = BOGUS_ERAS.every((be) => bogus[be] === be);
     }
     // polite-client cleanup: close the sessions we opened, once, after the matrix
+    // v0.6 --discover-last: run server/discover INSIDE the last open session before
+    // cleanup (many legacy HTTP servers reject session-less requests outright).
+    let discoverLast = null;
+    const sidsPre = [...new Set(rows.map((r) => r.session_id).filter(Boolean))];
+    if (argv.includes('--discover-last') && sidsPre.length) {
+      discoverLast = await probeDiscoverHttp(url, headers, { sessionId: sidsPre[sidsPre.length - 1] });
+      await SLEEP(50);
+    }
     const sids = [...new Set(rows.map((r) => r.session_id).filter(Boolean))];
     for (const sid of sids.reverse()) {
       try {
@@ -325,9 +473,17 @@ async function main() {
         clearTimeout(killer);
       } catch (_) { /* best effort */ }
     }
-    report(url, rows, strict, { transport: 'streamable-http', ...(bogus ? { bogus_check: bogus } : {}) });
+    report(url, rows, strict, { transport: 'streamable-http', ...(discover ? { discover } : {}), ...(discoverLast ? { discover_in_session: discoverLast } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   } else {
     const { cmd, args } = splitArgv(argv);
+    // v0.6: stdio modern-era discovery first — the spec's own backward-compatibility
+    // probe ("a client that supports both modern and legacy servers SHOULD send
+    // server/discover first", stdio Backward Compatibility).
+    let discover = null;
+    if (argv.includes('--discover')) {
+      discover = await probeDiscoverStdio(cmd, args);
+      await SLEEP(50);
+    }
     rows = [];
     for (const era of ERAS) {
       rows.push(await probeEraStdio(cmd, args, era));
@@ -347,7 +503,7 @@ async function main() {
       }
       bogus.echo = BOGUS_ERAS.every((be) => bogus[be] === be);
     }
-    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(bogus ? { bogus_check: bogus } : {}) });
+    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   }
 }
 main();

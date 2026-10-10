@@ -1,0 +1,138 @@
+{
+ "_aikidosec_mcp": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)"
+ },
+ "_apify_actors-mcp-server": {
+  "discover": {
+   "outcome": "no-answer",
+   "detail": "process exited before answering server/discover"
+  },
+  "verdict": "serves NOTHING (all handshakes failed)"
+ },
+ "_autenai_mcp": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)"
+ },
+ "_azure_mcp": {
+  "discover": {
+   "outcome": "no-answer",
+   "detail": "process exited before answering server/discover"
+  },
+  "verdict": "serves NOTHING (all handshakes failed)"
+ },
+ "_currents_mcp": {
+  "discover": {
+   "outcome": "no-answer",
+   "detail": "process exited before answering server/discover"
+  },
+  "verdict": "serves NOTHING (all handshakes failed)"
+ },
+ "_modelcontextprotocol_server-filesystem": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)"
+ },
+ "_notionhq_notion-mcp-server": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)"
+ },
+ "_sap-ux_fiori-mcp-server": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)"
+ },
+ "_sentry_mcp-server": {
+  "discover": {
+   "outcome": "no-answer",
+   "detail": "process exited before answering server/discover"
+  },
+  "verdict": "serves NOTHING (all handshakes failed)"
+ },
+ "_ui5_mcp-server": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)"
+ },
+ "_upstash_context7-mcp": {
+  "discover": {
+   "outcome": "discover-ok",
+   "supportedVersions": [
+    "2026-07-28"
+   ],
+   "serverInfo": {
+    "name": "Context7",
+    "version": "4.3.0",
+    "websiteUrl": "https://context7.com",
+    "description": "Context7 provides up-to-date documentation and code examples for libraries and frameworks.",
+    "icons": [
+     {
+      "src": "https://context7.com/context7-icon-green.png",
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "resultType": "complete"
+  },
+  "verdict": "modern-era server (2026-07-28, stateless) \u2014 implements server/discover with 2026-07-28 in supportedVersions"
+ },
+ "_winor30_mcp-server-datadog": {
+  "discover": {
+   "outcome": "no-answer",
+   "detail": "process exited before answering server/discover"
+  },
+  "verdict": "serves NOTHING (all handshakes failed)"
+ },
+ "_zencoderai_slack-mcp-server": {
+  "discover": {
+   "outcome": "no-answer",
+   "detail": "process exited before answering server/discover"
+  },
+  "verdict": "serves NOTHING (all handshakes failed)"
+ },
+ "chrome-devtools-mcp": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)"
+ },
+ "hostinger-api-mcp": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)"
+ },
+ "scryfall-mcp-server": {
+  "discover": {
+   "outcome": "method-not-found",
+   "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+   "http_status": null
+  },
+  "verdict": "serves NOTHING verbatim; downgrades to 2024-11-05 \u2014 every answered handshake used an older era (typescript-sdk#2977 failure class)"
+ }
+}
