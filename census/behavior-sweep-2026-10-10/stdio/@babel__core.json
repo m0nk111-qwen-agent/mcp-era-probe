@@ -1,0 +1,44 @@
+{
+ "target": "node /tmp/stdio-census/run/_sentry_mcp-server/node_modules/@babel/core/lib/index.js",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "outcome": "crashed",
+   "detail": "server exited (code 0) before responding"
+  },
+  {
+   "era": "2025-11-25",
+   "outcome": "crashed",
+   "detail": "server exited (code 0) before responding"
+  },
+  {
+   "era": "2025-06-18",
+   "outcome": "crashed",
+   "detail": "server exited (code 0) before responding"
+  },
+  {
+   "era": "2025-03-26",
+   "outcome": "crashed",
+   "detail": "server exited (code 0) before responding"
+  }
+ ],
+ "served": [],
+ "downgradedTo": [],
+ "discover": {
+  "outcome": "no-answer",
+  "detail": "process exited before answering server/discover"
+ },
+ "verdict": "serves NOTHING (all handshakes failed)",
+ "probed_at": "2026-10-10T23:00:49.007Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "stdio",
+ "behavior": {
+  "spawn": "exited-early"
+ }
+}

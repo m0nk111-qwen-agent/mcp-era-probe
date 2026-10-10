@@ -1,0 +1,96 @@
+{
+ "target": "node /tmp/stdio-census/run/_notionhq_notion-mcp-server/node_modules/@notionhq/notion-mcp-server/bin/cli.mjs",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "24 tool(s) listed",
+   "serverInfo": {
+    "name": "Notion API",
+    "version": "1.0.0"
+   },
+   "capabilities": {
+    "tools": {}
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "24 tool(s) listed",
+   "serverInfo": {
+    "name": "Notion API",
+    "version": "1.0.0"
+   },
+   "capabilities": {
+    "tools": {}
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "24 tool(s) listed",
+   "serverInfo": {
+    "name": "Notion API",
+    "version": "1.0.0"
+   },
+   "capabilities": {
+    "tools": {}
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "24 tool(s) listed",
+   "serverInfo": {
+    "name": "Notion API",
+    "version": "1.0.0"
+   },
+   "capabilities": {
+    "tools": {}
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "method-not-found",
+  "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+  "http_status": null
+ },
+ "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+ "probed_at": "2026-10-10T23:02:02.541Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "stdio",
+ "behavior": {
+  "discover": "method-not-found (legacy)",
+  "removed_ping": {
+   "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+  },
+  "stateless_tools_list": {
+   "tools": 24,
+   "resultType": "(absent \u2014 observation, not compliance)"
+  },
+  "bogus_cursor": {
+   "verdict": "no-error (cursor ignored or empty page)"
+  },
+  "missing_version": {
+   "verdict": "accepted without version (lenient)"
+  }
+ }
+}

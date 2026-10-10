@@ -1,0 +1,162 @@
+[
+ {
+  "package": "@aikidosec/mcp",
+  "entry": "/tmp/stdio-census/run/_aikidosec_mcp/node_modules/@aikidosec/mcp/dist/index.js",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 10,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ },
+ {
+  "package": "@apify/actors-mcp-server",
+  "entry": "/tmp/stdio-census/run/_apify_actors-mcp-server/node_modules/@apify/actors-mcp-server/./dist/stdio.js",
+  "discover": null,
+  "ping": null,
+  "tools": null,
+  "resultType": null,
+  "missing_version": null,
+  "bogus_cursor": null
+ },
+ {
+  "package": "@autenai/mcp",
+  "entry": "/tmp/stdio-census/run/_autenai_mcp/node_modules/@autenai/mcp/bin/auten-mcp.js",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 1,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ },
+ {
+  "package": "@azure/mcp",
+  "entry": "/tmp/stdio-census/run/_azure_mcp/node_modules/@azure/mcp/./index.js",
+  "discover": null,
+  "ping": null,
+  "tools": null,
+  "resultType": null,
+  "missing_version": null,
+  "bogus_cursor": null
+ },
+ {
+  "package": "@currents/mcp",
+  "entry": "/tmp/stdio-census/run/_currents_mcp/node_modules/@currents/mcp/./dist/index.mjs",
+  "discover": null,
+  "ping": null,
+  "tools": null,
+  "resultType": null,
+  "missing_version": null,
+  "bogus_cursor": null
+ },
+ {
+  "package": "@modelcontextprotocol/server-filesystem",
+  "entry": "/tmp/stdio-census/run/_modelcontextprotocol_server-filesystem/node_modules/@modelcontextprotocol/server-filesystem/dist/index.js",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 14,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ },
+ {
+  "package": "@notionhq/notion-mcp-server",
+  "entry": "/tmp/stdio-census/run/_notionhq_notion-mcp-server/node_modules/@notionhq/notion-mcp-server/bin/cli.mjs",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 24,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ },
+ {
+  "package": "@sap-ux/fiori-mcp-server",
+  "entry": "/tmp/stdio-census/run/_sap-ux_fiori-mcp-server/node_modules/@sap-ux/fiori-mcp-server/./dist/index.js",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 9,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ },
+ {
+  "package": "@sentry/mcp-server",
+  "entry": "/tmp/stdio-census/run/_sentry_mcp-server/node_modules/@sentry/mcp-server/./dist/index.js",
+  "discover": null,
+  "ping": null,
+  "tools": null,
+  "resultType": null,
+  "missing_version": null,
+  "bogus_cursor": null
+ },
+ {
+  "package": "@ui5/mcp-server",
+  "entry": "/tmp/stdio-census/run/_ui5_mcp-server/node_modules/@ui5/mcp-server/bin/ui5mcp.js",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 10,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ },
+ {
+  "package": "@upstash/context7-mcp",
+  "entry": "/tmp/stdio-census/run/_upstash_context7-mcp/node_modules/@upstash/context7-mcp/dist/index.js",
+  "discover": "ok \u2014 supportedVersions: 2026-07-28",
+  "ping": "error -32602",
+  "tools": 2,
+  "resultType": "complete",
+  "missing_version": "error -32602",
+  "bogus_cursor": "error -32602"
+ },
+ {
+  "package": "@winor30/mcp-server-datadog",
+  "entry": "/tmp/stdio-census/run/_winor30_mcp-server-datadog/node_modules/@winor30/mcp-server-datadog/./build/index.js",
+  "discover": null,
+  "ping": null,
+  "tools": null,
+  "resultType": null,
+  "missing_version": null,
+  "bogus_cursor": null
+ },
+ {
+  "package": "@zencoderai/slack-mcp-server",
+  "entry": "/tmp/stdio-census/run/_zencoderai_slack-mcp-server/node_modules/@zencoderai/slack-mcp-server/dist/index.js",
+  "discover": null,
+  "ping": null,
+  "tools": null,
+  "resultType": null,
+  "missing_version": null,
+  "bogus_cursor": null
+ },
+ {
+  "package": "chrome-devtools-mcp",
+  "entry": "/tmp/stdio-census/run/chrome-devtools-mcp/node_modules/chrome-devtools-mcp/./build/src/bin/chrome-devtools-mcp.js",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 30,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ },
+ {
+  "package": "hostinger-api-mcp",
+  "entry": "/tmp/stdio-census/run/hostinger-api-mcp/node_modules/hostinger-api-mcp/./src/servers/all.js",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 3,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ },
+ {
+  "package": "scryfall-mcp-server",
+  "entry": "/tmp/stdio-census/run/scryfall-mcp-server/node_modules/scryfall-mcp-server/dist/index.js",
+  "discover": "method-not-found (legacy)",
+  "ping": "answered \u2014 ping still implemented (compat tolerance)",
+  "tools": 7,
+  "resultType": "(absent \u2014 observation, not compliance)",
+  "missing_version": "accepted without version (lenient)",
+  "bogus_cursor": "no-error (cursor ignored or empty page)"
+ }
+]

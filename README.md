@@ -76,6 +76,15 @@ modern-era-ness (9 origin-strict servers include hollow and legacy ones); no
 server in the cohort demanded `-32022` for a MISSING version — strictness showed
 up only on contradictory versions.
 
+stdio sweep (`census/behavior-sweep-2026-10-10/stdio/`): `--behavior` works over
+stdio too (one extra spawn, discover-first so modern-only servers are profiled).
+The single modern server in the npm cohort (@upstash/context7-mcp) is also the
+strictest: it ERRORS on a version-less request (`-32602`) instead of accepting it,
+still answers `resultType: complete`, and answers a fictional cursor. The legacy
+majority answers ping (compat tolerance), omits resultType, and accepts missing
+versions. Note: context7 rejects removed `ping` with -32602 (invalid params),
+not -32601 — error-code choice is server-specific; treat codes as diversity data.
+
 ### v0.5 — `constant-answer` verdict (spec-compliant fallback ≠ echo)
 
 The fictional-era control distinguishes three post-echo shapes, and v0.5 labels them
