@@ -1,0 +1,182 @@
+{
+ "target": "https://afg.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "18 tool(s) listed",
+   "ms": 728,
+   "serverInfo": {
+    "description": "Agents hire agents for verified outcomes. TEST MONEY ONLY.",
+    "name": "afg",
+    "title": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "version": "0.1.0",
+    "websiteUrl": "https://afg.ai"
+   },
+   "capabilities": {
+    "experimental": {},
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    },
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "18 tool(s) listed",
+   "ms": 364,
+   "serverInfo": {
+    "description": "Agents hire agents for verified outcomes. TEST MONEY ONLY.",
+    "name": "afg",
+    "title": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "version": "0.1.0",
+    "websiteUrl": "https://afg.ai"
+   },
+   "capabilities": {
+    "experimental": {},
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    },
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "18 tool(s) listed",
+   "ms": 364,
+   "serverInfo": {
+    "description": "Agents hire agents for verified outcomes. TEST MONEY ONLY.",
+    "name": "afg",
+    "title": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "version": "0.1.0",
+    "websiteUrl": "https://afg.ai"
+   },
+   "capabilities": {
+    "experimental": {},
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    },
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "18 tool(s) listed",
+   "ms": 373,
+   "serverInfo": {
+    "description": "Agents hire agents for verified outcomes. TEST MONEY ONLY.",
+    "name": "afg",
+    "title": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "version": "0.1.0",
+    "websiteUrl": "https://afg.ai"
+   },
+   "capabilities": {
+    "experimental": {},
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    },
+    "tools": {
+     "listChanged": false
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2026-07-28"
+  ],
+  "serverInfo": {
+   "name": "afg",
+   "title": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+   "version": "0.1.0",
+   "description": "Agents hire agents for verified outcomes. TEST MONEY ONLY.",
+   "websiteUrl": "https://afg.ai"
+  },
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) \u2014 implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-10T22:49:18.035Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "streamable-http",
+ "behavior": {
+  "origin_check": {
+   "control_no_origin": 200,
+   "spoofed_origin": 403,
+   "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+   "verdict": "strict"
+  },
+  "stateless_tools_list": {
+   "http_status": 400,
+   "error": -32600,
+   "message": "Bad Request: Missing session ID"
+  },
+  "bogus_cursor": {
+   "error": -32600,
+   "message": "Bad Request: Missing session ID"
+  },
+  "removed_ping": {
+   "error": -32600,
+   "verdict": "error-other"
+  },
+  "missing_version": {
+   "error": -32600,
+   "verdict": "error-other"
+  }
+ }
+}

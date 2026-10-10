@@ -1,0 +1,266 @@
+{
+ "target": "https://analyticslegends.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "22 tool(s) listed",
+   "ms": 873,
+   "serverInfo": {
+    "name": "analytics-legends",
+    "title": "Analytics Legends \u2014 SAP AI & Analytics market intelligence",
+    "version": "1.0.8",
+    "websiteUrl": "https://analyticslegends.ai",
+    "icons": [
+     {
+      "src": "https://analyticslegends.ai/icon-192.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "192x192"
+      ]
+     },
+     {
+      "src": "https://analyticslegends.ai/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "512x512"
+      ]
+     },
+     {
+      "src": "https://analyticslegends.ai/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+       "any"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {},
+    "completions": {}
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "22 tool(s) listed",
+   "ms": 536,
+   "serverInfo": {
+    "name": "analytics-legends",
+    "title": "Analytics Legends \u2014 SAP AI & Analytics market intelligence",
+    "version": "1.0.8",
+    "websiteUrl": "https://analyticslegends.ai",
+    "icons": [
+     {
+      "src": "https://analyticslegends.ai/icon-192.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "192x192"
+      ]
+     },
+     {
+      "src": "https://analyticslegends.ai/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "512x512"
+      ]
+     },
+     {
+      "src": "https://analyticslegends.ai/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+       "any"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {},
+    "completions": {}
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "22 tool(s) listed",
+   "ms": 533,
+   "serverInfo": {
+    "name": "analytics-legends",
+    "title": "Analytics Legends \u2014 SAP AI & Analytics market intelligence",
+    "version": "1.0.8",
+    "websiteUrl": "https://analyticslegends.ai",
+    "icons": [
+     {
+      "src": "https://analyticslegends.ai/icon-192.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "192x192"
+      ]
+     },
+     {
+      "src": "https://analyticslegends.ai/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "512x512"
+      ]
+     },
+     {
+      "src": "https://analyticslegends.ai/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+       "any"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {},
+    "completions": {}
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "22 tool(s) listed",
+   "ms": 536,
+   "serverInfo": {
+    "name": "analytics-legends",
+    "title": "Analytics Legends \u2014 SAP AI & Analytics market intelligence",
+    "version": "1.0.8",
+    "websiteUrl": "https://analyticslegends.ai",
+    "icons": [
+     {
+      "src": "https://analyticslegends.ai/icon-192.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "192x192"
+      ]
+     },
+     {
+      "src": "https://analyticslegends.ai/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "512x512"
+      ]
+     },
+     {
+      "src": "https://analyticslegends.ai/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+       "any"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {},
+    "completions": {}
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2026-07-28",
+   "2025-11-25",
+   "2025-06-18",
+   "2025-03-26"
+  ],
+  "serverInfo": {
+   "name": "analytics-legends",
+   "title": "Analytics Legends \u2014 SAP AI & Analytics market intelligence",
+   "version": "1.0.8",
+   "websiteUrl": "https://analyticslegends.ai",
+   "icons": [
+    {
+     "src": "https://analyticslegends.ai/icon-192.png",
+     "mimeType": "image/png",
+     "sizes": [
+      "192x192"
+     ]
+    },
+    {
+     "src": "https://analyticslegends.ai/icon-512.png",
+     "mimeType": "image/png",
+     "sizes": [
+      "512x512"
+     ]
+    },
+    {
+     "src": "https://analyticslegends.ai/favicon.svg",
+     "mimeType": "image/svg+xml",
+     "sizes": [
+      "any"
+     ]
+    }
+   ]
+  },
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) \u2014 implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-10T22:50:28.189Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "streamable-http",
+ "behavior": {
+  "origin_check": {
+   "control_no_origin": 200,
+   "spoofed_origin": 403,
+   "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+   "verdict": "strict"
+  },
+  "stateless_tools_list": {
+   "http_status": 400,
+   "error": -32020,
+   "message": "Header mismatch: MCP-Protocol-Version header is required"
+  },
+  "bogus_cursor": {
+   "error": -32020,
+   "message": "Header mismatch: MCP-Protocol-Version header is required"
+  },
+  "removed_ping": {
+   "error": -32020,
+   "verdict": "error-other"
+  },
+  "missing_version": {
+   "verdict": "accepted without version (lenient)"
+  }
+ }
+}

@@ -36,6 +36,46 @@ Exit code 0 if the probe ran (regardless of results). Add `--strict` to exit 1 w
 the server does not serve the `2026-07-28` era verbatim — useful as a CI check for
 "this server is era-current".
 
+### v0.7 — `--behavior`: era-gated read-only behavior checks (HTTP)
+
+```bash
+node era-probe.js --http https://your-host.example/mcp --discover --behavior
+```
+
+Adds a `behavior` block + `BEHAVIOR-*` lines, all read-only (no tool execution, no
+state mutation), each labeled observation vs compliance:
+
+- **origin-403 control pair** (2025-11-25 Streamable HTTP): the same initialize is
+  sent WITH `Origin: https://evil.example.invalid` and WITHOUT any Origin; the
+  verdict `strict` counts ONLY if the control passes and the spoofed one gets 403 —
+  auth/WAF walls that 403 everything report `control-also-403 (no signal)`.
+- **stateless tools/list x2 @2026-07-28** (`_meta` per-request version + Mcp-Method/
+  Mcp-Name headers): tool count, `resultType` presence (**observation** — MRTR
+  defines resultType for tool execution; list-endpoint emission is not a MUST, and
+  "absent = complete" means absence is compliant), order stability within the run
+  (**not** proof of spec determinism across restarts).
+- **bogus cursor**: fictional cursor string → error vs ignored (diversity data; no
+  MUST defines invalid-cursor behavior).
+- **removed-method probe**: `ping` was REMOVED in 2026-07-28. `-32601` means "no
+  ping handler" — consistent with a strict modern server OR a minimal legacy one;
+  the label says exactly that (ambiguous without `--discover`).
+- **missing-version probe**: stateless request with NO `_meta` protocolVersion —
+  separates stateless-strict (`-32022` demanded) from lenient (accepted).
+
+Methodology disclosures (do not skip when publishing results): era-gate every
+check to the server's self-declared era (mixed-era scoring is the #1 false-positive
+source); actively-sent probes are logged by targets — keep request volume low and
+consistent; results are point-in-time and latency/network confounded (rate-limit
+429s are transport noise, not verdicts); `read-only` ≠ `side-effect-free`.
+
+First behavior sweep (2026-10-10, 40 servers from the discover census):
+`census/behavior-sweep-2026-10-10/` — `resultType: complete` appeared on exactly
+the 7 verified strict-modern servers and nowhere else in the cohort (a clean
+empirical discriminator, not a compliance verdict); Origin-strict did NOT track
+modern-era-ness (9 origin-strict servers include hollow and legacy ones); no
+server in the cohort demanded `-32022` for a MISSING version — strictness showed
+up only on contradictory versions.
+
 ### v0.5 — `constant-answer` verdict (spec-compliant fallback ≠ echo)
 
 The fictional-era control distinguishes three post-echo shapes, and v0.5 labels them

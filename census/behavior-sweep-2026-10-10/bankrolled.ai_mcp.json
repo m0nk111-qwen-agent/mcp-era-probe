@@ -1,0 +1,140 @@
+{
+ "target": "https://bankrolled.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2026-07-28",
+   "detail": "4 tool(s) listed",
+   "ms": 328,
+   "serverInfo": {
+    "name": "Bankrolled.ai Agent Hub",
+    "version": "1.3.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "4 tool(s) listed",
+   "ms": 317,
+   "serverInfo": {
+    "name": "Bankrolled.ai Agent Hub",
+    "version": "1.3.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "4 tool(s) listed",
+   "ms": 188,
+   "serverInfo": {
+    "name": "Bankrolled.ai Agent Hub",
+    "version": "1.3.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "4 tool(s) listed",
+   "ms": 219,
+   "serverInfo": {
+    "name": "Bankrolled.ai Agent Hub",
+    "version": "1.3.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {
+     "listChanged": false
+    }
+   }
+  }
+ ],
+ "served": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [],
+ "discover": {
+  "outcome": "method-not-found",
+  "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+  "http_status": 404
+ },
+ "verdict": "serves the 2026-07-28 era via initialize",
+ "probed_at": "2026-10-10T22:53:41.919Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "streamable-http",
+ "behavior": {
+  "origin_check": {
+   "control_no_origin": 200,
+   "spoofed_origin": 200,
+   "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+   "verdict": "no-origin-validation"
+  },
+  "stateless_tools_list": {
+   "http_status": 200,
+   "tools": 4,
+   "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+   "order_stability_within_run": true
+  },
+  "bogus_cursor": {
+   "http_status": 200,
+   "verdict": "no-error (cursor ignored or empty page)"
+  },
+  "removed_ping": {
+   "error": -32601,
+   "verdict": "-32601 (no ping handler \u2014 strict-modern OR minimal server; ambiguous without discover)"
+  },
+  "missing_version": {
+   "verdict": "accepted without version (lenient)"
+  }
+ }
+}

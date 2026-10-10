@@ -198,6 +198,11 @@ async function probeEraHttp(url, extraHeaders, era) {
   }
   const served = msg.result && msg.result.protocolVersion;
   if (!served) return { ...base, outcome: 'rejected', detail: 'initialize result without protocolVersion' };
+  // v0.7 behavior observations: serverInfo (icons/description fields, SEP-973) and
+  // the capabilities object (experimental `tasks` SEP-1686, `extensions` field) as
+  // the server advertises them on the ACCEPTED era.
+  const serverInfo = msg.result.serverInfo || undefined;
+  const capabilities = msg.result.capabilities || undefined;
 
   /* liveness: initialized notification + tools/list on the same session (stateful
    * servers require the Mcp-Session-Id header; stateless servers take a fresh POST). */
@@ -234,10 +239,98 @@ async function probeEraHttp(url, extraHeaders, era) {
   // DELETE closes the transport for everyone and would blind the next era probes.
   // Sessions are cleaned up once, after the full matrix (see main()).
   const outcome = served === era ? (live === true ? 'served' : 'served-no-live') : 'downgraded';
-  return { ...base, outcome, served, detail: liveDetail, ms: Date.now() - started, session_id: sessionId || undefined };
+  return { ...base, outcome, served, detail: liveDetail, ms: Date.now() - started, session_id: sessionId || undefined, serverInfo, capabilities };
 }
 
 /* ---------- shared reporting ---------- */
+
+/** v0.7 era-gated BEHAVIOR checks — read-only, no tool execution, no state mutation.
+ *  (1) origin-403 CONTROL PAIR (2025-11-25): strict Streamable HTTP servers return
+ *      403 for an initialize from an invalid Origin. Verdict counts ONLY if the
+ *      same request WITHOUT Origin passes — rules out auth/WAF false positives.
+ *  (2) modern-era stateless tools/list x2 (2026-07-28): resultType is an
+ *      OBSERVATION (MRTR defines it for tool execution, not list endpoints),
+ *      order determinism = within-session stability only, bogus cursor = diversity
+ *      data (no MUST defines invalid-cursor behavior).
+ *  (3) removed-method probe: `ping` was REMOVED in 2026-07-28 — a strict modern
+ *      server answers -32601; tolerance marks a compat shim.
+ *  (4) missing-version probe: omit _meta.protocolVersion on a stateless request —
+ *      separates stateless-strict (-32022 demanded) from lenient (accepted). */
+async function behaviorHttp(url, headers) {
+  const out = {};
+  const baseInit = { jsonrpc: '2.0', id: 'behavior-origin', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.7.0' } } };
+  const postRaw = async (hdrs, body) => {
+    const ctrl = new AbortController();
+    const killer = setTimeout(() => ctrl.abort(), 10000);
+    const res = await fetch(url, { method: 'POST', headers: hdrs, body: JSON.stringify(body), signal: ctrl.signal });
+    const raw = await res.text();
+    clearTimeout(killer);
+    const parsed = responseFromBody(raw);
+    return { status: res.status, msg: parsed && parsed.msg };
+  };
+  // (1) Origin validation — control pair (no-Origin control first)
+  try {
+    const ctl = await postRaw({ 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers }, baseInit);
+    const spoof = await postRaw({ 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, Origin: 'https://evil.example.invalid' }, baseInit);
+    out.origin_check = {
+      control_no_origin: ctl.status, spoofed_origin: spoof.status,
+      spec: '2025-11-25 expects 403 Forbidden for an invalid Origin',
+      verdict: (ctl.status === 403) ? 'control-also-403 (auth/WAF wall, no signal)'
+        : (spoof.status === 403 ? 'strict' : (spoof.status < 400 ? 'no-origin-validation' : `rejected-other (HTTP ${spoof.status})`)),
+    };
+    await SLEEP(120);
+  } catch (e) {
+    out.origin_check = { verdict: 'transport-error', message: String(e && e.message || e).slice(0, 100) };
+  }
+  // (2) modern-era stateless tools/list x2
+  const modernList = (cursor, omitVersion) => {
+    const meta = omitVersion ? {} : {
+      'io.modelcontextprotocol/protocolVersion': LATEST,
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.7.0' },
+      'io.modelcontextprotocol/clientCapabilities': {},
+    };
+    return postRaw({ 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, 'Mcp-Method': 'tools/list', 'Mcp-Name': 'mcp-era-probe' },
+      { jsonrpc: '2.0', id: 'behavior-list', method: 'tools/list', params: { ...(cursor ? { cursor } : {}), _meta: meta } });
+  };
+  try {
+    const a = await modernList();
+    const b = await modernList();
+    if (a.msg && a.msg.result && Array.isArray(a.msg.result.tools)) {
+      const names = a.msg.result.tools.map((t) => t.name);
+      const bnames = (b.msg && b.msg.result && Array.isArray(b.msg.result.tools)) ? b.msg.result.tools.map((t) => t.name) : null;
+      out.stateless_tools_list = {
+        http_status: a.status, tools: names.length,
+        resultType: a.msg.result.resultType || '(absent — treated as complete per MRTR; observation, not compliance)',
+        order_stability_within_run: bnames ? JSON.stringify(names) === JSON.stringify(bnames) : undefined,
+      };
+    } else if (a.msg && a.msg.error) {
+      out.stateless_tools_list = { http_status: a.status, error: a.msg.error.code, message: String(a.msg.error.message || '').slice(0, 100) };
+    } else {
+      out.stateless_tools_list = { http_status: a.status, verdict: 'no-parseable-response' };
+    }
+    await SLEEP(120);
+    const bc = await modernList('era-probe-bogus-cursor');
+    out.bogus_cursor = bc.msg && bc.msg.error
+      ? { error: bc.msg.error.code, message: String(bc.msg.error.message || '').slice(0, 90) }
+      : { http_status: bc.status, verdict: 'no-error (cursor ignored or empty page)' };
+    await SLEEP(120);
+    // (3) removed-method probe: ping left the spec in 2026-07-28
+    const ping = await postRaw({ 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, 'Mcp-Method': 'ping', 'Mcp-Name': 'mcp-era-probe' },
+      { jsonrpc: '2.0', id: 'behavior-ping', method: 'ping', params: { _meta: { 'io.modelcontextprotocol/protocolVersion': LATEST } } });
+    out.removed_ping = ping.msg
+      ? (ping.msg.error ? { error: ping.msg.error.code, verdict: ping.msg.error.code === -32601 ? '-32601 (no ping handler — strict-modern OR minimal server; ambiguous without discover)' : `error ${ping.msg.error.code}` } : { verdict: 'answered — ping still implemented (compat tolerance)' })
+      : { http_status: ping.status, verdict: 'no-parseable-response' };
+    await SLEEP(120);
+    // (4) missing-version probe: stateless request with NO _meta.protocolVersion
+    const nv = await modernList(null, true);
+    out.missing_version = nv.msg
+      ? (nv.msg.error ? { error: nv.msg.error.code, verdict: nv.msg.error.code === -32022 ? 'demands -32022 (stateless-strict)' : 'error-other' } : { verdict: 'accepted without version (lenient)' })
+      : { http_status: nv.status, verdict: 'no-parseable-response' };
+  } catch (e) {
+    out.stateless_tools_list = out.stateless_tools_list || { verdict: 'transport-error', message: String(e && e.message || e).slice(0, 100) };
+  }
+  return out;
+}
 
 /** spec-exact modern-era discovery request (2026-07-28 server/discover) */
 function discoverRequest(id) {
@@ -245,7 +338,7 @@ function discoverRequest(id) {
     jsonrpc: '2.0', id: id || 'discover-1', method: 'server/discover',
     params: { _meta: {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.6.0' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.7.0' },
       'io.modelcontextprotocol/clientCapabilities': {},
     } },
   };
@@ -403,6 +496,23 @@ function report(target, rows, strict, extra) {
       console.error(`DISCOVER(in-session): ${discIn.outcome}${discIn.supportedVersions ? ' — supportedVersions: ' + discIn.supportedVersions.join(', ') : discIn.detail ? ' — ' + discIn.detail : ''}`);
     }
   }
+  if (extra && extra.behavior) {
+    const bh = extra.behavior;
+    if (bh.origin_check) {
+      const oc = bh.origin_check;
+      console.error(`BEHAVIOR-origin : ${oc.verdict}${oc.spoofed_origin != null ? ` (control ${oc.control_no_origin}, spoofed ${oc.spoofed_origin})` : ''} — ${oc.spec || oc.message || ''}`);
+    }
+    if (bh.stateless_tools_list) {
+      const st = bh.stateless_tools_list;
+      console.error(`BEHAVIOR-list   : ${st.tools != null ? st.tools + ' tool(s) stateless @' + LATEST : st.verdict || ('error ' + st.error)}${st.resultType ? ', resultType: ' + st.resultType : ''}${st.order_stability_within_run != null ? `, order stable: ${st.order_stability_within_run}` : ''}`);
+    }
+    if (bh.bogus_cursor) {
+      const bc = bh.bogus_cursor;
+      console.error(`BEHAVIOR-cursor : ${bc.error != null ? 'error ' + bc.error + ' — ' + (bc.message || '') : (bc.verdict || 'ok')}`);
+    }
+    if (bh.removed_ping) console.error(`BEHAVIOR-ping   : ${bh.removed_ping.verdict}${bh.removed_ping.error != null ? ' (' + bh.removed_ping.error + ')' : ''}`);
+    if (bh.missing_version) console.error(`BEHAVIOR-nover  : ${bh.missing_version.verdict}${bh.missing_version.error != null ? ' (' + bh.missing_version.error + ')' : ''}`);
+  }
   const verdict = modernOk ? `modern-era server (${LATEST}, stateless) — implements server/discover with ${LATEST} in supportedVersions`
     : (served.includes(LATEST) && !(bc && bc.echo)) ? `serves the ${LATEST} era via initialize`
     : (bc && bc.echo) ? `echoes ANY requested era verbatim (${BOGUS_ERAS.join(', ')} confirmed) — negotiation is decorative (typescript-sdk#2977 failure class, decorative-negotiation variant)`
@@ -413,7 +523,7 @@ function report(target, rows, strict, extra) {
   console.error(`VERDICT: ${verdict}`);
   const strictModern = extra && extra._strictModern;
   const restExtra = extra ? (({ discover, _strictModern, ...rest }) => rest)(extra) : {};
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.6.0', ...restExtra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.7.0', ...restExtra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
   if (strictModern && !modernOk) process.exit(1);
 }
@@ -470,6 +580,13 @@ async function main() {
       discoverLast = await probeDiscoverHttp(url, headers, { sessionId: sidsPre[sidsPre.length - 1] });
       await SLEEP(50);
     }
+    // v0.7: read-only behavior checks (origin-403, stateless tools/list shape,
+    // order determinism, bogus cursor) — before session cleanup.
+    let behavior = null;
+    if (argv.includes('--behavior')) {
+      behavior = await behaviorHttp(url, headers);
+      await SLEEP(50);
+    }
     const sids = [...new Set(rows.map((r) => r.session_id).filter(Boolean))];
     for (const sid of sids.reverse()) {
       try {
@@ -479,7 +596,7 @@ async function main() {
         clearTimeout(killer);
       } catch (_) { /* best effort */ }
     }
-    report(url, rows, strict, { transport: 'streamable-http', ...(discover ? { discover } : {}), ...(discoverLast ? { discover_in_session: discoverLast } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
+    report(url, rows, strict, { transport: 'streamable-http', ...(discover ? { discover } : {}), ...(discoverLast ? { discover_in_session: discoverLast } : {}), ...(behavior ? { behavior } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   } else {
     const { cmd, args } = splitArgv(argv);
     // v0.6: stdio modern-era discovery first — the spec's own backward-compatibility

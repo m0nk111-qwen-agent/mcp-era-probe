@@ -1,0 +1,135 @@
+{
+ "target": "https://mcp.botinfo.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "4 tool(s) listed",
+   "ms": 424,
+   "serverInfo": {
+    "name": "BotInfo \u2014 Advanced Robot Market Data",
+    "version": "0.2.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "4 tool(s) listed",
+   "ms": 213,
+   "serverInfo": {
+    "name": "BotInfo \u2014 Advanced Robot Market Data",
+    "version": "0.2.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "4 tool(s) listed",
+   "ms": 195,
+   "serverInfo": {
+    "name": "BotInfo \u2014 Advanced Robot Market Data",
+    "version": "0.2.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "4 tool(s) listed",
+   "ms": 210,
+   "serverInfo": {
+    "name": "BotInfo \u2014 Advanced Robot Market Data",
+    "version": "0.2.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2026-07-28"
+  ],
+  "serverInfo": {
+   "name": "BotInfo \u2014 Advanced Robot Market Data",
+   "version": "0.2.0"
+  },
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) \u2014 implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-10T22:51:19.457Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "streamable-http",
+ "behavior": {
+  "origin_check": {
+   "control_no_origin": 200,
+   "spoofed_origin": 403,
+   "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+   "verdict": "strict"
+  },
+  "stateless_tools_list": {
+   "http_status": 200,
+   "tools": 4,
+   "resultType": "complete",
+   "order_stability_within_run": true
+  },
+  "bogus_cursor": {
+   "http_status": 200,
+   "verdict": "no-error (cursor ignored or empty page)"
+  },
+  "removed_ping": {
+   "error": -32602,
+   "verdict": "error-other"
+  },
+  "missing_version": {
+   "verdict": "accepted without version (lenient)"
+  }
+ }
+}

@@ -1,0 +1,127 @@
+{
+ "target": "https://ai-akari.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "granted",
+   "outcome": "downgraded",
+   "served": "2025-06-18",
+   "detail": "5 tool(s) listed",
+   "ms": 918,
+   "serverInfo": {
+    "name": "ai-akari-public-capabilities",
+    "version": "2026.10.03.2"
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {}
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "granted",
+   "outcome": "downgraded",
+   "served": "2025-06-18",
+   "detail": "5 tool(s) listed",
+   "ms": 542,
+   "serverInfo": {
+    "name": "ai-akari-public-capabilities",
+    "version": "2026.10.03.2"
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {}
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "5 tool(s) listed",
+   "ms": 556,
+   "serverInfo": {
+    "name": "ai-akari-public-capabilities",
+    "version": "2026.10.03.2"
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {}
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "granted",
+   "outcome": "downgraded",
+   "served": "2025-06-18",
+   "detail": "5 tool(s) listed",
+   "ms": 542,
+   "serverInfo": {
+    "name": "ai-akari-public-capabilities",
+    "version": "2026.10.03.2"
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {}
+   }
+  }
+ ],
+ "served": [
+  "2025-06-18"
+ ],
+ "downgradedTo": [
+  "2025-06-18"
+ ],
+ "discover": {
+  "outcome": "method-not-found",
+  "detail": "no server/discover \u2014 legacy (<= 2025-11-25) implementation",
+  "http_status": 200
+ },
+ "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+ "probed_at": "2026-10-10T22:53:23.343Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "streamable-http",
+ "behavior": {
+  "origin_check": {
+   "control_no_origin": 200,
+   "spoofed_origin": 200,
+   "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+   "verdict": "no-origin-validation"
+  },
+  "stateless_tools_list": {
+   "http_status": 200,
+   "tools": 5,
+   "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+   "order_stability_within_run": true
+  },
+  "bogus_cursor": {
+   "http_status": 200,
+   "verdict": "no-error (cursor ignored or empty page)"
+  },
+  "removed_ping": {
+   "error": -32601,
+   "verdict": "-32601 (no ping handler \u2014 strict-modern OR minimal server; ambiguous without discover)"
+  },
+  "missing_version": {
+   "verdict": "accepted without version (lenient)"
+  }
+ }
+}

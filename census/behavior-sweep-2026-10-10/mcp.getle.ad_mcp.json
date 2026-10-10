@@ -1,0 +1,156 @@
+{
+ "target": "https://mcp.getle.ad/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served-no-live",
+   "served": "2026-07-28",
+   "detail": "tools/list HTTP 400",
+   "ms": 250,
+   "serverInfo": {
+    "name": "getlead",
+    "title": "Getlead",
+    "version": "1.0.0",
+    "websiteUrl": "https://getle.ad"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {},
+    "resources": {},
+    "logging": {}
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "35 tool(s) listed",
+   "ms": 188,
+   "serverInfo": {
+    "name": "getlead",
+    "title": "Getlead",
+    "version": "1.0.0",
+    "websiteUrl": "https://getle.ad"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {},
+    "resources": {},
+    "logging": {}
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "35 tool(s) listed",
+   "ms": 1972,
+   "serverInfo": {
+    "name": "getlead",
+    "title": "Getlead",
+    "version": "1.0.0",
+    "websiteUrl": "https://getle.ad"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {},
+    "resources": {},
+    "logging": {}
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "35 tool(s) listed",
+   "ms": 177,
+   "serverInfo": {
+    "name": "getlead",
+    "title": "Getlead",
+    "version": "1.0.0",
+    "websiteUrl": "https://getle.ad"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {},
+    "resources": {},
+    "logging": {}
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2026-07-28",
+   "2025-11-25",
+   "2025-06-18",
+   "2025-03-26"
+  ],
+  "serverInfo": {
+   "name": "getlead",
+   "version": "1.0.0"
+  },
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) \u2014 implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-10T22:48:42.214Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "streamable-http",
+ "behavior": {
+  "origin_check": {
+   "control_no_origin": 200,
+   "spoofed_origin": 403,
+   "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+   "verdict": "strict"
+  },
+  "stateless_tools_list": {
+   "http_status": 200,
+   "tools": 35,
+   "resultType": "complete",
+   "order_stability_within_run": true
+  },
+  "bogus_cursor": {
+   "http_status": 200,
+   "verdict": "no-error (cursor ignored or empty page)"
+  },
+  "removed_ping": {
+   "error": -32602,
+   "verdict": "error-other"
+  },
+  "missing_version": {
+   "verdict": "accepted without version (lenient)"
+  }
+ }
+}

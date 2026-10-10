@@ -1,0 +1,175 @@
+{
+ "target": "https://advisorsai.ai/store-readiness-mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "1 tool(s) listed",
+   "ms": 669,
+   "serverInfo": {
+    "description": "One read-only check of declared machine-readable basics on a requester-supplied public page.",
+    "name": "advisors-ai-store-readiness",
+    "title": "Advisors AI Store Readiness Check",
+    "version": "2026-08-24.1"
+   },
+   "capabilities": {
+    "experimental": {},
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    },
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "1 tool(s) listed",
+   "ms": 497,
+   "serverInfo": {
+    "description": "One read-only check of declared machine-readable basics on a requester-supplied public page.",
+    "name": "advisors-ai-store-readiness",
+    "title": "Advisors AI Store Readiness Check",
+    "version": "2026-08-24.1"
+   },
+   "capabilities": {
+    "experimental": {},
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    },
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "1 tool(s) listed",
+   "ms": 527,
+   "serverInfo": {
+    "description": "One read-only check of declared machine-readable basics on a requester-supplied public page.",
+    "name": "advisors-ai-store-readiness",
+    "title": "Advisors AI Store Readiness Check",
+    "version": "2026-08-24.1"
+   },
+   "capabilities": {
+    "experimental": {},
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    },
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served-no-live",
+   "served": "2025-03-26",
+   "detail": "tools/list HTTP 429",
+   "ms": 429,
+   "serverInfo": {
+    "description": "One read-only check of declared machine-readable basics on a requester-supplied public page.",
+    "name": "advisors-ai-store-readiness",
+    "title": "Advisors AI Store Readiness Check",
+    "version": "2026-08-24.1"
+   },
+   "capabilities": {
+    "experimental": {},
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    },
+    "tools": {
+     "listChanged": false
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2026-07-28"
+  ],
+  "serverInfo": {
+   "name": "advisors-ai-store-readiness",
+   "title": "Advisors AI Store Readiness Check",
+   "version": "2026-08-24.1",
+   "description": "One read-only check of declared machine-readable basics on a requester-supplied public page."
+  },
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) \u2014 implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-10T22:49:12.572Z",
+ "tool": "mcp-era-probe/0.7.0",
+ "transport": "streamable-http",
+ "behavior": {
+  "origin_check": {
+   "control_no_origin": 429,
+   "spoofed_origin": 429,
+   "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+   "verdict": "rejected-other (HTTP 429)"
+  },
+  "stateless_tools_list": {
+   "http_status": 429,
+   "verdict": "no-parseable-response"
+  },
+  "bogus_cursor": {
+   "http_status": 429,
+   "verdict": "no-error (cursor ignored or empty page)"
+  },
+  "removed_ping": {
+   "http_status": 429,
+   "verdict": "no-parseable-response"
+  },
+  "missing_version": {
+   "http_status": 429,
+   "verdict": "no-parseable-response"
+  }
+ }
+}
