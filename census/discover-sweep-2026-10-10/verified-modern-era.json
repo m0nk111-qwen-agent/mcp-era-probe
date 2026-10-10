@@ -1,0 +1,114 @@
+{
+ "date": "2026-10-10",
+ "method": "independent raw requests (node fetch, mcp-era-probe fingerprint, correct Mcp-Method header per request)",
+ "criteria": "discover-ok with non-empty supportedVersions AND fictional-era _meta (2099-01-01) rejected (-32022 strict or validation error, never served) AND stateless tools/list at 2026-07-28 returns real tools",
+ "strict_modern_or_dual": [
+  {
+   "target": "@upstash/context7-mcp@4.3.0 (npm stdio)",
+   "transport": "stdio",
+   "supportedVersions": [
+    "2026-07-28"
+   ],
+   "fictional_2099": "error -32022 UnsupportedProtocolVersionError (data.supported)",
+   "stateless_tools_list": "ok, 2 tools, resultType=complete",
+   "note": "initialize still serves legacy eras = dual-era; strictest implementation seen"
+  },
+  {
+   "target": "https://mcp.goji.agency/mcp",
+   "supportedVersions": [
+    "2026-07-28"
+   ],
+   "fictional_2099": "error -32022",
+   "stateless_tools_list": "ok, 9 tools",
+   "note": "also enforces SEP-2243 Mcp-Method/Mcp-Name headers (-32020 when absent)"
+  },
+  {
+   "target": "https://mcp.projectory.ae/mcp",
+   "supportedVersions": [
+    "2026-07-28"
+   ],
+   "fictional_2099": "error -32022",
+   "stateless_tools_list": "ok, 5 tools"
+  },
+  {
+   "target": "https://mcp.getle.ad/mcp",
+   "supportedVersions": [
+    "2026-07-28",
+    "2025-11-25",
+    "2025-06-18",
+    "2025-03-26"
+   ],
+   "fictional_2099": "error -32022",
+   "stateless_tools_list": "ok, 35 tools",
+   "note": "dual-era (advertises 4 versions)"
+  },
+  {
+   "target": "https://mcp.botinfo.ai/mcp",
+   "supportedVersions": [
+    "2026-07-28"
+   ],
+   "fictional_2099": "error -32602",
+   "stateless_tools_list": "ok, 4 tools",
+   "note": "validates fictional era, imprecise code"
+  },
+  {
+   "target": "https://bidclub.ai/api/mcp",
+   "supportedVersions": [
+    "2026-07-28"
+   ],
+   "fictional_2099": "error -32602",
+   "stateless_tools_list": "ok, 6 tools"
+  },
+  {
+   "target": "https://bizmoon.ai/api/mcp",
+   "supportedVersions": [
+    "2026-07-28"
+   ],
+   "fictional_2099": "error -32602",
+   "stateless_tools_list": "ok, 5 tools"
+  }
+ ],
+ "genuine_but_lenient": [
+  {
+   "target": "https://api.askmiles.ai/mcp",
+   "supportedVersions": [
+    "2024-11-05",
+    "2025-03-26",
+    "2025-06-18",
+    "2025-11-25",
+    "2026-07-28"
+   ],
+   "fictional_2099": "SERVED 5 tools (no validation on tools/list)",
+   "stateless_tools_list": "ok, 5 tools",
+   "note": "discover honest + stateless works, but does not reject fictional claims; initialize@2099 answered with honest 2025-11-25 fallback"
+  }
+ ],
+ "hollow_discover_shaped": [
+  {
+   "target": "https://advisorsai.ai/mcp",
+   "why": "discover returns 200 result WITHOUT supportedVersions (or -32601 depending on headers); serves fictional-era tools/list verbatim"
+  },
+  {
+   "target": "https://advisorsai.ai/store-readiness-mcp",
+   "why": "same class"
+  }
+ ],
+ "probe_hit_not_reproducible": [
+  {
+   "target": "https://afg.ai/mcp",
+   "why": "era-probe saw discover-ok twice; independent raw rechecks returned -32600/400 \u2014 flaky or fingerprint-sensitive; excluded until reproducible"
+  },
+  {
+   "target": "https://analyticslegends.ai/mcp",
+   "why": "era-probe saw discover-ok with sv incl 2026-07-28; raw rechecks -32020 on everything; excluded until reproducible"
+  }
+ ],
+ "counts": {
+  "total_targeted": 94,
+  "verified_modern_or_dual": 8,
+  "strict": 7,
+  "lenient": 1,
+  "hollow_discover_shaped": 2,
+  "unreproducible_hits": 2
+ }
+}

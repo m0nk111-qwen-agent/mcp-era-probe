@@ -256,8 +256,14 @@ function classifyDiscover(json, httpStatus, detail) {
   if (json && json.result) {
     const sv = Array.isArray(json.result.supportedVersions) ? json.result.supportedVersions : null;
     const info = json.result._meta && json.result._meta['io.modelcontextprotocol/serverInfo'];
-    return { outcome: 'discover-ok', supportedVersions: sv, serverInfo: info || undefined,
-             resultType: json.result.resultType || undefined, detail: detail || undefined };
+    if (sv && sv.length) {
+      return { outcome: 'discover-ok', supportedVersions: sv, serverInfo: info || undefined,
+               resultType: json.result.resultType || undefined, detail: detail || undefined };
+    }
+    // A discover-SHAPED response with no supportedVersions is hollow — seen in the
+    // wild (echo machines adapting): 200 + result, but it advertises nothing and
+    // serves fictional-era requests. Not a genuine modern-era server.
+    return { outcome: 'discover-no-supported-versions', detail: 'result without supportedVersions — echo suspect', http_status: httpStatus };
   }
   const code = json && json.error && json.error.code;
   if (code === -32601) return { outcome: 'method-not-found', detail: 'no server/discover — legacy (<= 2025-11-25) implementation', ...({ http_status: httpStatus }) };

@@ -32,3 +32,22 @@
 
 - `census.json` — per-endpoint matrix: 4 rows each (era, http_status, content_type, outcome, served, tools count), plus validation classes and re-check notes.
 - `bogus-echo-validation.json` — the bogus-era probe data (15 sampled + 4 targeted endpoints).
+
+## Addendum — the `server/discover` sweep (v0.6, same day, ~20:00–22:30Z)
+
+**Why the headline above needed an instrument fix:** the 2026-07-28 spec **removed the `initialize` handshake entirely** (SEP-2575, stateless MCP — version travels per-request in `_meta`; servers MUST implement `server/discover`). A genuine modern-era server therefore has *no reason to answer an initialize handshake at all* — initialize-based probes are structurally blind to the real modern cohort, and the only servers they can see claiming the new era are echo machines negotiating via a method the modern spec deleted. mcp-era-probe v0.6 adds the missing probe: a spec-exact `server/discover` request (HTTP + stdio, in-session mode, `--strict-modern` CI gate), carrying the modern `Mcp-Method`/`Mcp-Name` headers (SEP-2243 — a strict server rejects the POST with `-32020` "required Mcp-Method header is absent" without them; that error is itself a modern-era signal).
+
+**Results (94 targets: 78 HTTP + 16 npm, `census/discover-sweep-2026-10-10/`):**
+
+| class | n | notes |
+|---|---|---|
+| **genuine modern/dual-era** | **8** | `server/discover` + non-empty `supportedVersions` + fictional-era `_meta` (2099-01-01) rejected with the spec's `-32022` + working stateless `tools/list`: **@upstash/context7-mcp@4.3.0** (npm, strictest — `-32022` + `data.supported`), goji.agency (also enforces SEP-2243 headers), projectory.ae, getle.ad, botinfo.ai, bidclub.ai, bizmoon.ai — 7 strict; **askmiles.ai** genuine but lenient (serves fictional claims without validating) |
+| discover-shaped echo machines | 2 | advisorsai.ai ×2: 200 + result but **no `supportedVersions`**, serves fictional-era `tools/list` verbatim — the echo class adapting to the new method shape |
+| legacy-only (no `server/discover`) | 38 | 29 HTTP + 9 npm answer `-32601` — honest legacy, expected for ≤2025-11-25 SDKs |
+| probe hit, not independently reproducible | 2 | afg.ai, analyticslegends.ai — excluded until a raw recheck reproduces the hit |
+| session/auth walls (no verdict) | 38 | 400/401/404/530 on the session-less probe; modern-era status unknown |
+| npm auth spawn-fails | 6 | @azure, @apify, @currents, @sentry, @zencoderai, @winor30 |
+
+**Verified artifact:** `discover-sweep-2026-10-10/verified-modern-era.json` — every genuine entry re-verified with independent raw requests (separate client fingerprint, correct per-request headers): fictional-era rejection AND working stateless `tools/list` confirmed per server.
+
+**Honest instrument note:** this census is two instruments deep now. The initialize-based matrix above stands as measured with that instrument; the `server/discover` sweep is the one aligned with how the newest era actually works. This is the documented "instrument blindness" failure class of internet measurement (early TLS 1.3 scans with restrictive ClientHellos, gQUIC/draft HTTP/3 counting) — the remedy is publishing both the scanner config and its blind spots, which this file does.
