@@ -36,6 +36,18 @@ Exit code 0 if the probe ran (regardless of results). Add `--strict` to exit 1 w
 the server does not serve the `2026-07-28` era verbatim — useful as a CI check for
 "this server is era-current".
 
+### v0.4 — `--bogus-check` now covers stdio too
+
+v0.3 wired the fictional-era control into the `--http` path only — on stdio the flag
+was accepted but silently ignored, so a stdio blind echo (e.g. a setup shim like the
+one [@autenai](https://dev.to/pennyforgehq/title-your-mcp-server-compiles-passes-its-tests-answers-the-inspector-and-still-speaks-the-20lp#comment-3h5h7)
+shipped in 0.1.3) still got a plain `ACCEPTED`. v0.4 runs the same two fictional-era
+handshakes through `probeEraStdio`; stdio fixtures (`fixtures/stdio-echo-shim.js`,
+`fixtures/stdio-validating.js`) validate both outcomes:
+
+- echo-shim: `BOGUS-CHECK: BLIND ECHO`, verdict = decorative-negotiation variant, `--strict` exits 1
+- validating server: fictional eras rejected (`answered nothing, nothing`), verdict = DOWNGRADE, `--strict` exits 1 (it does not serve the newest era)
+
 ### v0.3 — `--bogus-check` (the control that catches decorative negotiation)
 
 A server can answer `initialize` with whatever version you claim — echoing the field
