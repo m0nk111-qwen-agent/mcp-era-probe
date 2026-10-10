@@ -69,21 +69,33 @@ consistent; results are point-in-time and latency/network confounded (rate-limit
 429s are transport noise, not verdicts); `read-only` ≠ `side-effect-free`.
 
 First behavior sweep (2026-10-10, 40 servers from the discover census):
-`census/behavior-sweep-2026-10-10/` — `resultType: complete` appeared on exactly
-the 7 verified strict-modern servers and nowhere else in the cohort (a clean
-empirical discriminator, not a compliance verdict); Origin-strict did NOT track
-modern-era-ness (9 origin-strict servers include hollow and legacy ones); no
-server in the cohort demanded `-32022` for a MISSING version — strictness showed
-up only on contradictory versions.
+`census/behavior-sweep-2026-10-10/` — `resultType: complete` co-occurred with the
+7 verified strict-modern servers and appeared on no other server in the cohort.
+This is a CORRELATED FEATURE OF THE MODERN-SPEC SUBSET, not an independent
+discriminator: the same current SDKs that implement server/discover are the ones
+emitting resultType on list responses (n=7 vs 33; one auth-gated resultType would
+break "nowhere else"). Origin-strict (9 servers, 403 on a spoofed-Origin
+initialize while the no-Origin control passes) is ORTHOGONAL to modern-era-ness —
+4 of the 9 are hollow or legacy. Caveats: a 403 proves a guard exists, not which
+era's spec it came from; servers that 403 both variants are "blocked/uninformative"
+(auth/WAF/rate-limit — no positive control shown). No HTTP server in the cohort
+rejected a MISSING `_meta` protocolVersion; note -32022 is specced for a
+present-but-unsupported version, so a missing one may be assume-latest (compliance,
+not laxness) — only one server (context7) rejected version-less requests at all,
+with -32602 (n=1, server-specific). Cohort caveat: this census pre-filters for
+servers that answer server/discover, so any "discriminator" is confounded with
+admission criteria; npm stdio packages are a separate population. Tool counts
+(1–46) are non-comparable (pagination, auth-gated listings, lazy registration).
 
 stdio sweep (`census/behavior-sweep-2026-10-10/stdio/`): `--behavior` works over
 stdio too (one extra spawn, discover-first so modern-only servers are profiled).
-The single modern server in the npm cohort (@upstash/context7-mcp) is also the
-strictest: it ERRORS on a version-less request (`-32602`) instead of accepting it,
-still answers `resultType: complete`, and answers a fictional cursor. The legacy
-majority answers ping (compat tolerance), omits resultType, and accepts missing
-versions. Note: context7 rejects removed `ping` with -32602 (invalid params),
-not -32601 — error-code choice is server-specific; treat codes as diversity data.
+Within the npm stdio population, the single modern server (@upstash/context7-mcp)
+is also the strictest: it ERRORS on a version-less request (`-32602`) instead of
+accepting it, still answers `resultType: complete`, and answers a fictional
+cursor. The legacy majority answers ping (compat tolerance), omits resultType,
+and accepts missing versions. Note: context7 rejects removed `ping` with -32602
+(invalid params), not -32601 — error-code choice is server-specific; treat codes
+as diversity data. (Within-population comparison only; see the cohort caveat above.)
 
 ### v0.5 — `constant-answer` verdict (spec-compliant fallback ≠ echo)
 
