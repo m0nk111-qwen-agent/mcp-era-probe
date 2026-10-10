@@ -107,7 +107,7 @@ function probeEraStdio(cmd, args, era) {
                 if (m2.id === 2) {
                   clearTimeout(t2);
                   const live = !m2.error && m2.result && Array.isArray(m2.result.tools);
-                  done({ era, outcome: served === era ? (live ? 'served' : 'served-no-live') : 'downgraded', served, detail: live ? `${(m2.result.tools || []).length} tool(s) listed` : `tools/list ${m2.error ? 'error ' + m2.error.code : 'malformed'}` });
+                  done({ era, outcome: served === era ? (live ? 'served' : 'served-no-live') : 'downgraded', served, detail: live ? `${(m2.result.tools || []).length} tool(s) listed` : `tools/list ${m2.error ? 'error ' + m2.error.code : 'malformed'}`, serverInfo: msg.result.serverInfo || undefined, capabilities: msg.result.capabilities || undefined });
                 }
               }
             };
