@@ -440,6 +440,70 @@ function probeDiscoverStdio(cmd, args) {
   });
 }
 
+/** v0.7 stdio behavior checks: ONE spawn, server/discover FIRST (the spec's own
+ *  dual-era client behavior — modern servers answer it, legacy ones answer the
+ *  legacy probes), then read-only observations — removed-ping, tools/list shape,
+ *  bogus cursor, missing-version. Same read-only/no-execution rules as
+ *  behaviorHttp; origin-403 is HTTP-only (Streamable HTTP concept). */
+function behaviorStdio(cmd, args) {
+  return new Promise((resolve) => {
+    let child;
+    try {
+      child = spawn(cmd, args, { stdio: ['pipe', 'pipe', 'pipe'] });
+    } catch (e) {
+      resolve({ spawn: 'spawn-fail', message: String(e && e.message || e) });
+      return;
+    }
+    const out = {};
+    let buf = '';
+    const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch (_) {} }, 12000);
+    const finish = () => { clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} resolve(out); };
+    const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
+    const mcpMeta = (extra) => ({ _meta: { 'io.modelcontextprotocol/protocolVersion': LATEST, ...(extra || {}) } });
+    let got = 0;
+    const next = () => {
+      got += 1;
+      if (got === 1) send({ jsonrpc: '2.0', id: 'b-ping', method: 'ping', params: mcpMeta() });
+      else if (got === 2) send({ jsonrpc: '2.0', id: 'b-list', method: 'tools/list', params: mcpMeta({ 'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.7.0' }, 'io.modelcontextprotocol/clientCapabilities': {} }) });
+      else if (got === 3) send({ jsonrpc: '2.0', id: 'b-cursor', method: 'tools/list', params: { cursor: 'era-probe-bogus-cursor', ...mcpMeta() } });
+      else if (got === 4) send({ jsonrpc: '2.0', id: 'b-nover', method: 'tools/list', params: { _meta: { 'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.7.0' } } } });
+      else finish();
+    };
+    child.on('error', () => { out.spawn = 'spawn-fail'; finish(); });
+    child.stderr.on('data', () => {});
+    child.stdout.on('data', (d) => {
+      buf += d.toString();
+      let idx;
+      while ((idx = buf.indexOf('\n')) !== -1) {
+        const line = buf.slice(0, idx).trim(); buf = buf.slice(idx + 1);
+        if (!line) continue;
+        let m; try { m = JSON.parse(line); } catch (_) { continue; }
+        if (m.id === 'discover-1') {
+          out.discover = m.error ? (m.error.code === -32601 ? 'method-not-found (legacy)' : `error ${m.error.code}`) : (m.result && Array.isArray(m.result.supportedVersions) && m.result.supportedVersions.length ? `ok — supportedVersions: ${m.result.supportedVersions.join(', ')}` : 'discover-shaped (no supportedVersions — echo suspect)');
+          next();
+        } else if (m.id === 'b-ping') {
+          out.removed_ping = m.error ? { error: m.error.code, verdict: m.error.code === -32601 ? '-32601 (no ping handler — strict-modern OR minimal server; ambiguous)' : `error ${m.error.code}` } : { verdict: 'answered — ping still implemented (compat tolerance)' };
+          next();
+        } else if (m.id === 'b-list') {
+          if (m.error) out.stateless_tools_list = { error: m.error.code, verdict: `error ${m.error.code}` };
+          else if (m.result && Array.isArray(m.result.tools)) {
+            out.stateless_tools_list = { tools: m.result.tools.length, resultType: m.result.resultType || '(absent — observation, not compliance)' };
+          } else out.stateless_tools_list = { verdict: 'no-parseable-result' };
+          next();
+        } else if (m.id === 'b-cursor') {
+          out.bogus_cursor = m.error ? { error: m.error.code, verdict: `error ${m.error.code}` } : { verdict: 'no-error (cursor ignored or empty page)' };
+          next();
+        } else if (m.id === 'b-nover') {
+          out.missing_version = m.error ? { error: m.error.code, verdict: m.error.code === -32022 ? 'demands -32022 (stateless-strict)' : `error ${m.error.code}` } : { verdict: 'accepted without version (lenient)' };
+          next();
+        }
+      }
+    });
+    child.on('exit', () => { if (got < 5) { out.spawn = out.spawn || 'exited-early'; finish(); } });
+    send(discoverRequest());
+  });
+}
+
 
 /** newest era the server served verbatim (order-independent) */
 function newestServed(served) {
@@ -626,7 +690,13 @@ async function main() {
       }
       bogus.echo = BOGUS_ERAS.every((be) => bogus[be] === be);
     }
-    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
+    // v0.7 stdio behavior: one extra spawn, read-only observations
+    let behavior = null;
+    if (argv.includes('--behavior')) {
+      behavior = await behaviorStdio(cmd, args);
+      await SLEEP(50);
+    }
+    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(behavior ? { behavior } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   }
 }
 main();
