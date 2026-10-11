@@ -596,7 +596,7 @@ async function toolcheckHttp(url, headers) {
   };
   const meta = {
     'io.modelcontextprotocol/protocolVersion': LATEST,
-    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
     'io.modelcontextprotocol/clientCapabilities': {},
   };
   const H = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers };
@@ -621,7 +621,7 @@ async function toolcheckHttp(url, headers) {
   }
   // (3) legacy-route control: own session, same unknown tool, era 2025-11-25
   try {
-    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.9.0' } } };
+    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.9.1' } } };
     // the session id lives on the RESPONSE HEADERS — raw fetch, not postRaw:
     const ctrl = new AbortController();
     const killer = setTimeout(() => ctrl.abort(), 10000);
@@ -660,7 +660,7 @@ async function toolcheckHttp(url, headers) {
 function handshakeControlStdio(cmd, args) {
   const META = {
     'io.modelcontextprotocol/protocolVersion': LATEST,
-    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
     'io.modelcontextprotocol/clientCapabilities': {},
   };
   const oneSpawn = (mode) => new Promise((resolve) => {
@@ -744,7 +744,7 @@ function toolcheckStdio(cmd, args) {
     const timer = setTimeout(() => { out.timeout = true; finish(); }, 15000); // timeout must RESOLVE (run-216 regression lesson)
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -792,7 +792,7 @@ async function callToolHttp(url, headers, name, argsObj) {
     headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, 'Mcp-Method': 'tools/call', 'Mcp-Name': name },
     body: JSON.stringify({ jsonrpc: '2.0', id: 'tc-real', method: 'tools/call', params: { name, arguments: argsObj, _meta: {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
       'io.modelcontextprotocol/clientCapabilities': {},
     } } }),
     signal: ctrl.signal,
@@ -813,7 +813,7 @@ function callToolStdio(cmd, args, name, argsObj) {
     let buf = '';
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -838,6 +838,108 @@ function callToolStdio(cmd, args, name, argsObj) {
   });
 }
 
+
+/** v0.9.1 OPT-IN args-level error-contract probe (--args-probe). ONE tools/call against
+ *  a REAL listed tool with arguments: {} — every required argument missing. This is a
+ *  real execution attempt (validation SHOULD reject before execution, but that is the
+ *  thing being measured), so it is opt-in like --call-tool and only for servers that
+ *  consented (ApyHub did, dev.to #18). Classifies with the same channel rules:
+ *  protocol (JSON-RPC error, e.g. -32602) | execution (isError:true) |
+ *  result-no-iserror (bad input "succeeded") | no-parseable-response. */
+function pickArgsProbeTarget(listMsg) {
+  const tools = listMsg && listMsg.result && Array.isArray(listMsg.result.tools) ? listMsg.result.tools : [];
+  const withReq = tools.filter((t) => t.inputSchema && Array.isArray(t.inputSchema.required) && t.inputSchema.required.length);
+  if (withReq.length) {
+    const t = withReq[0];
+    return { tool: t.name, required: t.inputSchema.required, candidates: withReq.length };
+  }
+  return { tool: tools.length ? tools[0].name : null, required: [], candidates: 0 };
+}
+
+function argsProbeStdio(cmd, args) {
+  return new Promise((resolve) => {
+    let child;
+    try { child = spawn(cmd, args, { stdio: ['pipe', 'pipe', 'pipe'] }); }
+    catch (e) { resolve({ spawn: 'spawn-fail', message: String(e && e.message || e) }); return; }
+    const out = {};
+    let buf = '';
+    let killed = false;
+    let phase = 'init'; // init -> list -> call -> done
+    const finish = (extra) => {
+      killed = true; clearTimeout(timer);
+      try { child.kill('SIGKILL'); } catch (_) {}
+      resolve(Object.assign(out, extra || {}));
+    };
+    const timer = setTimeout(() => finish({ timeout: true }), 15000); // timeout must RESOLVE (run-216 lesson)
+    const clientInfo = { name: 'mcp-era-probe', version: '0.9.1' };
+    const meta = {
+      'io.modelcontextprotocol/protocolVersion': LATEST,
+      'io.modelcontextprotocol/clientInfo': clientInfo,
+      'io.modelcontextprotocol/clientCapabilities': {},
+    };
+    const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
+    child.on('error', (e) => finish({ spawn: 'spawn-fail', message: String(e && e.message || e) }));
+    child.stderr.on('data', () => {});
+    child.stdout.on('data', (d) => {
+      buf += d.toString();
+      let idx;
+      while ((idx = buf.indexOf('\n')) !== -1) {
+        const line = buf.slice(0, idx).trim(); buf = buf.slice(idx + 1);
+        if (!line) continue;
+        let m; try { m = JSON.parse(line); } catch (_) { continue; }
+        if (phase === 'init' && (m.result !== undefined || m.error)) {
+          phase = 'list';
+          send({ jsonrpc: '2.0', id: 'ap-list', method: 'tools/list', params: { _meta: meta } });
+        } else if (phase === 'list' && m.id === 'ap-list') {
+          const target = pickArgsProbeTarget(m);
+          out.args_target = target;
+          if (!target.tool) return finish();
+          phase = 'call';
+          send({ jsonrpc: '2.0', id: 'ap-call', method: 'tools/call', params: { name: target.tool, arguments: {}, _meta: meta } });
+        } else if (phase === 'call' && m.id === 'ap-call') {
+          out.args_missing_required = classifyCallChannel(null, m);
+          return finish();
+        }
+      }
+    });
+    child.on('exit', (code) => { if (!killed) finish({ spawn: `exited-early (code ${code})` }); });
+    send({ jsonrpc: '2.0', id: 'ap-init', method: 'initialize', params: { protocolVersion: LATEST, capabilities: {}, clientInfo } });
+  });
+}
+
+async function argsProbeHttp(url, headers) {
+  const clientInfo = { name: 'mcp-era-probe', version: '0.9.1' };
+  const meta = {
+    'io.modelcontextprotocol/protocolVersion': LATEST,
+    'io.modelcontextprotocol/clientInfo': clientInfo,
+    'io.modelcontextprotocol/clientCapabilities': {},
+  };
+  const H = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers };
+  const post = async (extra, body) => {
+    const ctrl = new AbortController();
+    const killer = setTimeout(() => ctrl.abort(), 12000);
+    const res = await fetch(url, { method: 'POST', headers: { ...H, ...extra }, body: JSON.stringify(body), signal: ctrl.signal });
+    const raw = await res.text();
+    clearTimeout(killer);
+    const parsed = responseFromBody(raw);
+    return { status: res.status, msg: parsed && parsed.msg };
+  };
+  const out = {};
+  try {
+    const list = await post({ 'Mcp-Method': 'tools/list', 'Mcp-Name': 'mcp-era-probe' },
+      { jsonrpc: '2.0', id: 'ap-list', method: 'tools/list', params: { _meta: meta } });
+    out.args_target = list.status >= 400 ? { http_status: list.status } : pickArgsProbeTarget(list.msg);
+    await SLEEP(120);
+    if (out.args_target && out.args_target.tool) {
+      const call = await post({ 'Mcp-Method': 'tools/call', 'Mcp-Name': out.args_target.tool },
+        { jsonrpc: '2.0', id: 'ap-call', method: 'tools/call', params: { name: out.args_target.tool, arguments: {}, _meta: meta } });
+      out.args_missing_required = call.status >= 400 ? { channel: 'http-error', http_status: call.status } : classifyCallChannel(call.status, call.msg);
+    }
+  } catch (e) {
+    out.transport_error = String(e && e.message || e).slice(0, 120);
+  }
+  return out;
+}
 
 function report(target, rows, strict, extra) {
   for (const r of rows) {
@@ -936,7 +1038,7 @@ function report(target, rows, strict, extra) {
   console.error(`VERDICT: ${verdict}`);
   const strictModern = extra && extra._strictModern;
   const restExtra = extra ? (({ discover, _strictModern, ...rest }) => rest)(extra) : {};
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.9.0', ...restExtra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.9.1', ...restExtra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
   if (strictModern && !modernOk) process.exit(1);
 }
@@ -1019,6 +1121,12 @@ async function main() {
       realCall = await callToolHttp(url, headers, cname, cargs);
       await SLEEP(50);
     }
+    let argsProbe = null;
+    if (argv.includes('--args-probe')) {
+      console.error('WARNING: --args-probe = ONE REAL tools/call against a listed tool with ALL required args missing — opt-in; run only on servers that consented.');
+      argsProbe = await argsProbeHttp(url, headers);
+      await SLEEP(50);
+    }
     const sids = [...new Set(rows.map((r) => r.session_id).filter(Boolean))];
     for (const sid of sids.reverse()) {
       try {
@@ -1028,7 +1136,7 @@ async function main() {
         clearTimeout(killer);
       } catch (_) { /* best effort */ }
     }
-    report(url, rows, strict, { transport: 'streamable-http', ...(discover ? { discover } : {}), ...(discoverLast ? { discover_in_session: discoverLast } : {}), ...(behavior ? { behavior } : {}), ...(toolcheck ? { toolcheck } : {}), ...(realCall ? { real_tool_call: realCall } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
+    report(url, rows, strict, { transport: 'streamable-http', ...(discover ? { discover } : {}), ...(discoverLast ? { discover_in_session: discoverLast } : {}), ...(behavior ? { behavior } : {}), ...(toolcheck ? { toolcheck } : {}), ...(realCall ? { real_tool_call: realCall } : {}), ...(argsProbe ? { args_probe: argsProbe } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   } else {
     const { cmd, args } = splitArgv(argv);
     // v0.6: stdio modern-era discovery first — the spec's own backward-compatibility
@@ -1088,7 +1196,13 @@ async function main() {
       realCall = await callToolStdio(cmd, args, cname, cargs);
       await SLEEP(50);
     }
-    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(behavior ? { behavior } : {}), ...(toolcheck ? { toolcheck } : {}), ...(handshake ? { handshake_control: handshake } : {}), ...(realCall ? { real_tool_call: realCall } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
+    let argsProbe = null;
+    if (argv.includes('--args-probe')) {
+      console.error('WARNING: --args-probe = ONE REAL tools/call against a listed tool with ALL required args missing — opt-in; run only on servers that consented.');
+      argsProbe = await argsProbeStdio(cmd, args);
+      await SLEEP(50);
+    }
+    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(behavior ? { behavior } : {}), ...(toolcheck ? { toolcheck } : {}), ...(handshake ? { handshake_control: handshake } : {}), ...(realCall ? { real_tool_call: realCall } : {}), ...(argsProbe ? { args_probe: argsProbe } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   }
 }
 main();

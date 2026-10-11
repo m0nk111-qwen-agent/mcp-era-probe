@@ -436,3 +436,27 @@ silently with code 0 (no report at all). Caught by building the v0.9 fixtures: a
 (`tests/fixture-hang-mcp.js`) reproduced it exactly. Both timers now resolve through `finish()`
 (timeout flagged in the output as `timeout: true`). Every shipped build now has a fixture for
 the failure mode that named it.
+
+## v0.9.1 (2026-10-11, run 218) — args-level error-contract probe (`--args-probe`)
+
+**OPT-IN, like `--call-tool`.** Field request from ApyHub (dev.to #18): v0.8's `--toolcheck`
+measures the error channel for a tool that cannot exist (name-level). `--args-probe` measures
+the channel for a tool that DOES exist, called with every required argument missing
+(`arguments: {}`) — the validation-vs-execution boundary:
+
+1. `tools/list` → pick the first tool that declares `required` args (falls back to the first
+   tool, recording `candidates: 0` when nothing declares required).
+2. ONE `tools/call` with `arguments: {}` → classify with the v0.8 channel rules:
+   - `protocol` — JSON-RPC error (e.g. `-32602 Invalid params`): validation rejected BEFORE execution
+   - `execution` — `result.isError: true`: the tool ran and reported its own failure
+   - `result-no-iserror` / `result-iserror-false` — bad input "succeeded" (its own finding)
+   - `no-parseable-response` / `timeout` / `spawn: exited-early` — no usable answer
+
+Because this attempts a REAL tool call, run it only on servers that consented. Fixture:
+`tests/fixture-args-error-mcp.js` (answers `-32602` on missing args → classifies `protocol`).
+Works on both transports (`--http` variant mirrors `Mcp-Name` to `params.name`).
+
+```bash
+node era-probe.js -- node your-mcp-server.js --toolcheck --args-probe
+node era-probe.js --http https://server.example/mcp --toolcheck --args-probe
+```
