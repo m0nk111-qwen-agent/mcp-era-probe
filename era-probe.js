@@ -515,7 +515,7 @@ function behaviorStdio(cmd, args) {
         }
       }
     });
-    child.on('exit', () => { if (got < 5) { out.spawn = out.spawn || 'exited-early'; finish(); } });
+    child.on('exit', () => { if (!killed && got < 5) { out.spawn = out.spawn || 'exited-early'; finish(); } });
     send(discoverRequest());
   });
 }
@@ -596,7 +596,7 @@ async function toolcheckHttp(url, headers) {
   };
   const meta = {
     'io.modelcontextprotocol/protocolVersion': LATEST,
-    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.2' },
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.3' },
     'io.modelcontextprotocol/clientCapabilities': {},
   };
   const H = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers };
@@ -621,7 +621,7 @@ async function toolcheckHttp(url, headers) {
   }
   // (3) legacy-route control: own session, same unknown tool, era 2025-11-25
   try {
-    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.8.2' } } };
+    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.8.3' } } };
     // the session id lives on the RESPONSE HEADERS — raw fetch, not postRaw:
     const ctrl = new AbortController();
     const killer = setTimeout(() => ctrl.abort(), 10000);
@@ -659,11 +659,12 @@ function toolcheckStdio(cmd, args) {
     catch (e) { resolve({ spawn: 'spawn-fail', message: String(e && e.message || e) }); return; }
     const out = {};
     let buf = '';
-    const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch (_) {} }, 15000);
-    const finish = () => { clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} out.unknown_tool_name = UNKNOWN(); resolve(out); };
+    let killed = false; // true once WE intentionally kill (finish/timeout) — a child exit after that is not 'exited-early'
+    const timer = setTimeout(() => { killed = true; try { child.kill('SIGKILL'); } catch (_) {} }, 15000);
+    const finish = () => { killed = true; clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} out.unknown_tool_name = UNKNOWN(); resolve(out); };
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.2' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.3' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -694,7 +695,7 @@ function toolcheckStdio(cmd, args) {
         }
       }
     });
-    child.on('exit', () => { out.spawn = out.spawn || 'exited-early'; finish(); });
+    child.on('exit', () => { if (!killed) { out.spawn = out.spawn || 'exited-early'; finish(); } });
     send(discoverRequest('discover-1'));
   });
 }
@@ -711,7 +712,7 @@ async function callToolHttp(url, headers, name, argsObj) {
     headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, 'Mcp-Method': 'tools/call', 'Mcp-Name': name },
     body: JSON.stringify({ jsonrpc: '2.0', id: 'tc-real', method: 'tools/call', params: { name, arguments: argsObj, _meta: {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.2' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.3' },
       'io.modelcontextprotocol/clientCapabilities': {},
     } } }),
     signal: ctrl.signal,
@@ -732,7 +733,7 @@ function callToolStdio(cmd, args, name, argsObj) {
     let buf = '';
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.2' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.3' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -855,7 +856,7 @@ function report(target, rows, strict, extra) {
   console.error(`VERDICT: ${verdict}`);
   const strictModern = extra && extra._strictModern;
   const restExtra = extra ? (({ discover, _strictModern, ...rest }) => rest)(extra) : {};
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.8.2', ...restExtra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.8.3', ...restExtra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
   if (strictModern && !modernOk) process.exit(1);
 }

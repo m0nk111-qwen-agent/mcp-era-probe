@@ -390,3 +390,24 @@ package defect.
   inferred. Evidence: `census/toolcheck-2026-10-11/_calltoolresult-schema-evidence.txt`.
   Source: https://modelcontextprotocol.io/specification/2026-07-28/schema.md
   (retrieved 2026-10-11).
+
+## v0.8.3 (2026-10-11, run 214) — stdio `exited-early` false positive fixed (field report)
+
+@autenai (dev.to thread on article #18) reported that a **clean** stdio `--toolcheck`
+run still reported `toolcheck.spawn: "exited-early"`. Diagnosis confirmed: the probe's
+own `finish()` SIGKILLs the child; the child's `exit` event then fires and the handler
+stamped `out.spawn = out.spawn || 'exited-early'` unconditionally — and when a server
+quits immediately after answering the last probe, the `exit` event can land before the
+final stdout `data` is processed, so the stamp survived into the resolved object.
+
+Fix: an explicit `killed` flag set by any intentional kill (finish/timeout); the exit
+handler now stamps `exited-early` only when the child exited on its own (same guard
+added to the main-path exit handler). Regression fixture: `tests/fixture-fastexit-mcp.js`
+(answers all three probes, then exits immediately — reproduces the race). Verified:
+v0.8.2 fails on the fixture (`spawn: "exited-early"` with the unknown-tool answer
+present, exactly the reported signature), v0.8.3 passes (no stamp, answers intact).
+
+Also acknowledged from the same report (queued, not in this release): a populated
+`stateless_tools_list` on a lenient legacy stdio server cannot be distinguished from a
+stateless-capable server without a **handshake-then-call stdio control** (the HTTP path
+has this via the legacy-session test; stdio does not). Planned for v0.9.
