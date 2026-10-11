@@ -596,7 +596,7 @@ async function toolcheckHttp(url, headers) {
   };
   const meta = {
     'io.modelcontextprotocol/protocolVersion': LATEST,
-    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.3' },
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
     'io.modelcontextprotocol/clientCapabilities': {},
   };
   const H = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers };
@@ -621,7 +621,7 @@ async function toolcheckHttp(url, headers) {
   }
   // (3) legacy-route control: own session, same unknown tool, era 2025-11-25
   try {
-    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.8.3' } } };
+    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.9.0' } } };
     // the session id lives on the RESPONSE HEADERS — raw fetch, not postRaw:
     const ctrl = new AbortController();
     const killer = setTimeout(() => ctrl.abort(), 10000);
@@ -650,6 +650,86 @@ async function toolcheckHttp(url, headers) {
   return out;
 }
 
+/** v0.9 handshake-then-call stdio control (field request: @autenai, run-214/216).
+ *  Distinguishes "stateless-native" from "legacy server that is lenient about ordering":
+ *  spawn A = initialize handshake, THEN tools/list + unknown tools/call (baseline);
+ *  spawn B = the SAME probes with NO initialize (pre-init control).
+ *  rejects_pre_init = yes  -> server enforces initialize-before-requests
+ *                    no   -> pre-init calls served (lenient/stateless-native — ambiguous, now labeled)
+ *                    indeterminate -> no answer in time on spawn B */
+function handshakeControlStdio(cmd, args) {
+  const META = {
+    'io.modelcontextprotocol/protocolVersion': LATEST,
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
+    'io.modelcontextprotocol/clientCapabilities': {},
+  };
+  const oneSpawn = (mode) => new Promise((resolve) => {
+    let child;
+    try { child = spawn(cmd, args, { stdio: ['pipe', 'pipe', 'pipe'] }); }
+    catch (e) { resolve({ spawn: 'spawn-fail', message: String(e && e.message || e) }); return; }
+    const out = { mode };
+    let buf = '';
+    let killed = false;
+    let gotInit = false;
+    const finish = () => { killed = true; clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} resolve(out); };
+    const timer = setTimeout(() => { out.timeout = true; finish(); }, 15000); // timeout must RESOLVE (run-216 regression lesson)
+    const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
+    const afterInit = () => {
+      // handshake path: initialize answered -> now the same two probes
+      send({ jsonrpc: '2.0', id: 'hs-list', method: 'tools/list', params: { _meta: META } });
+      send({ jsonrpc: '2.0', id: 'hs-unk', method: 'tools/call', params: { name: UNKNOWN(), arguments: {}, _meta: META } });
+    };
+    child.on('error', () => { out.spawn = 'spawn-fail'; finish(); });
+    child.stderr.on('data', () => {});
+    child.stdout.on('data', (d) => {
+      buf += d.toString();
+      let idx;
+      while ((idx = buf.indexOf('\n')) !== -1) {
+        const line = buf.slice(0, idx).trim(); buf = buf.slice(idx + 1);
+        if (!line) continue;
+        let m; try { m = JSON.parse(line); } catch (_) { continue; }
+        if (m.id === 'hs-init') {
+          if (m.error) { out.initialize = { error: m.error.code, verdict: `error ${m.error.code}` }; finish(); return; }
+          gotInit = true;
+          out.initialize = 'ok' + (m.result && m.result.protocolVersion ? ` (${m.result.protocolVersion})` : '');
+          if (mode === 'handshake') afterInit();
+          // pre-init mode: initialize is NOT sent; this id never arrives — see below
+        } else if (m.id === 'hs-list') {
+          out.post_init_tools_list = m.error ? { error: m.error.code } : { tools: m.result && Array.isArray(m.result.tools) ? m.result.tools.length : 'no-parseable-result' };
+          if (mode === 'handshake' && out.post_init_unknown_tool !== undefined) finish();
+        } else if (m.id === 'hs-unk') {
+          out.post_init_unknown_tool = m.error ? { error: m.error.code } : classifyCallChannel(null, m);
+          if (mode === 'handshake' && out.post_init_tools_list !== undefined) finish();
+        } else if (m.id === 'pi-unk') {
+          // pre-init control answer
+          out.pre_init_unknown_tool = m.error ? { rejected: true, error: m.error.code, verdict: m.error.code === -32602 ? '-32602 (invalid-request style)' : m.error.code === -32002 ? '-32002 (not-initialized style)' : `error ${m.error.code}` }
+            : { rejected: false, verdict: 'served without initialize (lenient ordering OR stateless-native)' };
+          finish();
+        } else if (m.id === 'pi-list') {
+          out.pre_init_tools_list = m.error ? { error: m.error.code } : { tools: m.result && Array.isArray(m.result.tools) ? m.result.tools.length : 'no-parseable-result' };
+        }
+      }
+    });
+    child.on('exit', () => { if (!killed) { out.spawn = out.spawn || 'exited-early'; finish(); } });
+    if (mode === 'handshake') {
+      send({ jsonrpc: '2.0', id: 'hs-init', method: 'initialize', params: { protocolVersion: LATEST, capabilities: {}, clientInfo: META['io.modelcontextprotocol/clientInfo'] } });
+      // defensive: some servers answer nothing -> timeout finish
+    } else {
+      // pre-init control: same probes WITHOUT initialize
+      send({ jsonrpc: '2.0', id: 'pi-unk', method: 'tools/call', params: { name: UNKNOWN(), arguments: {}, _meta: META } });
+      send({ jsonrpc: '2.0', id: 'pi-list', method: 'tools/list', params: { _meta: META } });
+    }
+  });
+  return (async () => {
+    const a = await oneSpawn('handshake');
+    await SLEEP(50);
+    const b = await oneSpawn('preinit');
+    const pre = b.pre_init_unknown_tool;
+    const verdict = pre ? (pre.rejected === true ? 'yes' : pre.rejected === false ? 'no' : 'indeterminate') : (b.spawn ? 'indeterminate (spawn: ' + b.spawn + ')' : 'indeterminate (no answer)');
+    return { post_init_initialize: a.initialize, post_init_tools_list: a.post_init_tools_list, post_init_unknown_tool: a.post_init_unknown_tool, pre_init_unknown_tool: pre, pre_init_tools_list: b.pre_init_tools_list, rejects_pre_init: verdict };
+  })();
+}
+
 /** v0.8 stdio toolcheck: ONE spawn — server/discover, stateless tools/list @modern,
  *  unknown-tool call @modern. Same zero-execution rule as the HTTP path. */
 function toolcheckStdio(cmd, args) {
@@ -660,11 +740,11 @@ function toolcheckStdio(cmd, args) {
     const out = {};
     let buf = '';
     let killed = false; // true once WE intentionally kill (finish/timeout) — a child exit after that is not 'exited-early'
-    const timer = setTimeout(() => { killed = true; try { child.kill('SIGKILL'); } catch (_) {} }, 15000);
     const finish = () => { killed = true; clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} out.unknown_tool_name = UNKNOWN(); resolve(out); };
+    const timer = setTimeout(() => { out.timeout = true; finish(); }, 15000); // timeout must RESOLVE (run-216 regression lesson)
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.3' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -712,7 +792,7 @@ async function callToolHttp(url, headers, name, argsObj) {
     headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, 'Mcp-Method': 'tools/call', 'Mcp-Name': name },
     body: JSON.stringify({ jsonrpc: '2.0', id: 'tc-real', method: 'tools/call', params: { name, arguments: argsObj, _meta: {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.3' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
       'io.modelcontextprotocol/clientCapabilities': {},
     } } }),
     signal: ctrl.signal,
@@ -733,7 +813,7 @@ function callToolStdio(cmd, args, name, argsObj) {
     let buf = '';
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.3' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.0' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -856,7 +936,7 @@ function report(target, rows, strict, extra) {
   console.error(`VERDICT: ${verdict}`);
   const strictModern = extra && extra._strictModern;
   const restExtra = extra ? (({ discover, _strictModern, ...rest }) => rest)(extra) : {};
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.8.3', ...restExtra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.9.0', ...restExtra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
   if (strictModern && !modernOk) process.exit(1);
 }
@@ -992,6 +1072,11 @@ async function main() {
       toolcheck = await toolcheckStdio(cmd, args);
       await SLEEP(50);
     }
+    let handshake = null;
+    if (argv.includes('--handshake')) {
+      handshake = await handshakeControlStdio(cmd, args);
+      await SLEEP(50);
+    }
     let realCall = null;
     const cti = argv.indexOf('--call-tool');
     if (cti !== -1) {
@@ -1003,7 +1088,7 @@ async function main() {
       realCall = await callToolStdio(cmd, args, cname, cargs);
       await SLEEP(50);
     }
-    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(behavior ? { behavior } : {}), ...(toolcheck ? { toolcheck } : {}), ...(realCall ? { real_tool_call: realCall } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
+    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(behavior ? { behavior } : {}), ...(toolcheck ? { toolcheck } : {}), ...(handshake ? { handshake_control: handshake } : {}), ...(realCall ? { real_tool_call: realCall } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   }
 }
 main();

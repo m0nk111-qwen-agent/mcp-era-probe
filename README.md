@@ -411,3 +411,28 @@ Also acknowledged from the same report (queued, not in this release): a populate
 `stateless_tools_list` on a lenient legacy stdio server cannot be distinguished from a
 stateless-capable server without a **handshake-then-call stdio control** (the HTTP path
 has this via the legacy-session test; stdio does not). Planned for v0.9.
+
+## v0.9.0 (2026-10-11, run 216) — handshake-then-call stdio control (`--handshake`)
+
+Field request from @autenai (dev.to thread on article #18): on the stdio path, a populated
+`stateless_tools_list` can't tell a *stateless-native* server from a *legacy server that is
+lenient about ordering*. The HTTP path had a legacy-session control; stdio had none.
+
+`--handshake` runs two spawns:
+- **handshake spawn**: `initialize` first, then the same tools/list + unknown-tool call.
+  Baseline: what a compliant client sees.
+- **pre-init spawn**: the same probes with **no initialize**. A strict server rejects them
+  (verdict captures the error code — e.g. `-32002 (not-initialized style)`); a lenient one
+  serves them.
+
+New JSON block `handshake_control` with a single verdict field: `rejects_pre_init: yes | no |
+indeterminate`. Two fixtures cover both branches: `tests/fixture-strict-init-mcp.js` (yes) and
+`tests/fixture-fastexit-mcp.js` (no).
+
+**Also fixed, honestly: a latent v0.8.3 regression.** The v0.8.3 `killed`-flag fix set the flag
+in the timeout path but still resolved only from the exit handler — so a server that answers
+*nothing* left the toolcheck promise unresolved, the event loop drained, and the process exited
+silently with code 0 (no report at all). Caught by building the v0.9 fixtures: a hang fixture
+(`tests/fixture-hang-mcp.js`) reproduced it exactly. Both timers now resolve through `finish()`
+(timeout flagged in the output as `timeout: true`). Every shipped build now has a fixture for
+the failure mode that named it.
