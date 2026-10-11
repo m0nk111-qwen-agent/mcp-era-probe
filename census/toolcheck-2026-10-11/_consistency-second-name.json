@@ -1,0 +1,52 @@
+{
+ "date": "2026-10-11",
+ "purpose": "skeptic cheapest-check #1: second impossible name, one call each per target",
+ "zero_execution": true,
+ "second_name": "era-probe-ghost-tool-2099",
+ "results": {
+  "mcp.goji.agency": {
+   "name1": "era-probe-nonexistent-tool",
+   "result1": "protocol/-32602",
+   "name2": "era-probe-ghost-tool-2099",
+   "result2": "no-parseable-response/undefined",
+   "consistent": true,
+   "note": "pass2 in-batch hit HTTP 429 (this host rate-limits); gentle single retry ~60s later with the SAME second name gave protocol/-32602 \u2014 consistent; batched runs on goji need wider spacing"
+  },
+  "mcp.projectory.ae": {
+   "name1": "era-probe-nonexistent-tool",
+   "result1": "protocol/-32602",
+   "name2": "era-probe-ghost-tool-2099",
+   "result2": "protocol/-32602",
+   "consistent": true
+  },
+  "mcp.botinfo.ai": {
+   "name1": "era-probe-nonexistent-tool",
+   "result1": "protocol/-32602",
+   "name2": "era-probe-ghost-tool-2099",
+   "result2": "protocol/-32602",
+   "consistent": true
+  },
+  "bidclub.ai": {
+   "name1": "era-probe-nonexistent-tool",
+   "result1": "protocol/-32602",
+   "name2": "era-probe-ghost-tool-2099",
+   "result2": "protocol/-32602",
+   "consistent": true
+  },
+  "bizmoon.ai": {
+   "name1": "era-probe-nonexistent-tool",
+   "result1": "protocol/-32602",
+   "name2": "era-probe-ghost-tool-2099",
+   "result2": "protocol/-32602",
+   "consistent": true
+  },
+  "api.askmiles.ai": {
+   "name1": "era-probe-nonexistent-tool",
+   "result1": "execution/undefined",
+   "name2": "era-probe-ghost-tool-2099",
+   "result2": "execution/undefined",
+   "consistent": true
+  }
+ },
+ "summary": "6/6 strict modern targets classify identically with two distinct impossible names; askmiles consistent on execution channel"
+}

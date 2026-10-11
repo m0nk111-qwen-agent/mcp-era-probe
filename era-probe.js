@@ -529,6 +529,12 @@ function newestServed(served) {
 /* ---------- v0.8 tool-call channel checks ---------- */
 
 const UNKNOWN_TOOL = 'era-probe-nonexistent-tool'; // cannot exist on any server
+// --unknown-name NAME lets an operator re-run the channel probe with a different
+// impossible name (consistency check: two distinct impossible names must classify
+// identically — rules out name-specific caching/fluke answers). Same constraints:
+// the name must not exist on any target.
+let unknownToolOverride = null;
+function UNKNOWN() { return unknownToolOverride || UNKNOWN_TOOL; }
 
 /** classify a JSON-RPC response to a tools/call request: which channel did the
  *  answer take? protocol (JSON-RPC error) | execution (result.isError:true) |
@@ -590,7 +596,7 @@ async function toolcheckHttp(url, headers) {
   };
   const meta = {
     'io.modelcontextprotocol/protocolVersion': LATEST,
-    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.0' },
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.2' },
     'io.modelcontextprotocol/clientCapabilities': {},
   };
   const H = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers };
@@ -605,8 +611,8 @@ async function toolcheckHttp(url, headers) {
     //     Mcp-Name MUST mirror params.name on tools/call (2026-07-28 streamable-http,
     //     "Standard Request Headers" — REQUIRED for compliance; strict servers answer
     //     -32020 when the header and the body disagree).
-    const unk = await postRaw({ ...H, 'Mcp-Method': 'tools/call', 'Mcp-Name': UNKNOWN_TOOL },
-      { jsonrpc: '2.0', id: 'tc-unk', method: 'tools/call', params: { name: UNKNOWN_TOOL, arguments: {}, _meta: meta } });
+    const unk = await postRaw({ ...H, 'Mcp-Method': 'tools/call', 'Mcp-Name': UNKNOWN() },
+      { jsonrpc: '2.0', id: 'tc-unk', method: 'tools/call', params: { name: UNKNOWN(), arguments: {}, _meta: meta } });
     out.unknown_tool_modern = classifyCallChannel(unk.status, unk.msg);
     await SLEEP(120);
   } catch (e) {
@@ -615,7 +621,7 @@ async function toolcheckHttp(url, headers) {
   }
   // (3) legacy-route control: own session, same unknown tool, era 2025-11-25
   try {
-    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.8.0' } } };
+    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.8.2' } } };
     // the session id lives on the RESPONSE HEADERS — raw fetch, not postRaw:
     const ctrl = new AbortController();
     const killer = setTimeout(() => ctrl.abort(), 10000);
@@ -627,7 +633,7 @@ async function toolcheckHttp(url, headers) {
       out.unknown_tool_legacy = { verdict: 'no-session-granted (stateless or refused legacy handshake)' };
     } else {
       const lr = await postRaw({ ...H, 'MCP-Protocol-Version': '2025-11-25', 'Mcp-Session-Id': sessionId },
-        { jsonrpc: '2.0', id: 'tc-unk-legacy', method: 'tools/call', params: { name: UNKNOWN_TOOL, arguments: {} } });
+        { jsonrpc: '2.0', id: 'tc-unk-legacy', method: 'tools/call', params: { name: UNKNOWN(), arguments: {} } });
       out.unknown_tool_legacy = { ...classifyCallChannel(lr.status, lr.msg), route: 'initialize@2025-11-25 + Mcp-Session-Id' };
       // cleanup: close the session we opened
       try {
@@ -640,6 +646,7 @@ async function toolcheckHttp(url, headers) {
   } catch (e) {
     out.unknown_tool_legacy = { verdict: 'transport-error', message: String(e && e.message || e).slice(0, 100) };
   }
+  out.unknown_tool_name = UNKNOWN();
   return out;
 }
 
@@ -653,16 +660,16 @@ function toolcheckStdio(cmd, args) {
     const out = {};
     let buf = '';
     const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch (_) {} }, 15000);
-    const finish = () => { clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} resolve(out); };
+    const finish = () => { clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} out.unknown_tool_name = UNKNOWN(); resolve(out); };
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.0' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.2' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
     const next = (step) => {
       if (step === 'list') send({ jsonrpc: '2.0', id: 'tc-list', method: 'tools/list', params: { _meta: meta } });
-      else if (step === 'unk') send({ jsonrpc: '2.0', id: 'tc-unk', method: 'tools/call', params: { name: UNKNOWN_TOOL, arguments: {}, _meta: meta } });
+      else if (step === 'unk') send({ jsonrpc: '2.0', id: 'tc-unk', method: 'tools/call', params: { name: UNKNOWN(), arguments: {}, _meta: meta } });
       else finish();
     };
     child.on('error', () => { out.spawn = 'spawn-fail'; finish(); });
@@ -704,7 +711,7 @@ async function callToolHttp(url, headers, name, argsObj) {
     headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, 'Mcp-Method': 'tools/call', 'Mcp-Name': name },
     body: JSON.stringify({ jsonrpc: '2.0', id: 'tc-real', method: 'tools/call', params: { name, arguments: argsObj, _meta: {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.0' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.2' },
       'io.modelcontextprotocol/clientCapabilities': {},
     } } }),
     signal: ctrl.signal,
@@ -725,7 +732,7 @@ function callToolStdio(cmd, args, name, argsObj) {
     let buf = '';
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.0' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.2' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -848,7 +855,7 @@ function report(target, rows, strict, extra) {
   console.error(`VERDICT: ${verdict}`);
   const strictModern = extra && extra._strictModern;
   const restExtra = extra ? (({ discover, _strictModern, ...rest }) => rest)(extra) : {};
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.8.0', ...restExtra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.8.2', ...restExtra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
   if (strictModern && !modernOk) process.exit(1);
 }
@@ -913,6 +920,8 @@ async function main() {
       await SLEEP(50);
     }
     // v0.8: tool-call channel checks (zero-execution unless --call-tool given)
+    const uni = argv.indexOf('--unknown-name');
+    if (uni !== -1) unknownToolOverride = String(argv[uni + 1] || '').trim() || null;
     let toolcheck = null;
     if (argv.includes('--toolcheck')) {
       toolcheck = await toolcheckHttp(url, headers);
@@ -975,6 +984,8 @@ async function main() {
       await SLEEP(50);
     }
     // v0.8 stdio toolcheck + opt-in real call
+    const uni = argv.indexOf('--unknown-name');
+    if (uni !== -1) unknownToolOverride = String(argv[uni + 1] || '').trim() || null;
     let toolcheck = null;
     if (argv.includes('--toolcheck')) {
       toolcheck = await toolcheckStdio(cmd, args);

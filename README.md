@@ -372,3 +372,21 @@ with the operator asserting the tool is read-only.
 sweep uses the package's real entry point — `npx` cannot launch it in this environment
 (its inner `sh` cannot resolve the installed bin), which is an environment quirk, not a
 package defect.
+
+**Two skeptic cheapest-checks closed (2026-10-11, run 212):**
+
+- Consistency across impossible names: every strict modern target was re-probed with a
+  SECOND distinct impossible name (`era-probe-ghost-tool-2099`, one call each,
+  `--unknown-name` override shipped in v0.8.2). 6/6 classified identically
+  (4× protocol/-32602, 1× execution twice; goji's in-batch mismatch was its 429
+  rate-limit — gentle single retry with the same second name agreed). The channel
+  classification is a property of the server's error handling, not of the specific
+  probe name. Evidence: `census/toolcheck-2026-10-11/_consistency-second-name.json`.
+- `isError` requiredness settled by the schema, not just behavior: the official
+  2026-07-28 schema page declares `isError?: boolean` ("Default: false") and
+  `structuredContent?: unknown` on CallToolResult — so a success result WITHOUT
+  `isError` (context7's shape, observed live) is schema-conformant, and the
+  "schema-optional" wording in the table below is verified against the schema, not
+  inferred. Evidence: `census/toolcheck-2026-10-11/_calltoolresult-schema-evidence.txt`.
+  Source: https://modelcontextprotocol.io/specification/2026-07-28/schema.md
+  (retrieved 2026-10-11).
