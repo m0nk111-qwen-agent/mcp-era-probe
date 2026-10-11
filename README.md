@@ -329,32 +329,42 @@ with the operator asserting the tool is read-only.
 | mcp.aivonic.ai (legacy contrast) | — | — | execution (`isError:true`) |
 | mcp.autonomad.ai (legacy contrast) | — | — | execution ("not available on this connection") |
 
-**What this says:**
+**What this says (amended after an adversarial review, same day):**
 
-- The verified modern-era cohort answers an unknown tool exactly the way the spec's
-  Error Handling section shows: a JSON-RPC protocol error, `-32602` — **6/6 strict**.
-  The one lenient server (askmiles) puts the same condition in the *execution* channel,
-  and the three legacy hand-rolled servers all use result channels the spec's text
-  reserves for execution errors — worst case agentberg.ai, which answers a *successful*
-  result whose text says "Unknown tool". A client keying on `isError`/JSON-RPC errors
-  cannot distinguish "no such tool" from a real answer there. Small n, dated, but the
-  pattern is the inverse of what the era labels would suggest: the *newest* cohort is
-  the conformant one.
+- The verified modern-era cohort answers an unknown tool the way the spec's
+  Error Handling section shows: a JSON-RPC protocol error, `-32602` — 6/6 strict
+  targets. The one lenient server (askmiles) puts the same condition in the
+  *execution* channel, and the three legacy hand-rolled servers all use result
+  channels the spec's text reserves for execution errors — worst case agentberg.ai,
+  which answers a *successful* result whose text says "Unknown tool". A client keying
+  on `isError`/JSON-RPC errors cannot distinguish "no such tool" from a real answer
+  there. **Non-independence caveat:** the strict targets answered with identical error
+  codes *and* wording, and all sit behind edge proxies (Cloudflare ×5, Vercel, Railway);
+  the wording matches a shared SDK lineage — so this is evidence about ~1–2
+  implementations behind 8 domains, not 6 independent confirmations. The legacy
+  contrast cohort is hand-selected, not a random legacy sample. The driver looks like
+  **implementation lineage (SDK vs hand-rolled), not the era label itself** — askmiles
+  is a modern-era target and is the deviation case, so "newest = conformant" is *not*
+  the right headline and this note does not claim it.
 - **Header consistency is enforced where the spec requires it:** on `tools/call` the
   `Mcp-Name` header MUST mirror `params.name`
   ([2026-07-28 streamable-http](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http),
   "Standard Request Headers" — REQUIRED for compliance). The first sweep round shipped
   the client name in that header; all five strict-modern HTTP servers rejected it with
-  `-32020` ("request headers and body disagree") — correct behavior, probe bug. The
-  lenient server accepted the malformed header silently. This probe now sends the
-  spec-shaped header (v0.8.1).
+  `-32020` ("request headers and body disagree") — a code in the JSON-RPC
+  implementation-defined range (-32000…-32099), not one the spec assigns, and possibly
+  emitted by an edge/gateway layer before the application — but the *behavior* matches
+  the spec's REQUIRED header mirroring. The lenient server accepted the malformed
+  header silently. This probe now sends the spec-shaped header (v0.8.1).
 - **`resultType` on real results:** the one opt-in real call (context7
   `resolve-library-id`, a read-only docs lookup) returned `resultType: "complete"` on a
-  genuine result, omitted `isError` on success (schema-optional), and carried no
-  `structuredContent` — correct, since the tool declares no `outputSchema`. Whether the
-  5 outputSchema-declared tools on projectory.ae actually return `structuredContent`
-  is unverified: calling other people's tools for real is outside this probe's
-  zero-execution rule.
+  genuine result and omitted `isError` on success — a behavior consistent with the
+  spec's own success examples, though the CallToolResult schema's required-array was
+  not independently verified — and carried no `structuredContent`, correct since the
+  tool declares no `outputSchema`. It doubles as the known-good control the error-channel
+  calls lack. Whether the 5 outputSchema-declared tools on projectory.ae actually
+  return `structuredContent` is unverified: calling other people's tools for real is
+  outside this probe's zero-execution rule.
 - Legacy-route note: the three contrast servers answered the unknown-tool call inside
   the 2025-11-25 session the probe opened (and the probe closed it again).
 
