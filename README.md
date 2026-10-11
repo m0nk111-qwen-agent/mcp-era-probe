@@ -293,3 +293,72 @@ responses), newest-first ordering, session cleanup, HTTP status reporting. v0.1
 (2026-10-10): stdio probing. Single file, no dependencies, MIT.
 Built by [Pennyforge](https://pennyforge.org) — a one-person studio that builds small, verifiable tools.
 Found a wrong verdict? Open an issue.
+
+## v0.8 — the tool-call channel check (`--toolcheck`, 2026-10-11)
+
+The era matrix says *which* protocol revision a server negotiates; the toolcheck asks
+the next question: when a tool call goes wrong, **which error channel does the answer
+take?** The specs are explicit that the two channels are different things
+([2026-07-28 server/tools](https://modelcontextprotocol.io/specification/2026-07-28/server/tools),
+"Error Handling", fetched 2026-10-11): **protocol errors** — *unknown tool, malformed
+request, server errors* — are standard JSON-RPC errors (the spec's own example is
+`-32602 "Unknown tool: invalid_tool_name"`); **tool execution errors** are *results*
+with `isError: true`. The same split exists in
+[2025-11-25](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) and
+[2025-06-18](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+`structuredContent`/`outputSchema` also exist in all three eras.
+
+**Zero-execution by design:** the default probe makes exactly one `tools/call`, and it
+targets a tool name that cannot exist (`era-probe-nonexistent-tool`) — nothing on the
+server can run. A real execution is opt-in only (`--call-tool NAME --call-args JSON`),
+with the operator asserting the tool is read-only.
+
+**Results (2026-10-11, `census/toolcheck-2026-10-11/`, 8 modern-era targets + 3 legacy contrast):**
+
+| target (class) | tools/list @2026-07-28 | unknown tool, modern route | unknown tool, legacy route |
+|---|---|---|---|
+| mcp.projectory.ae (strict) | 5 tools, **5 declare outputSchema** | protocol `-32602` | — (no legacy session) |
+| mcp.goji.agency (strict) | 9 tools | protocol `-32602` | — |
+| mcp.botinfo.ai (strict) | 4 tools | protocol `-32602` | — |
+| bidclub.ai (strict) | 6 tools | protocol `-32602` | — |
+| bizmoon.ai (strict) | 5 tools | protocol `-32602` | — |
+| mcp.getle.ad (dual-era) | 35 tools | HTTP 401 (auth-gated calls; list is public) | — |
+| api.askmiles.ai (lenient) | 5 tools | **execution** (`isError:true`, `resultType:complete`) | — |
+| @upstash/context7-mcp@4.3.0 (stdio, strictest) | 2 tools | protocol `-32602` | — |
+| agentberg.ai (legacy contrast, max 2025-11-25) | — (stateless route 400) | — | **result, `isError` false** ("Unknown tool" as text in a *successful* result) |
+| mcp.aivonic.ai (legacy contrast) | — | — | execution (`isError:true`) |
+| mcp.autonomad.ai (legacy contrast) | — | — | execution ("not available on this connection") |
+
+**What this says:**
+
+- The verified modern-era cohort answers an unknown tool exactly the way the spec's
+  Error Handling section shows: a JSON-RPC protocol error, `-32602` — **6/6 strict**.
+  The one lenient server (askmiles) puts the same condition in the *execution* channel,
+  and the three legacy hand-rolled servers all use result channels the spec's text
+  reserves for execution errors — worst case agentberg.ai, which answers a *successful*
+  result whose text says "Unknown tool". A client keying on `isError`/JSON-RPC errors
+  cannot distinguish "no such tool" from a real answer there. Small n, dated, but the
+  pattern is the inverse of what the era labels would suggest: the *newest* cohort is
+  the conformant one.
+- **Header consistency is enforced where the spec requires it:** on `tools/call` the
+  `Mcp-Name` header MUST mirror `params.name`
+  ([2026-07-28 streamable-http](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http),
+  "Standard Request Headers" — REQUIRED for compliance). The first sweep round shipped
+  the client name in that header; all five strict-modern HTTP servers rejected it with
+  `-32020` ("request headers and body disagree") — correct behavior, probe bug. The
+  lenient server accepted the malformed header silently. This probe now sends the
+  spec-shaped header (v0.8.1).
+- **`resultType` on real results:** the one opt-in real call (context7
+  `resolve-library-id`, a read-only docs lookup) returned `resultType: "complete"` on a
+  genuine result, omitted `isError` on success (schema-optional), and carried no
+  `structuredContent` — correct, since the tool declares no `outputSchema`. Whether the
+  5 outputSchema-declared tools on projectory.ae actually return `structuredContent`
+  is unverified: calling other people's tools for real is outside this probe's
+  zero-execution rule.
+- Legacy-route note: the three contrast servers answered the unknown-tool call inside
+  the 2025-11-25 session the probe opened (and the probe closed it again).
+
+**Probe fixes shipped while sweeping (same day):** v0.8.1 header fix above; stdio
+sweep uses the package's real entry point — `npx` cannot launch it in this environment
+(its inner `sh` cannot resolve the installed bin), which is an environment quirk, not a
+package defect.

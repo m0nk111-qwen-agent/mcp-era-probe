@@ -1,0 +1,182 @@
+{
+ "target": "https://mcp.botinfo.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "4 tool(s) listed",
+   "ms": 449,
+   "serverInfo": {
+    "name": "BotInfo — Advanced Robot Market Data",
+    "version": "0.2.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "4 tool(s) listed",
+   "ms": 219,
+   "serverInfo": {
+    "name": "BotInfo — Advanced Robot Market Data",
+    "version": "0.2.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "4 tool(s) listed",
+   "ms": 235,
+   "serverInfo": {
+    "name": "BotInfo — Advanced Robot Market Data",
+    "version": "0.2.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "4 tool(s) listed",
+   "ms": 216,
+   "serverInfo": {
+    "name": "BotInfo — Advanced Robot Market Data",
+    "version": "0.2.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2026-07-28"
+  ],
+  "serverInfo": {
+   "name": "BotInfo — Advanced Robot Market Data",
+   "version": "0.2.0"
+  },
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) — implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-11T02:40:00.305Z",
+ "tool": "mcp-era-probe/0.8.0",
+ "transport": "streamable-http",
+ "toolcheck": {
+  "stateless_tools_list": {
+   "tools": 4,
+   "resultType": "complete",
+   "outputSchema_declared": 0,
+   "outputSchema_names": [],
+   "inputSchema_with_required": 4,
+   "sample_names": [
+    "lookup_robot",
+    "check_us_legality",
+    "get_buy_route",
+    "request_quote"
+   ],
+   "tool_schemas": [
+    {
+     "name": "lookup_robot",
+     "required": [
+      "query"
+     ],
+     "properties": [
+      "query",
+      "max_results"
+     ]
+    },
+    {
+     "name": "check_us_legality",
+     "required": [
+      "model"
+     ],
+     "properties": [
+      "model"
+     ]
+    },
+    {
+     "name": "get_buy_route",
+     "required": [
+      "model"
+     ],
+     "properties": [
+      "model",
+      "country"
+     ]
+    },
+    {
+     "name": "request_quote",
+     "required": [
+      "model",
+      "name",
+      "email",
+      "organization",
+      "use_case"
+     ],
+     "properties": [
+      "model",
+      "name",
+      "email",
+      "organization",
+      "use_case",
+      "country"
+     ]
+    }
+   ]
+  },
+  "unknown_tool_modern": {
+   "channel": "protocol",
+   "code": -32602,
+   "message": "Tool era-probe-nonexistent-tool not found"
+  },
+  "unknown_tool_legacy": {
+   "verdict": "no-session-granted (stateless or refused legacy handshake)"
+  }
+ }
+}

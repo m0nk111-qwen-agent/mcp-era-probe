@@ -1,0 +1,193 @@
+{
+ "target": "https://mcp.autonomad.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "9 tool(s) listed",
+   "ms": 325,
+   "serverInfo": {
+    "name": "autonomad-travel",
+    "version": "1.4.0",
+    "title": "Autonomad Travel",
+    "description": "The agentic social travel platform, in Claude — search live flights (Duffel), hotels (LiteAPI + direct), Viator activities, and Ticketmaster/Bandsintown events, then complete the booking on autonomad.ai. Once signed in, ask Autonomad anything and get an instant answer (message_autonomad), and see what changed on your trips since you last checked (get_updates). Signing up is free.",
+    "websiteUrl": "https://www.autonomad.ai",
+    "icons": [
+     {
+      "src": "https://www.autonomad.ai/icon-192.png",
+      "sizes": [
+       "192x192"
+      ],
+      "mimeType": "image/png"
+     },
+     {
+      "src": "https://www.autonomad.ai/icon-512.png",
+      "sizes": [
+       "512x512"
+      ],
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {}
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "9 tool(s) listed",
+   "ms": 404,
+   "serverInfo": {
+    "name": "autonomad-travel",
+    "version": "1.4.0",
+    "title": "Autonomad Travel",
+    "description": "The agentic social travel platform, in Claude — search live flights (Duffel), hotels (LiteAPI + direct), Viator activities, and Ticketmaster/Bandsintown events, then complete the booking on autonomad.ai. Once signed in, ask Autonomad anything and get an instant answer (message_autonomad), and see what changed on your trips since you last checked (get_updates). Signing up is free.",
+    "websiteUrl": "https://www.autonomad.ai",
+    "icons": [
+     {
+      "src": "https://www.autonomad.ai/icon-192.png",
+      "sizes": [
+       "192x192"
+      ],
+      "mimeType": "image/png"
+     },
+     {
+      "src": "https://www.autonomad.ai/icon-512.png",
+      "sizes": [
+       "512x512"
+      ],
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {}
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "9 tool(s) listed",
+   "ms": 202,
+   "serverInfo": {
+    "name": "autonomad-travel",
+    "version": "1.4.0",
+    "title": "Autonomad Travel",
+    "description": "The agentic social travel platform, in Claude — search live flights (Duffel), hotels (LiteAPI + direct), Viator activities, and Ticketmaster/Bandsintown events, then complete the booking on autonomad.ai. Once signed in, ask Autonomad anything and get an instant answer (message_autonomad), and see what changed on your trips since you last checked (get_updates). Signing up is free.",
+    "websiteUrl": "https://www.autonomad.ai",
+    "icons": [
+     {
+      "src": "https://www.autonomad.ai/icon-192.png",
+      "sizes": [
+       "192x192"
+      ],
+      "mimeType": "image/png"
+     },
+     {
+      "src": "https://www.autonomad.ai/icon-512.png",
+      "sizes": [
+       "512x512"
+      ],
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {}
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "9 tool(s) listed",
+   "ms": 192,
+   "serverInfo": {
+    "name": "autonomad-travel",
+    "version": "1.4.0",
+    "title": "Autonomad Travel",
+    "description": "The agentic social travel platform, in Claude — search live flights (Duffel), hotels (LiteAPI + direct), Viator activities, and Ticketmaster/Bandsintown events, then complete the booking on autonomad.ai. Once signed in, ask Autonomad anything and get an instant answer (message_autonomad), and see what changed on your trips since you last checked (get_updates). Signing up is free.",
+    "websiteUrl": "https://www.autonomad.ai",
+    "icons": [
+     {
+      "src": "https://www.autonomad.ai/icon-192.png",
+      "sizes": [
+       "192x192"
+      ],
+      "mimeType": "image/png"
+     },
+     {
+      "src": "https://www.autonomad.ai/icon-512.png",
+      "sizes": [
+       "512x512"
+      ],
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {},
+    "resources": {}
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "error",
+  "error": -32000,
+  "message": "Bad Request: No valid session ID provided. Send an initialize request first.",
+  "http_status": 400
+ },
+ "verdict": "serves 2025-11-25 only — a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+ "probed_at": "2026-10-11T02:37:07.572Z",
+ "tool": "mcp-era-probe/0.8.0",
+ "transport": "streamable-http",
+ "toolcheck": {
+  "stateless_tools_list": {
+   "http_status": 400,
+   "verdict": "HTTP 400"
+  },
+  "unknown_tool_modern": {
+   "channel": "protocol",
+   "code": -32000,
+   "message": "Bad Request: No valid session ID provided. Send an initialize request first."
+  },
+  "unknown_tool_legacy": {
+   "channel": "execution",
+   "content_preview": "[{\"type\":\"text\",\"text\":\"Error: era-probe-nonexistent-tool is not available on this connection.\"}]",
+   "route": "initialize@2025-11-25 + Mcp-Session-Id"
+  }
+ }
+}

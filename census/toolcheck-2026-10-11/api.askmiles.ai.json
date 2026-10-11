@@ -1,0 +1,231 @@
+{
+ "target": "https://api.askmiles.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "5 tool(s) listed",
+   "ms": 567,
+   "serverInfo": {
+    "name": "askmiles-catalog",
+    "title": "Miles Catalog",
+    "version": "1.0.0",
+    "websiteUrl": "https://askmiles.ai",
+    "icons": [
+     {
+      "src": "https://askmiles.ai/static/images/mcp-icon-256.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "256x256"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "5 tool(s) listed",
+   "ms": 424,
+   "serverInfo": {
+    "name": "askmiles-catalog",
+    "title": "Miles Catalog",
+    "version": "1.0.0",
+    "websiteUrl": "https://askmiles.ai",
+    "icons": [
+     {
+      "src": "https://askmiles.ai/static/images/mcp-icon-256.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "256x256"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "5 tool(s) listed",
+   "ms": 393,
+   "serverInfo": {
+    "name": "askmiles-catalog",
+    "title": "Miles Catalog",
+    "version": "1.0.0",
+    "websiteUrl": "https://askmiles.ai",
+    "icons": [
+     {
+      "src": "https://askmiles.ai/static/images/mcp-icon-256.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "256x256"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "application/json",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "5 tool(s) listed",
+   "ms": 418,
+   "serverInfo": {
+    "name": "askmiles-catalog",
+    "title": "Miles Catalog",
+    "version": "1.0.0",
+    "websiteUrl": "https://askmiles.ai",
+    "icons": [
+     {
+      "src": "https://askmiles.ai/static/images/mcp-icon-256.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "256x256"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2024-11-05",
+   "2025-03-26",
+   "2025-06-18",
+   "2025-11-25",
+   "2026-07-28"
+  ],
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) — implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-11T02:40:20.614Z",
+ "tool": "mcp-era-probe/0.8.0",
+ "transport": "streamable-http",
+ "toolcheck": {
+  "stateless_tools_list": {
+   "tools": 5,
+   "resultType": "complete",
+   "outputSchema_declared": 0,
+   "outputSchema_names": [],
+   "inputSchema_with_required": 2,
+   "sample_names": [
+    "search_card_catalog",
+    "get_card_facts",
+    "compare_card_facts",
+    "find_transfer_routes",
+    "estimate_point_value"
+   ],
+   "tool_schemas": [
+    {
+     "name": "search_card_catalog",
+     "required": [],
+     "properties": [
+      "issuer",
+      "card_type",
+      "network",
+      "max_annual_fee",
+      "no_foreign_transaction_fee",
+      "rewards_currency",
+      "benefit",
+      "has_lounge_access"
+     ]
+    },
+    {
+     "name": "get_card_facts",
+     "required": [
+      "card_name"
+     ],
+     "properties": [
+      "card_name"
+     ]
+    },
+    {
+     "name": "compare_card_facts",
+     "required": [
+      "card_names"
+     ],
+     "properties": [
+      "card_names"
+     ]
+    },
+    {
+     "name": "find_transfer_routes",
+     "required": [],
+     "properties": [
+      "from_program",
+      "to_program",
+      "only_with_bonus",
+      "include_inactive",
+      "limit"
+     ]
+    },
+    {
+     "name": "estimate_point_value",
+     "required": [],
+     "properties": [
+      "program",
+      "points"
+     ]
+    }
+   ]
+  },
+  "unknown_tool_modern": {
+   "channel": "execution",
+   "resultType": "complete",
+   "content_preview": "[{\"type\":\"text\",\"text\":\"Unknown tool: era-probe-nonexistent-tool. This server offers search_card_catalog, get_card_facts, compare_card_facts, find_transfer_routes, estimate_point_value. Wallet-specifi"
+  },
+  "unknown_tool_legacy": {
+   "verdict": "no-session-granted (stateless or refused legacy handshake)"
+  }
+ }
+}

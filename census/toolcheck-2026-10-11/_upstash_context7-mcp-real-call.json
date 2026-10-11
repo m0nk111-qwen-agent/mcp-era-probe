@@ -1,0 +1,174 @@
+{
+ "target": "node /tmp/c7/node_modules/@upstash/context7-mcp/dist/index.js",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "2 tool(s) listed",
+   "serverInfo": {
+    "name": "Context7",
+    "version": "4.3.0",
+    "websiteUrl": "https://context7.com",
+    "description": "Context7 provides up-to-date documentation and code examples for libraries and frameworks.",
+    "icons": [
+     {
+      "src": "https://context7.com/context7-icon-green.png",
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "2 tool(s) listed",
+   "serverInfo": {
+    "name": "Context7",
+    "version": "4.3.0",
+    "websiteUrl": "https://context7.com",
+    "description": "Context7 provides up-to-date documentation and code examples for libraries and frameworks.",
+    "icons": [
+     {
+      "src": "https://context7.com/context7-icon-green.png",
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "2 tool(s) listed",
+   "serverInfo": {
+    "name": "Context7",
+    "version": "4.3.0",
+    "websiteUrl": "https://context7.com",
+    "description": "Context7 provides up-to-date documentation and code examples for libraries and frameworks.",
+    "icons": [
+     {
+      "src": "https://context7.com/context7-icon-green.png",
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "2 tool(s) listed",
+   "serverInfo": {
+    "name": "Context7",
+    "version": "4.3.0",
+    "websiteUrl": "https://context7.com",
+    "description": "Context7 provides up-to-date documentation and code examples for libraries and frameworks.",
+    "icons": [
+     {
+      "src": "https://context7.com/context7-icon-green.png",
+      "mimeType": "image/png"
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": false
+    },
+    "prompts": {
+     "listChanged": false
+    },
+    "resources": {
+     "listChanged": false,
+     "subscribe": false
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+ "probed_at": "2026-10-11T02:47:14.997Z",
+ "tool": "mcp-era-probe/0.8.0",
+ "transport": "stdio",
+ "real_tool_call": {
+  "target": "node /tmp/c7/node_modules/@upstash/context7-mcp/dist/index.js",
+  "tool": "resolve-library-id",
+  "channel": "result-no-iserror",
+  "resultType": "complete",
+  "content_preview": "[{\"type\":\"text\",\"text\":\"Available Libraries:\\n\\n- Title: React\\n- Context7-compatible library ID: /reactjs/react.dev\\n- Description: React.dev is the official documentation website for React, a JavaSc",
+  "raw_result": {
+   "content": [
+    {
+     "type": "text",
+     "text": "Available Libraries:\n\n- Title: React\n- Context7-compatible library ID: /reactjs/react.dev\n- Description: React.dev is the official documentation website for React, a JavaScript library for building user interfaces, providing guides, API references, and tutorials.\n- Code Snippets: 4342\n- Source Reputation: High\n- Benchmark Score: 90.1\n- Versions: __branch__v18\n----------\n- Title: React\n- Context7-compatible library ID: /react/react\n- Description: React is a JavaScript library for building user interfaces.\n- Code Snippets: 5317\n- Source Reputation: High\n- Benchmark Score: 70.62\n- Versions: v19.2.7, v18.2.0, v19.2.8\n----------\n- Title: React\n- Context7-compatible library ID: /websites/react_dev_reference\n- Description: React is a JavaScript library for building user interfaces with reusable components, hooks, and APIs for managing state and side effects.\n- Code Snippets: 2673\n- Source Reputation: High\n- Benchmark Score: 90.65\n----------\n- Title: React\n- Context7-compatible library ID: /websites/react_dev\n- Description: React is a JavaScript library for building user interfaces. It allows developers to create interactive web and native applications using reusable components, enabling efficient and scalable UI development.\n- Code Snippets: 4980\n- Source Reputation: High\n- Benchmark Score: 86.12\n----------\n- Title: React\n- Context7-compatible library ID: /websites/es_react_dev_reference\n- Description: React is a JavaScript library for building user interfaces with reusable components, hooks, and APIs for creating interactive web applications.\n- Code Snippets: 1286\n- Source Reputation: High\n- Benchmark Score: 82.93"
+    }
+   ],
+   "resultType": "complete",
+   "_meta": {
+    "io.modelcontextprotocol/serverInfo": {
+     "name": "Context7",
+     "version": "4.3.0",
+     "websiteUrl": "https://context7.com",
+     "description": "Context7 provides up-to-date documentation and code examples for libraries and frameworks.",
+     "icons": [
+      {
+       "src": "https://context7.com/context7-icon-green.png",
+       "mimeType": "image/png"
+      }
+     ]
+    }
+   }
+  }
+ },
+ "note": "OPT-IN real call, ONE execution, read-only docs lookup (resolve-library-id: query=react hooks, libraryName=react); result truncated to content preview"
+}

@@ -1,0 +1,125 @@
+{
+ "target": "https://agentberg.ai/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "11 tool(s) listed",
+   "ms": 766,
+   "serverInfo": {
+    "name": "agentberg",
+    "version": "1.30.0"
+   },
+   "capabilities": {
+    "experimental": {},
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "11 tool(s) listed",
+   "ms": 861,
+   "serverInfo": {
+    "name": "agentberg",
+    "version": "1.30.0"
+   },
+   "capabilities": {
+    "experimental": {},
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "11 tool(s) listed",
+   "ms": 621,
+   "serverInfo": {
+    "name": "agentberg",
+    "version": "1.30.0"
+   },
+   "capabilities": {
+    "experimental": {},
+    "tools": {
+     "listChanged": false
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "granted",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "11 tool(s) listed",
+   "ms": 619,
+   "serverInfo": {
+    "name": "agentberg",
+    "version": "1.30.0"
+   },
+   "capabilities": {
+    "experimental": {},
+    "tools": {
+     "listChanged": false
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "error",
+  "error": -32600,
+  "message": "Bad Request: Missing session ID",
+  "http_status": 400
+ },
+ "verdict": "serves 2025-11-25 only — a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+ "probed_at": "2026-10-11T02:37:04.107Z",
+ "tool": "mcp-era-probe/0.8.0",
+ "transport": "streamable-http",
+ "toolcheck": {
+  "stateless_tools_list": {
+   "http_status": 400,
+   "verdict": "HTTP 400"
+  },
+  "unknown_tool_modern": {
+   "channel": "protocol",
+   "code": -32600,
+   "message": "Bad Request: Missing session ID"
+  },
+  "unknown_tool_legacy": {
+   "channel": "result-iserror-false",
+   "content_preview": "[{\"type\":\"text\",\"text\":\"Unknown tool: era-probe-nonexistent-tool\"}]",
+   "route": "initialize@2025-11-25 + Mcp-Session-Id"
+  }
+ }
+}

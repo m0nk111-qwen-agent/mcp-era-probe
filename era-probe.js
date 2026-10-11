@@ -38,7 +38,23 @@
  * verbatim" then proves nothing, and the verdict says so (blind echo).
  * Exit 0 always (probe succeeded); use --strict to exit 1 when the server does not
  * genuinely serve the 2026-07-28 era (blind echo counts as NOT served) — useful as a
- * CI check for "this server is era-current". No dependencies; HTTP mode needs Node >= 18. */
+ * CI check for "this server is era-current". No dependencies; HTTP mode needs Node >= 18.
+ *
+ * v0.8 — --toolcheck: era-gated TOOL-CALL channel checks, zero-execution by default:
+ *   (1) stateless tools/list @2026-07-28 -> outputSchema/structured-output declaration
+ *       coverage + inputSchema.required stats;
+ *   (2) tools/call for a tool name that CANNOT exist ('era-probe-nonexistent-tool') ->
+ *       which channel the error takes. Spec basis (fetched 2026-10-11 from
+ *       modelcontextprotocol.io/specification/<era>/server/tools): protocol errors —
+ *       unknown tool, malformed request, server errors — are standard JSON-RPC errors
+ *       (spec example: -32602 "Unknown tool"); tool execution errors are results with
+ *       isError:true. The same split exists in 2025-11-25 and 2025-06-18. resultType
+ *       (MRTR pattern, 2026-07-28) is recorded as an observation only.
+ *   (3) legacy-route control: initialize @2025-11-25 -> in-session tools/call of the
+ *       same nonexistent tool — does ONE server classify the same error the same way
+ *       across eras?
+ *   A REAL tool execution is opt-in only (--call-tool NAME [--call-args JSON]); the
+ *   operator asserts the target tool is read-only. Nothing else ever invokes a tool. */
 'use strict';
 const { spawn } = require('child_process');
 
@@ -510,6 +526,231 @@ function newestServed(served) {
   return ERAS_OLDEST_FIRST.filter((e) => served.includes(e)).pop();
 }
 
+/* ---------- v0.8 tool-call channel checks ---------- */
+
+const UNKNOWN_TOOL = 'era-probe-nonexistent-tool'; // cannot exist on any server
+
+/** classify a JSON-RPC response to a tools/call request: which channel did the
+ *  answer take? protocol (JSON-RPC error) | execution (result.isError:true) |
+ *  result-no-iserror (a "successful" result — for an unknown tool that is its own
+ *  finding) | no-parseable-response. resultType/structuredContent recorded as
+ *  observations only. */
+function classifyCallChannel(status, msg) {
+  if (msg && msg.error) {
+    return { channel: 'protocol', code: msg.error.code, message: String(msg.error.message || '').slice(0, 140) };
+  }
+  if (msg && msg.result) {
+    const r = msg.result;
+    const channel = r.isError === true ? 'execution' : (r.isError === false ? 'result-iserror-false' : 'result-no-iserror');
+    return {
+      channel,
+      resultType: r.resultType || undefined,
+      has_structuredContent: Object.prototype.hasOwnProperty.call(r, 'structuredContent') || undefined,
+      content_preview: Array.isArray(r.content) ? JSON.stringify(r.content).slice(0, 200) : undefined,
+    };
+  }
+  return { channel: 'no-parseable-response', http_status: status };
+}
+
+/** tools/list coverage stats: structured-output declarations + required-arg shape */
+function listCoverage(msg) {
+  if (!msg || !msg.result || !Array.isArray(msg.result.tools)) {
+    return { error: (msg && msg.error && msg.error.code) || 'no-tools-array', message: msg && msg.error ? String(msg.error.message).slice(0, 100) : undefined };
+  }
+  const tools = msg.result.tools;
+  const withOut = tools.filter((t) => t.outputSchema);
+  const withReq = tools.filter((t) => t.inputSchema && Array.isArray(t.inputSchema.required) && t.inputSchema.required.length);
+  return {
+    tools: tools.length,
+    resultType: msg.result.resultType || '(absent — observation, not compliance)',
+    outputSchema_declared: withOut.length,
+    outputSchema_names: withOut.map((t) => t.name).slice(0, 10),
+    inputSchema_with_required: withReq.length,
+    sample_names: tools.map((t) => t.name).slice(0, 8),
+    tool_schemas: tools.slice(0, 12).map((t) => ({
+      name: t.name,
+      required: (t.inputSchema && Array.isArray(t.inputSchema.required)) ? t.inputSchema.required : [],
+      properties: (t.inputSchema && t.inputSchema.properties) ? Object.keys(t.inputSchema.properties).slice(0, 8) : [],
+    })),
+  };
+}
+
+/** v0.8 HTTP toolcheck — modern-era stateless route + legacy-route control.
+ *  Zero-execution: the only tools/call targets a tool name that cannot exist.
+ *  The legacy route opens its OWN session (initialize @2025-11-25) and closes it. */
+async function toolcheckHttp(url, headers) {
+  const postRaw = async (hdrs, body) => {
+    const ctrl = new AbortController();
+    const killer = setTimeout(() => ctrl.abort(), 10000);
+    const res = await fetch(url, { method: 'POST', headers: hdrs, body: JSON.stringify(body), signal: ctrl.signal });
+    const raw = await res.text();
+    clearTimeout(killer);
+    const parsed = responseFromBody(raw);
+    return { status: res.status, msg: parsed && parsed.msg };
+  };
+  const meta = {
+    'io.modelcontextprotocol/protocolVersion': LATEST,
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.0' },
+    'io.modelcontextprotocol/clientCapabilities': {},
+  };
+  const H = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers };
+  const out = {};
+  // (1) coverage via stateless tools/list @2026-07-28
+  try {
+    const list = await postRaw({ ...H, 'Mcp-Method': 'tools/list', 'Mcp-Name': 'mcp-era-probe' },
+      { jsonrpc: '2.0', id: 'tc-list', method: 'tools/list', params: { _meta: meta } });
+    out.stateless_tools_list = list.status >= 400 ? { http_status: list.status, verdict: `HTTP ${list.status}` } : listCoverage(list.msg);
+    await SLEEP(120);
+    // (2) unknown-tool call on the modern route — the zero-execution error-channel probe
+    //     Mcp-Name MUST mirror params.name on tools/call (2026-07-28 streamable-http,
+    //     "Standard Request Headers" — REQUIRED for compliance; strict servers answer
+    //     -32020 when the header and the body disagree).
+    const unk = await postRaw({ ...H, 'Mcp-Method': 'tools/call', 'Mcp-Name': UNKNOWN_TOOL },
+      { jsonrpc: '2.0', id: 'tc-unk', method: 'tools/call', params: { name: UNKNOWN_TOOL, arguments: {}, _meta: meta } });
+    out.unknown_tool_modern = classifyCallChannel(unk.status, unk.msg);
+    await SLEEP(120);
+  } catch (e) {
+    out.stateless_tools_list = out.stateless_tools_list || { verdict: 'transport-error', message: String(e && e.message || e).slice(0, 100) };
+    return out;
+  }
+  // (3) legacy-route control: own session, same unknown tool, era 2025-11-25
+  try {
+    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.8.0' } } };
+    // the session id lives on the RESPONSE HEADERS — raw fetch, not postRaw:
+    const ctrl = new AbortController();
+    const killer = setTimeout(() => ctrl.abort(), 10000);
+    const res = await fetch(url, { method: 'POST', headers: H, body: JSON.stringify(init), signal: ctrl.signal });
+    await res.text();
+    clearTimeout(killer);
+    const sessionId = res.headers.get('mcp-session-id');
+    if (!sessionId) {
+      out.unknown_tool_legacy = { verdict: 'no-session-granted (stateless or refused legacy handshake)' };
+    } else {
+      const lr = await postRaw({ ...H, 'MCP-Protocol-Version': '2025-11-25', 'Mcp-Session-Id': sessionId },
+        { jsonrpc: '2.0', id: 'tc-unk-legacy', method: 'tools/call', params: { name: UNKNOWN_TOOL, arguments: {} } });
+      out.unknown_tool_legacy = { ...classifyCallChannel(lr.status, lr.msg), route: 'initialize@2025-11-25 + Mcp-Session-Id' };
+      // cleanup: close the session we opened
+      try {
+        const c2 = new AbortController();
+        const k2 = setTimeout(() => c2.abort(), 4000);
+        await fetch(url, { method: 'DELETE', headers: { ...H, 'Mcp-Session-Id': sessionId }, signal: c2.signal });
+        clearTimeout(k2);
+      } catch (_) { /* best effort */ }
+    }
+  } catch (e) {
+    out.unknown_tool_legacy = { verdict: 'transport-error', message: String(e && e.message || e).slice(0, 100) };
+  }
+  return out;
+}
+
+/** v0.8 stdio toolcheck: ONE spawn — server/discover, stateless tools/list @modern,
+ *  unknown-tool call @modern. Same zero-execution rule as the HTTP path. */
+function toolcheckStdio(cmd, args) {
+  return new Promise((resolve) => {
+    let child;
+    try { child = spawn(cmd, args, { stdio: ['pipe', 'pipe', 'pipe'] }); }
+    catch (e) { resolve({ spawn: 'spawn-fail', message: String(e && e.message || e) }); return; }
+    const out = {};
+    let buf = '';
+    const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch (_) {} }, 15000);
+    const finish = () => { clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} resolve(out); };
+    const meta = {
+      'io.modelcontextprotocol/protocolVersion': LATEST,
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.0' },
+      'io.modelcontextprotocol/clientCapabilities': {},
+    };
+    const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
+    const next = (step) => {
+      if (step === 'list') send({ jsonrpc: '2.0', id: 'tc-list', method: 'tools/list', params: { _meta: meta } });
+      else if (step === 'unk') send({ jsonrpc: '2.0', id: 'tc-unk', method: 'tools/call', params: { name: UNKNOWN_TOOL, arguments: {}, _meta: meta } });
+      else finish();
+    };
+    child.on('error', () => { out.spawn = 'spawn-fail'; finish(); });
+    child.stderr.on('data', () => {});
+    child.stdout.on('data', (d) => {
+      buf += d.toString();
+      let idx;
+      while ((idx = buf.indexOf('\n')) !== -1) {
+        const line = buf.slice(0, idx).trim(); buf = buf.slice(idx + 1);
+        if (!line) continue;
+        let m; try { m = JSON.parse(line); } catch (_) { continue; }
+        if (m.id === 'discover-1') {
+          out.discover = m.error ? (m.error.code === -32601 ? 'method-not-found (legacy)' : `error ${m.error.code}`)
+            : (m.result && Array.isArray(m.result.supportedVersions) && m.result.supportedVersions.length ? `ok — ${m.result.supportedVersions.join(', ')}` : 'discover-shaped, no supportedVersions');
+          next('list');
+        } else if (m.id === 'tc-list') {
+          out.stateless_tools_list = m.error ? { error: m.error.code } : listCoverage(m);
+          next('unk');
+        } else if (m.id === 'tc-unk') {
+          out.unknown_tool_modern = classifyCallChannel(null, m);
+          next('done');
+        }
+      }
+    });
+    child.on('exit', () => { out.spawn = out.spawn || 'exited-early'; finish(); });
+    send(discoverRequest('discover-1'));
+  });
+}
+
+/** v0.8 OPT-IN real execution (--call-tool NAME --call-args JSON). The operator
+ *  asserts the tool is read-only; the probe makes exactly ONE call and reports the
+ *  raw channel classification (isError / structuredContent / resultType). */
+async function callToolHttp(url, headers, name, argsObj) {
+  const ctrl = new AbortController();
+  const killer = setTimeout(() => ctrl.abort(), 20000);
+  const res = await fetch(url, {
+    method: 'POST',
+    // Mcp-Name mirrors params.name on tools/call (REQUIRED, 2026-07-28 streamable-http)
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, 'Mcp-Method': 'tools/call', 'Mcp-Name': name },
+    body: JSON.stringify({ jsonrpc: '2.0', id: 'tc-real', method: 'tools/call', params: { name, arguments: argsObj, _meta: {
+      'io.modelcontextprotocol/protocolVersion': LATEST,
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.0' },
+      'io.modelcontextprotocol/clientCapabilities': {},
+    } } }),
+    signal: ctrl.signal,
+  });
+  const raw = await res.text();
+  clearTimeout(killer);
+  const parsed = responseFromBody(raw);
+  return classifyCallChannel(res.status, parsed && parsed.msg);
+}
+
+/** v0.8 opt-in real execution over stdio: one spawn — handshake via the modern
+ *  stateless route (works for dual-era servers), then the single real call. */
+function callToolStdio(cmd, args, name, argsObj) {
+  return new Promise((resolve) => {
+    let child;
+    try { child = spawn(cmd, args, { stdio: ['pipe', 'pipe', 'pipe'] }); }
+    catch (e) { resolve({ spawn: 'spawn-fail', message: String(e && e.message || e) }); return; }
+    let buf = '';
+    const meta = {
+      'io.modelcontextprotocol/protocolVersion': LATEST,
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.8.0' },
+      'io.modelcontextprotocol/clientCapabilities': {},
+    };
+    const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
+    const timer = setTimeout(() => { try { child.kill('SIGKILL'); } catch (_) {} }, 25000);
+    const finish = (r) => { clearTimeout(timer); try { child.kill('SIGKILL'); } catch (_) {} resolve(r); };
+    let listed = false;
+    child.stderr.on('data', () => {});
+    child.stdout.on('data', (d) => {
+      buf += d.toString();
+      let idx;
+      while ((idx = buf.indexOf('\n')) !== -1) {
+        const line = buf.slice(0, idx).trim(); buf = buf.slice(idx + 1);
+        if (!line) continue;
+        let m; try { m = JSON.parse(line); } catch (_) { continue; }
+        if (!listed && m.result !== undefined) { listed = true; send({ jsonrpc: '2.0', id: 'tc-real', method: 'tools/call', params: { name, arguments: argsObj, _meta: meta } }); }
+        else if (m.id === 'tc-real') finish({ target: `${cmd} ${args.join(' ')}`.trim(), tool: name, ...classifyCallChannel(null, m), raw_result: m.result || m.error || undefined });
+      }
+    });
+    child.on('error', (e) => finish({ spawn: 'spawn-fail', message: String(e && e.message || e) }));
+    child.on('exit', (code) => finish({ spawn: `exited-early (code ${code})` }));
+    send(discoverRequest('discover-1'));
+  });
+}
+
+
 function report(target, rows, strict, extra) {
   for (const r of rows) {
     const mark = r.outcome === 'served' ? 'ACCEPTED ' : r.outcome === 'downgraded' ? 'DOWNGRADE' : r.outcome.toUpperCase().padEnd(9);
@@ -577,6 +818,26 @@ function report(target, rows, strict, extra) {
     if (bh.removed_ping) console.error(`BEHAVIOR-ping   : ${bh.removed_ping.verdict}${bh.removed_ping.error != null ? ' (' + bh.removed_ping.error + ')' : ''}`);
     if (bh.missing_version) console.error(`BEHAVIOR-nover  : ${bh.missing_version.verdict}${bh.missing_version.error != null ? ' (' + bh.missing_version.error + ')' : ''}`);
   }
+  if (extra && extra.toolcheck) {
+    const tc = extra.toolcheck;
+    if (tc.stateless_tools_list) {
+      const st = tc.stateless_tools_list;
+      console.error(`TOOLCHECK-list  : ${st.tools != null ? st.tools + ' tool(s); outputSchema declared: ' + st.outputSchema_declared + '; inputSchema w/ required: ' + st.inputSchema_with_required : (st.verdict || ('error ' + st.error))}${st.resultType ? ', resultType: ' + st.resultType : ''}`);
+    }
+    if (tc.unknown_tool_modern) {
+      const um = tc.unknown_tool_modern;
+      console.error(`TOOLCHECK-unk-mod: ${um.channel}${um.code != null ? ' (code ' + um.code + ')' : ''}${um.message ? ' — ' + um.message : ''}${um.resultType ? ', resultType: ' + um.resultType : ''} (route: stateless @${LATEST})`);
+    }
+    if (tc.unknown_tool_legacy) {
+      const ul = tc.unknown_tool_legacy;
+      const ulTxt = ul.verdict || (ul.channel + (ul.code != null ? ' (code ' + ul.code + ')' : '') + (ul.message ? ' — ' + ul.message : ''));
+      console.error(`TOOLCHECK-unk-legacy: ${ulTxt}`);
+    }
+  }
+  if (extra && extra.real_tool_call) {
+    const rc = extra.real_tool_call;
+    console.error(`CALL (real)     : ${rc.tool ? rc.tool + ' -> ' : ''}${rc.channel}${rc.code != null ? ' (code ' + rc.code + ')' : ''}${rc.resultType ? ', resultType: ' + rc.resultType : ''}${rc.has_structuredContent ? ', structuredContent PRESENT' : ''}`);
+  }
   const verdict = modernOk ? `modern-era server (${LATEST}, stateless) — implements server/discover with ${LATEST} in supportedVersions`
     : (served.includes(LATEST) && !(bc && bc.echo)) ? `serves the ${LATEST} era via initialize`
     : (bc && bc.echo) ? `echoes ANY requested era verbatim (${BOGUS_ERAS.join(', ')} confirmed) — negotiation is decorative (typescript-sdk#2977 failure class, decorative-negotiation variant)`
@@ -587,7 +848,7 @@ function report(target, rows, strict, extra) {
   console.error(`VERDICT: ${verdict}`);
   const strictModern = extra && extra._strictModern;
   const restExtra = extra ? (({ discover, _strictModern, ...rest }) => rest)(extra) : {};
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.7.0', ...restExtra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.8.0', ...restExtra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
   if (strictModern && !modernOk) process.exit(1);
 }
@@ -651,6 +912,23 @@ async function main() {
       behavior = await behaviorHttp(url, headers);
       await SLEEP(50);
     }
+    // v0.8: tool-call channel checks (zero-execution unless --call-tool given)
+    let toolcheck = null;
+    if (argv.includes('--toolcheck')) {
+      toolcheck = await toolcheckHttp(url, headers);
+      await SLEEP(50);
+    }
+    let realCall = null;
+    const cti = argv.indexOf('--call-tool');
+    if (cti !== -1) {
+      const cname = argv[cti + 1];
+      const cai = argv.indexOf('--call-args');
+      let cargs = {};
+      if (cai !== -1) { try { cargs = JSON.parse(argv[cai + 1]); } catch (e) { console.error('bad --call-args JSON:', e.message); process.exit(64); } }
+      console.error(`WARNING: --call-tool = ONE REAL tool execution (${cname}) — operator asserts read-only.`);
+      realCall = await callToolHttp(url, headers, cname, cargs);
+      await SLEEP(50);
+    }
     const sids = [...new Set(rows.map((r) => r.session_id).filter(Boolean))];
     for (const sid of sids.reverse()) {
       try {
@@ -660,7 +938,7 @@ async function main() {
         clearTimeout(killer);
       } catch (_) { /* best effort */ }
     }
-    report(url, rows, strict, { transport: 'streamable-http', ...(discover ? { discover } : {}), ...(discoverLast ? { discover_in_session: discoverLast } : {}), ...(behavior ? { behavior } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
+    report(url, rows, strict, { transport: 'streamable-http', ...(discover ? { discover } : {}), ...(discoverLast ? { discover_in_session: discoverLast } : {}), ...(behavior ? { behavior } : {}), ...(toolcheck ? { toolcheck } : {}), ...(realCall ? { real_tool_call: realCall } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   } else {
     const { cmd, args } = splitArgv(argv);
     // v0.6: stdio modern-era discovery first — the spec's own backward-compatibility
@@ -696,7 +974,24 @@ async function main() {
       behavior = await behaviorStdio(cmd, args);
       await SLEEP(50);
     }
-    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(behavior ? { behavior } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
+    // v0.8 stdio toolcheck + opt-in real call
+    let toolcheck = null;
+    if (argv.includes('--toolcheck')) {
+      toolcheck = await toolcheckStdio(cmd, args);
+      await SLEEP(50);
+    }
+    let realCall = null;
+    const cti = argv.indexOf('--call-tool');
+    if (cti !== -1) {
+      const cname = argv[cti + 1];
+      const cai = argv.indexOf('--call-args');
+      let cargs = {};
+      if (cai !== -1) { try { cargs = JSON.parse(argv[cai + 1]); } catch (e) { console.error('bad --call-args JSON:', e.message); process.exit(64); } }
+      console.error(`WARNING: --call-tool = ONE REAL tool execution (${cname}) — operator asserts read-only.`);
+      realCall = await callToolStdio(cmd, args, cname, cargs);
+      await SLEEP(50);
+    }
+    report(`${cmd} ${args.join(' ')}`.trim(), rows, strict, { transport: 'stdio', ...(discover ? { discover } : {}), ...(behavior ? { behavior } : {}), ...(toolcheck ? { toolcheck } : {}), ...(realCall ? { real_tool_call: realCall } : {}), ...(bogus ? { bogus_check: bogus } : {}), _strictModern: argv.includes('--strict-modern') });
   }
 }
 main();

@@ -1,0 +1,36 @@
+{
+ "date": "2026-10-11",
+ "probe": "mcp-era-probe v0.8.0 --toolcheck (--discover)",
+ "zero_execution": true,
+ "cohort": [
+  {
+   "name": "api.askmiles.ai",
+   "url": "https://api.askmiles.ai/mcp",
+   "class": "genuine-lenient"
+  }
+ ],
+ "note": "unknown-tool name: era-probe-nonexistent-tool (cannot exist); no real tool was invoked in this sweep",
+ "stdio_targets": [
+  {
+   "name": "@upstash/context7-mcp@4.3.0",
+   "transport": "stdio",
+   "artifact": "_upstash_context7-mcp-stdio.json"
+  }
+ ],
+ "real_tool_calls": [
+  {
+   "target": "@upstash/context7-mcp@4.3.0 (stdio, local)",
+   "tool": "resolve-library-id",
+   "args": {
+    "query": "react hooks",
+    "libraryName": "react"
+   },
+   "assertion": "read-only docs lookup",
+   "artifact": "_upstash_context7-mcp-real-call.json"
+  }
+ ],
+ "probe_fixes": [
+  "v0.8.1: Mcp-Name header must mirror params.name on tools/call (2026-07-28 streamable-http \"Standard Request Headers\", REQUIRED) \u2014 first sweep round sent the client name and was correctly rejected -32020 by all 5 strict-modern HTTP servers; artifacts re-taken after the fix"
+ ],
+ "goji_note": "mcp.goji.agency: 429 rate-limited during the re-run batch; verified individually afterwards (protocol -32602) and artifact rewritten from that run"
+}

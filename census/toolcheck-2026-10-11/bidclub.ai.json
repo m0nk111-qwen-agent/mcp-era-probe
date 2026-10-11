@@ -1,0 +1,204 @@
+{
+ "target": "https://bidclub.ai/api/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "6 tool(s) listed",
+   "ms": 1045,
+   "serverInfo": {
+    "name": "bidclub",
+    "version": "1.0.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "6 tool(s) listed",
+   "ms": 968,
+   "serverInfo": {
+    "name": "bidclub",
+    "version": "1.0.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "6 tool(s) listed",
+   "ms": 926,
+   "serverInfo": {
+    "name": "bidclub",
+    "version": "1.0.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "6 tool(s) listed",
+   "ms": 927,
+   "serverInfo": {
+    "name": "bidclub",
+    "version": "1.0.0"
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2026-07-28"
+  ],
+  "serverInfo": {
+   "name": "bidclub",
+   "version": "1.0.0"
+  },
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) — implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-11T02:40:08.188Z",
+ "tool": "mcp-era-probe/0.8.0",
+ "transport": "streamable-http",
+ "toolcheck": {
+  "stateless_tools_list": {
+   "tools": 6,
+   "resultType": "complete",
+   "outputSchema_declared": 0,
+   "outputSchema_names": [],
+   "inputSchema_with_required": 2,
+   "sample_names": [
+    "bidclub_list_shows",
+    "bidclub_list_episodes",
+    "bidclub_search_episodes",
+    "bidclub_get_episode",
+    "bidclub_feed_index",
+    "bidclub_download_links"
+   ],
+   "tool_schemas": [
+    {
+     "name": "bidclub_list_shows",
+     "required": [],
+     "properties": []
+    },
+    {
+     "name": "bidclub_list_episodes",
+     "required": [],
+     "properties": [
+      "show",
+      "source_lang",
+      "limit",
+      "offset",
+      "asset",
+      "sector",
+      "focus"
+     ]
+    },
+    {
+     "name": "bidclub_search_episodes",
+     "required": [
+      "q"
+     ],
+     "properties": [
+      "q",
+      "time",
+      "person",
+      "show",
+      "source_lang",
+      "len",
+      "asset",
+      "sector"
+     ]
+    },
+    {
+     "name": "bidclub_get_episode",
+     "required": [
+      "slug"
+     ],
+     "properties": [
+      "slug",
+      "section",
+      "lang",
+      "offset",
+      "max_chars"
+     ]
+    },
+    {
+     "name": "bidclub_feed_index",
+     "required": [],
+     "properties": [
+      "show",
+      "person",
+      "asset",
+      "sector",
+      "focus"
+     ]
+    },
+    {
+     "name": "bidclub_download_links",
+     "required": [],
+     "properties": [
+      "slug",
+      "show",
+      "lang"
+     ]
+    }
+   ]
+  },
+  "unknown_tool_modern": {
+   "channel": "protocol",
+   "code": -32602,
+   "message": "Tool era-probe-nonexistent-tool not found"
+  },
+  "unknown_tool_legacy": {
+   "verdict": "no-session-granted (stateless or refused legacy handshake)"
+  }
+ }
+}

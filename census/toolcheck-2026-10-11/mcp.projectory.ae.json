@@ -1,0 +1,268 @@
+{
+ "target": "https://mcp.projectory.ae/mcp",
+ "eras": [
+  "2026-07-28",
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "rows": [
+  {
+   "era": "2026-07-28",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "downgraded",
+   "served": "2025-11-25",
+   "detail": "5 tool(s) listed",
+   "ms": 542,
+   "serverInfo": {
+    "name": "projectory",
+    "version": "0.6.0",
+    "title": "Projectory",
+    "description": "Find UAE off-plan developments and registered residential sales.",
+    "websiteUrl": "https://projectory.ae/mcp/",
+    "icons": [
+     {
+      "src": "https://projectory.ae/apple-touch-icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "180x180"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    },
+    "resources": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-11-25",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-11-25",
+   "detail": "5 tool(s) listed",
+   "ms": 253,
+   "serverInfo": {
+    "name": "projectory",
+    "version": "0.6.0",
+    "title": "Projectory",
+    "description": "Find UAE off-plan developments and registered residential sales.",
+    "websiteUrl": "https://projectory.ae/mcp/",
+    "icons": [
+     {
+      "src": "https://projectory.ae/apple-touch-icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "180x180"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    },
+    "resources": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-06-18",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-06-18",
+   "detail": "5 tool(s) listed",
+   "ms": 378,
+   "serverInfo": {
+    "name": "projectory",
+    "version": "0.6.0",
+    "title": "Projectory",
+    "description": "Find UAE off-plan developments and registered residential sales.",
+    "websiteUrl": "https://projectory.ae/mcp/",
+    "icons": [
+     {
+      "src": "https://projectory.ae/apple-touch-icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "180x180"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    },
+    "resources": {
+     "listChanged": true
+    }
+   }
+  },
+  {
+   "era": "2025-03-26",
+   "http_status": 200,
+   "content_type": "text/event-stream",
+   "session": "none",
+   "outcome": "served",
+   "served": "2025-03-26",
+   "detail": "5 tool(s) listed",
+   "ms": 220,
+   "serverInfo": {
+    "name": "projectory",
+    "version": "0.6.0",
+    "title": "Projectory",
+    "description": "Find UAE off-plan developments and registered residential sales.",
+    "websiteUrl": "https://projectory.ae/mcp/",
+    "icons": [
+     {
+      "src": "https://projectory.ae/apple-touch-icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+       "180x180"
+      ]
+     }
+    ]
+   },
+   "capabilities": {
+    "tools": {
+     "listChanged": true
+    },
+    "resources": {
+     "listChanged": true
+    }
+   }
+  }
+ ],
+ "served": [
+  "2025-11-25",
+  "2025-06-18",
+  "2025-03-26"
+ ],
+ "downgradedTo": [
+  "2025-11-25"
+ ],
+ "discover": {
+  "outcome": "discover-ok",
+  "supportedVersions": [
+   "2026-07-28"
+  ],
+  "serverInfo": {
+   "name": "projectory",
+   "version": "0.6.0",
+   "title": "Projectory",
+   "description": "Find UAE off-plan developments and registered residential sales.",
+   "websiteUrl": "https://projectory.ae/mcp/",
+   "icons": [
+    {
+     "src": "https://projectory.ae/apple-touch-icon.png",
+     "mimeType": "image/png",
+     "sizes": [
+      "180x180"
+     ]
+    }
+   ]
+  },
+  "resultType": "complete"
+ },
+ "verdict": "modern-era server (2026-07-28, stateless) — implements server/discover with 2026-07-28 in supportedVersions",
+ "probed_at": "2026-10-11T02:39:51.618Z",
+ "tool": "mcp-era-probe/0.8.0",
+ "transport": "streamable-http",
+ "toolcheck": {
+  "stateless_tools_list": {
+   "tools": 5,
+   "resultType": "complete",
+   "outputSchema_declared": 5,
+   "outputSchema_names": [
+    "search",
+    "search_transactions",
+    "fetch",
+    "list_project_facets",
+    "suggest_project_terms"
+   ],
+   "inputSchema_with_required": 3,
+   "sample_names": [
+    "search",
+    "search_transactions",
+    "fetch",
+    "list_project_facets",
+    "suggest_project_terms"
+   ],
+   "tool_schemas": [
+    {
+     "name": "search",
+     "required": [],
+     "properties": [
+      "query",
+      "emirate",
+      "developer",
+      "area",
+      "propertyType",
+      "bedroomsMin",
+      "priceMinAed",
+      "priceMaxAed"
+     ]
+    },
+    {
+     "name": "search_transactions",
+     "required": [
+      "market"
+     ],
+     "properties": [
+      "market",
+      "areaName",
+      "projectName",
+      "buildingName",
+      "sourceProjectId",
+      "from",
+      "to",
+      "bedrooms"
+     ]
+    },
+    {
+     "name": "fetch",
+     "required": [
+      "id"
+     ],
+     "properties": [
+      "id"
+     ]
+    },
+    {
+     "name": "list_project_facets",
+     "required": [],
+     "properties": []
+    },
+    {
+     "name": "suggest_project_terms",
+     "required": [
+      "query"
+     ],
+     "properties": [
+      "query",
+      "limit"
+     ]
+    }
+   ]
+  },
+  "unknown_tool_modern": {
+   "channel": "protocol",
+   "code": -32602,
+   "message": "Tool era-probe-nonexistent-tool not found"
+  },
+  "unknown_tool_legacy": {
+   "verdict": "no-session-granted (stateless or refused legacy handshake)"
+  }
+ }
+}
