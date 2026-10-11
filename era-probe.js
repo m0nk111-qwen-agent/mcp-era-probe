@@ -596,7 +596,7 @@ async function toolcheckHttp(url, headers) {
   };
   const meta = {
     'io.modelcontextprotocol/protocolVersion': LATEST,
-    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.2' },
     'io.modelcontextprotocol/clientCapabilities': {},
   };
   const H = { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers };
@@ -621,7 +621,7 @@ async function toolcheckHttp(url, headers) {
   }
   // (3) legacy-route control: own session, same unknown tool, era 2025-11-25
   try {
-    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.9.1' } } };
+    const init = { jsonrpc: '2.0', id: 'tc-init', method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'mcp-era-probe', version: '0.9.2' } } };
     // the session id lives on the RESPONSE HEADERS — raw fetch, not postRaw:
     const ctrl = new AbortController();
     const killer = setTimeout(() => ctrl.abort(), 10000);
@@ -660,7 +660,7 @@ async function toolcheckHttp(url, headers) {
 function handshakeControlStdio(cmd, args) {
   const META = {
     'io.modelcontextprotocol/protocolVersion': LATEST,
-    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
+    'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.2' },
     'io.modelcontextprotocol/clientCapabilities': {},
   };
   const oneSpawn = (mode) => new Promise((resolve) => {
@@ -701,12 +701,14 @@ function handshakeControlStdio(cmd, args) {
           out.post_init_unknown_tool = m.error ? { error: m.error.code } : classifyCallChannel(null, m);
           if (mode === 'handshake' && out.post_init_tools_list !== undefined) finish();
         } else if (m.id === 'pi-unk') {
-          // pre-init control answer
-          out.pre_init_unknown_tool = m.error ? { rejected: true, error: m.error.code, verdict: m.error.code === -32602 ? '-32602 (invalid-request style)' : m.error.code === -32002 ? '-32002 (not-initialized style)' : `error ${m.error.code}` }
+          // pre-init control answer — v0.9.2 fix (autenai run-224): finish() used to fire HERE,
+          // so pi-list never landed in the JSON. Now both probes must settle first.
+          out.pre_init_unknown_tool = m.error ? { error: m.error.code }
             : { rejected: false, verdict: 'served without initialize (lenient ordering OR stateless-native)' };
-          finish();
+          if (out.pre_init_tools_list !== undefined) finish();
         } else if (m.id === 'pi-list') {
           out.pre_init_tools_list = m.error ? { error: m.error.code } : { tools: m.result && Array.isArray(m.result.tools) ? m.result.tools.length : 'no-parseable-result' };
+          if (out.pre_init_unknown_tool !== undefined) finish();
         }
       }
     });
@@ -724,9 +726,25 @@ function handshakeControlStdio(cmd, args) {
     const a = await oneSpawn('handshake');
     await SLEEP(50);
     const b = await oneSpawn('preinit');
-    const pre = b.pre_init_unknown_tool;
-    const verdict = pre ? (pre.rejected === true ? 'yes' : pre.rejected === false ? 'no' : 'indeterminate') : (b.spawn ? 'indeterminate (spawn: ' + b.spawn + ')' : 'indeterminate (no answer)');
-    return { post_init_initialize: a.initialize, post_init_tools_list: a.post_init_tools_list, post_init_unknown_tool: a.post_init_unknown_tool, pre_init_unknown_tool: pre, pre_init_tools_list: b.pre_init_tools_list, rejects_pre_init: verdict };
+    // v0.9.2 verdict (autenai run-224): decide on the ORDERING probe (pi-list, a method every
+    // server knows) first. Only fall back to the unknown-tool probe when pi-list is missing —
+    // and there, a pre-init error IDENTICAL to the post-init error means name-based refusal,
+    // not ordering enforcement (the exact false positive they caught on 0.1.4).
+    let verdict, basis;
+    const pl = b.pre_init_tools_list;
+    if (pl && !pl.error) { verdict = 'no'; basis = 'pre-init tools/list served (' + (pl.tools !== undefined ? pl.tools + ' tools' : pl.tools) + ')'; }
+    else if (pl && pl.error) { verdict = 'yes'; basis = 'pre-init tools/list refused with ' + pl.error; }
+    else {
+      const pre = b.pre_init_unknown_tool;
+      const post = a.post_init_unknown_tool;
+      const preErr = pre && pre.error;
+      const postErr = post && post.error;
+      if (pre && !pre.error) { verdict = 'no'; basis = 'pre-init unknown-tool served (pi-list unanswered)'; }
+      else if (preErr !== undefined && postErr !== undefined && preErr === postErr) { verdict = 'indeterminate'; basis = `pre-init error ${preErr} matches post-init error (name-based refusal, not ordering)`; }
+      else if (preErr !== undefined) { verdict = 'yes'; basis = `pre-init error ${preErr} differs from post-init ${postErr !== undefined ? postErr : 'none'}`; }
+      else { verdict = 'indeterminate'; basis = b.spawn ? 'spawn: ' + b.spawn : 'no pre-init answer'; }
+    }
+    return { post_init_initialize: a.initialize, post_init_tools_list: a.post_init_tools_list, post_init_unknown_tool: a.post_init_unknown_tool, pre_init_unknown_tool: b.pre_init_unknown_tool, pre_init_tools_list: b.pre_init_tools_list, rejects_pre_init: verdict, rejects_pre_init_basis: basis };
   })();
 }
 
@@ -744,7 +762,7 @@ function toolcheckStdio(cmd, args) {
     const timer = setTimeout(() => { out.timeout = true; finish(); }, 15000); // timeout must RESOLVE (run-216 regression lesson)
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.2' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -792,7 +810,7 @@ async function callToolHttp(url, headers, name, argsObj) {
     headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream', ...headers, 'Mcp-Method': 'tools/call', 'Mcp-Name': name },
     body: JSON.stringify({ jsonrpc: '2.0', id: 'tc-real', method: 'tools/call', params: { name, arguments: argsObj, _meta: {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.2' },
       'io.modelcontextprotocol/clientCapabilities': {},
     } } }),
     signal: ctrl.signal,
@@ -813,7 +831,7 @@ function callToolStdio(cmd, args, name, argsObj) {
     let buf = '';
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
-      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.1' },
+      'io.modelcontextprotocol/clientInfo': { name: 'mcp-era-probe', version: '0.9.2' },
       'io.modelcontextprotocol/clientCapabilities': {},
     };
     const send = (o) => { try { child.stdin.write(JSON.stringify(o) + '\n'); } catch (_) {} };
@@ -871,7 +889,7 @@ function argsProbeStdio(cmd, args) {
       resolve(Object.assign(out, extra || {}));
     };
     const timer = setTimeout(() => finish({ timeout: true }), 15000); // timeout must RESOLVE (run-216 lesson)
-    const clientInfo = { name: 'mcp-era-probe', version: '0.9.1' };
+    const clientInfo = { name: 'mcp-era-probe', version: '0.9.2' };
     const meta = {
       'io.modelcontextprotocol/protocolVersion': LATEST,
       'io.modelcontextprotocol/clientInfo': clientInfo,
@@ -908,7 +926,7 @@ function argsProbeStdio(cmd, args) {
 }
 
 async function argsProbeHttp(url, headers) {
-  const clientInfo = { name: 'mcp-era-probe', version: '0.9.1' };
+  const clientInfo = { name: 'mcp-era-probe', version: '0.9.2' };
   const meta = {
     'io.modelcontextprotocol/protocolVersion': LATEST,
     'io.modelcontextprotocol/clientInfo': clientInfo,
@@ -1038,7 +1056,7 @@ function report(target, rows, strict, extra) {
   console.error(`VERDICT: ${verdict}`);
   const strictModern = extra && extra._strictModern;
   const restExtra = extra ? (({ discover, _strictModern, ...rest }) => rest)(extra) : {};
-  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.9.1', ...restExtra }));
+  console.log(JSON.stringify({ target, eras: ERAS, rows: rows.map(({ session_id, ...rest }) => rest), served, downgradedTo, one_initialize: oneInit || undefined, ...(disc ? { discover: disc } : {}), ...(bc ? { blind_echo: bc.echo || undefined, bogus_check: bc } : {}), verdict, probed_at: new Date().toISOString(), tool: 'mcp-era-probe/0.9.2', ...restExtra }));
   if (strict && !(served.includes(LATEST) && !(bc && bc.echo))) process.exit(1);
   if (strictModern && !modernOk) process.exit(1);
 }
