@@ -48,5 +48,5 @@
    "consistent": true
   }
  },
- "summary": "6/6 strict modern targets classify identically with two distinct impossible names; askmiles consistent on execution channel"
+ "summary": "6/6 targets classify identically with two distinct impossible names (5 strict HTTP on protocol/-32602 twice + lenient askmiles on execution twice); goji in-batch mismatch was its 429 (gentle retry agreed). getle.ad (dual-era) not in this check \u2014 its single sweep measurement is protocol 401 (auth-gated calls)."
 }
