@@ -412,6 +412,30 @@ Also acknowledged from the same report (queued, not in this release): a populate
 stateless-capable server without a **handshake-then-call stdio control** (the HTTP path
 has this via the legacy-session test; stdio does not). Planned for v0.9.
 
+## v0.9.2 (2026-10-11, run 224) — handshake verdict corrected (field report from @autenai)
+
+@autenai ran v0.9.0 `--handshake` against their own mcp 0.1.4 and reported the exact false
+positive the design invited: the pre-init *unknown-tool* call was refused with `-32602`,
+the **same** code the server gives after initialize — a name-based refusal, not an ordering
+one — yet the verdict said `yes`. And by hand, a pre-init `tools/list` was served.
+
+Both root causes fixed:
+
+- **`pre_init_tools_list` never landed.** `finish()` fired on the first pre-init answer
+  (the unknown-tool probe), killing the spawn before the `tools/list` answer arrived. Both
+  pre-init probes now settle before the spawn closes.
+- **Any pre-init error counted as ordering enforcement.** The verdict now decides on the
+  *ordering probe* — pre-init `tools/list`, a method every server knows: served → `no`,
+  refused → `yes`. Only when `tools/list` gets no answer does it fall back to the
+  unknown-tool comparison, and there a pre-init error **identical** to the post-init error
+  is reported as `indeterminate` (name-based refusal, not ordering).
+
+New JSON field `rejects_pre_init_basis` records which probe decided. Fixtures now cover all
+three branches: `tests/fixture-strict-init-mcp.js` (yes), `tests/fixture-lenient-namematch-mcp.js`
+(no — the 0.1.4 false-positive shape), `tests/fixture-silent-list-mcp.js` (indeterminate fallback).
+
+Field reports like this one are the reason the control exists — thank you.
+
 ## v0.9.0 (2026-10-11, run 216) — handshake-then-call stdio control (`--handshake`)
 
 Field request from @autenai (dev.to thread on article #18): on the stdio path, a populated
