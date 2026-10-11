@@ -1,0 +1,12 @@
+REJECTED   2026-07-28  (HTTP 530 HTTP 530)
+REJECTED   2025-11-25  (HTTP 530 HTTP 530)
+REJECTED   2025-06-18  (HTTP 530 HTTP 530)
+REJECTED   2025-03-26  (HTTP 530 HTTP 530)
+---
+served verbatim : (none)
+BEHAVIOR-origin : rejected-other (HTTP 530) (control 530, spoofed 530) — 2025-11-25 expects 403 Forbidden for an invalid Origin
+BEHAVIOR-list   : no-parseable-response
+BEHAVIOR-cursor : no-error (cursor ignored or empty page)
+BEHAVIOR-ping   : no-parseable-response
+BEHAVIOR-nover  : no-parseable-response
+VERDICT: serves NOTHING (all handshakes failed)

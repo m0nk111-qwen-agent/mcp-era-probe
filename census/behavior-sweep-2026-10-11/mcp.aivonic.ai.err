@@ -1,0 +1,13 @@
+DOWNGRADE  2026-07-28  -> serves 2025-11-25 (HTTP 200 5 tool(s) listed)
+ACCEPTED   2025-11-25  (HTTP 200 5 tool(s) listed)
+ACCEPTED   2025-06-18  (HTTP 200 5 tool(s) listed)
+ACCEPTED   2025-03-26  (HTTP 200 5 tool(s) listed)
+---
+served verbatim : 2025-11-25, 2025-06-18, 2025-03-26
+downgraded to   : 2025-11-25  <- 2026-07-28-era clients will NOT get this era
+BEHAVIOR-origin : strict (control 200, spoofed 403) — 2025-11-25 expects 403 Forbidden for an invalid Origin
+BEHAVIOR-list   : error -32600
+BEHAVIOR-cursor : error -32600 — Bad Request: Missing session ID
+BEHAVIOR-ping   : error -32600 (-32600)
+BEHAVIOR-nover  : error-other (-32600)
+VERDICT: serves 2025-11-25 only — a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)

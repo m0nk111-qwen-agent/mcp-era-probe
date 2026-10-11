@@ -1,0 +1,1128 @@
+{
+ "sweep": "behavior-completion-2026-10-11",
+ "purpose": "behavior matrix for the 38 servers without coverage in behavior-sweep-2026-10-10 (the run-210 completion of the 78-server behavior matrix); out-of-sample test of the skeptic-corrected correlations",
+ "probed": 37,
+ "note": "37 JSON rows; 1 target (Cloudflare 530 origin down) failed at transport \u2014 see *.err files; totals below are over probed rows",
+ "findings": {
+  "resultType": "absent on ALL 37 probed servers (27 explicit \"absent \u2014 treated as complete per MRTR; observation, not compliance\", 10 no stateless list parseable). Combined with behavior-sweep-2026-10-10 (resultType:complete on all 7 verified-modern servers), resultType emission co-occurs with modern-era implementation across the full 78-server cohort. STILL A CORRELATION, NOT A DISCRIMINATOR: same-SDK confound remains (the SDKs that implement discover also emit resultType), and the cohort pre-filters for discover-answering servers.",
+  "origin_check": "strict on 5/37 (all legacy-era servers) + 1 HTTP 530 (Cloudflare origin down). Cross-cohort total: 14/78 origin-strict, era-mixed \u2014 orthogonal to modern-era-ness (confirmed out-of-sample).",
+  "removed_ping": "24/37 still answer ping (removed in 2026-07-28 spec) \u2014 consistent with legacy implementations; 4 answered -32600 (request-shape rejection, not method-absence).",
+  "missing_version": "27/37 accepted version-less requests (assume-latest compliance reading holds out-of-sample; NO server in either cohort rejected a missing protocolVersion)."
+ },
+ "rows": [
+  {
+   "target": "https://agentberg.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 400,
+    "error": -32600,
+    "message": "Bad Request: Missing session ID"
+   },
+   "bogus_cursor": {
+    "error": -32600,
+    "message": "Bad Request: Missing session ID"
+   },
+   "removed_ping": {
+    "error": -32600,
+    "verdict": "error -32600"
+   },
+   "missing_version": {
+    "error": -32600,
+    "verdict": "error-other"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:22.196Z"
+  },
+  {
+   "target": "https://agenticfabricationnetwork.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 13,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:29.530Z"
+  },
+  {
+   "target": "https://agentxray.ai/api/mcp",
+   "verdict": "serves NOTHING verbatim; downgrades to 2025-06-18 \u2014 every answered handshake used an older era (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 403,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "strict"
+   },
+   "stateless_tools_list": {
+    "http_status": 401,
+    "verdict": "no-parseable-response"
+   },
+   "bogus_cursor": {
+    "http_status": 401,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "http_status": 401,
+    "verdict": "no-parseable-response"
+   },
+   "missing_version": {
+    "http_status": 401,
+    "verdict": "no-parseable-response"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:14.080Z"
+  },
+  {
+   "target": "https://aient.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 2,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:52.412Z"
+  },
+  {
+   "target": "https://alpix.alpic.ai",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 400,
+    "verdict": "no-parseable-response"
+   },
+   "bogus_cursor": {
+    "http_status": 400,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "http_status": 400,
+    "verdict": "no-parseable-response"
+   },
+   "missing_version": {
+    "http_status": 400,
+    "verdict": "no-parseable-response"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:00.307Z"
+  },
+  {
+   "target": "https://api.atako.ai/mcp/public",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 3,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:56:09.161Z"
+  },
+  {
+   "target": "https://api.bowmark.ai/mcp/registry",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 10,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:58:48.241Z"
+  },
+  {
+   "target": "https://api.bowmark.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 10,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:59:04.763Z"
+  },
+  {
+   "target": "https://api.bowmark.ai/mcp?s=r",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 10,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:58:56.762Z"
+  },
+  {
+   "target": "https://app.augenix.ai/api/mcp/public",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 3,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:56:51.064Z"
+  },
+  {
+   "target": "https://app.autoposting.ai/mcp",
+   "verdict": "serves NOTHING verbatim; downgrades to 2025-03-26 \u2014 every answered handshake used an older era (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 401,
+    "message": ""
+   },
+   "bogus_cursor": {
+    "message": ""
+   },
+   "removed_ping": {
+    "verdict": "error undefined"
+   },
+   "missing_version": {
+    "verdict": "error-other"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:20.906Z"
+  },
+  {
+   "target": "https://app.bezal.ai/api/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 13,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:48.778Z"
+  },
+  {
+   "target": "https://app.bitroad.ai/api/v1/mcp",
+   "verdict": "serves 2025-03-26 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 65,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:58:12.019Z"
+  },
+  {
+   "target": "https://argushq.ai/api/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 5,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:56:04.432Z"
+  },
+  {
+   "target": "https://artidrop.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 4,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:07.828Z"
+  },
+  {
+   "target": "https://auteng.ai/mcp/docs",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 403,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "strict"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 6,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:41.716Z"
+  },
+  {
+   "target": "https://aviado.ai/api/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 9,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:58:20.329Z"
+  },
+  {
+   "target": "https://awardcast.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 8,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:58:05.727Z"
+  },
+  {
+   "target": "https://b4-index.vercel.app/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 5,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:33.007Z"
+  },
+  {
+   "target": "https://backengine.ai/mcp",
+   "verdict": "serves NOTHING (all handshakes failed)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "verdict": "no-parseable-response"
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "http_status": 200,
+    "verdict": "no-parseable-response"
+   },
+   "missing_version": {
+    "http_status": 200,
+    "verdict": "no-parseable-response"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:58:31.042Z"
+  },
+  {
+   "target": "https://betterpost.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 23,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:56.103Z"
+  },
+  {
+   "target": "https://borealhost.ai/mcp/",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 400,
+    "error": -32600,
+    "message": "Bad Request: Missing session ID"
+   },
+   "bogus_cursor": {
+    "error": -32600,
+    "message": "Bad Request: Missing session ID"
+   },
+   "removed_ping": {
+    "error": -32600,
+    "verdict": "error -32600"
+   },
+   "missing_version": {
+    "error": -32600,
+    "verdict": "error-other"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:58:39.786Z"
+  },
+  {
+   "target": "https://mcp-server-295985738387.europe-west1.run.app/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 20,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "error undefined"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:56:27.042Z"
+  },
+  {
+   "target": "https://mcp.adoraads.ai/beauty",
+   "verdict": "serves NOTHING verbatim; downgrades to 2024-11-05 \u2014 every answered handshake used an older era (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 6,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:02.061Z"
+  },
+  {
+   "target": "https://mcp.agenticterminal.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 6,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:09.082Z"
+  },
+  {
+   "target": "https://mcp.airshelf.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 8,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:56:37.875Z"
+  },
+  {
+   "target": "https://mcp.aivonic.ai",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 403,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "strict"
+   },
+   "stateless_tools_list": {
+    "http_status": 400,
+    "error": -32600,
+    "message": "Bad Request: Missing session ID"
+   },
+   "bogus_cursor": {
+    "error": -32600,
+    "message": "Bad Request: Missing session ID"
+   },
+   "removed_ping": {
+    "error": -32600,
+    "verdict": "error -32600"
+   },
+   "missing_version": {
+    "error": -32600,
+    "verdict": "error-other"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:44.968Z"
+  },
+  {
+   "target": "https://mcp.alphacreek.ai/mcp",
+   "verdict": "serves 2025-03-26 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 5,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:56:17.374Z"
+  },
+  {
+   "target": "https://mcp.askwatch.ai/gsc",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 11,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:56:43.910Z"
+  },
+  {
+   "target": "https://mcp.auralogs.ai/mcp",
+   "verdict": "serves 2025-03-26 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 7,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "error": "unauthorized",
+    "verdict": "error unauthorized"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:57.221Z"
+  },
+  {
+   "target": "https://mcp.autonomad.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 400,
+    "error": -32000,
+    "message": "Bad Request: No valid session ID provided. Send an initialize request first."
+   },
+   "bogus_cursor": {
+    "error": -32000,
+    "message": "Bad Request: No valid session ID provided. Send an initialize request first."
+   },
+   "removed_ping": {
+    "error": -32000,
+    "verdict": "error -32000"
+   },
+   "missing_version": {
+    "error": -32000,
+    "verdict": "error-other"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:56:22.143Z"
+  },
+  {
+   "target": "https://mcp.bcited.ai/public",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 6,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:25.762Z"
+  },
+  {
+   "target": "https://mcp.biel.ai/sse?project_slug={project_slug}&domain={domain}",
+   "verdict": "serves NOTHING (all handshakes failed)",
+   "origin_check": {
+    "control_no_origin": 530,
+    "spoofed_origin": 530,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "rejected-other (HTTP 530)"
+   },
+   "stateless_tools_list": {
+    "http_status": 530,
+    "verdict": "no-parseable-response"
+   },
+   "bogus_cursor": {
+    "http_status": 530,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "http_status": 530,
+    "verdict": "no-parseable-response"
+   },
+   "missing_version": {
+    "http_status": 530,
+    "verdict": "no-parseable-response"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:57:12.006Z"
+  },
+  {
+   "target": "https://mcp.datadubai.ae/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 403,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "strict"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 6,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:54:54.853Z"
+  },
+  {
+   "target": "https://prices.brainy.ae/mcp",
+   "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 20,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "verdict": "answered \u2014 ping still implemented (compat tolerance)"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:55:40.395Z"
+  },
+  {
+   "target": "https://supershopping-mcp.atdev.ai/mcp",
+   "verdict": "serves 2025-11-25 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 200,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "no-origin-validation"
+   },
+   "stateless_tools_list": {
+    "http_status": 400,
+    "error": -32600,
+    "message": "Bad Request: Missing session ID"
+   },
+   "bogus_cursor": {
+    "error": -32600,
+    "message": "Bad Request: Missing session ID"
+   },
+   "removed_ping": {
+    "error": -32600,
+    "verdict": "error -32600"
+   },
+   "missing_version": {
+    "error": -32600,
+    "verdict": "error-other"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:59:17.386Z"
+  },
+  {
+   "target": "https://tandem.ac/mcp",
+   "verdict": "serves 2025-06-18 only \u2014 a 2026-07-28-only client cannot use this server (typescript-sdk#2977 failure class)",
+   "origin_check": {
+    "control_no_origin": 200,
+    "spoofed_origin": 403,
+    "spec": "2025-11-25 expects 403 Forbidden for an invalid Origin",
+    "verdict": "strict"
+   },
+   "stateless_tools_list": {
+    "http_status": 200,
+    "tools": 13,
+    "resultType": "(absent \u2014 treated as complete per MRTR; observation, not compliance)",
+    "order_stability_within_run": true
+   },
+   "bogus_cursor": {
+    "http_status": 200,
+    "verdict": "no-error (cursor ignored or empty page)"
+   },
+   "removed_ping": {
+    "http_status": 404,
+    "verdict": "no-parseable-response"
+   },
+   "missing_version": {
+    "verdict": "accepted without version (lenient)"
+   },
+   "serverInfo": null,
+   "capabilities": null,
+   "tool": "mcp-era-probe/0.7.0",
+   "probed_at": "2026-10-11T01:54:49.471Z"
+  }
+ ]
+}

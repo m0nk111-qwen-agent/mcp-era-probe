@@ -97,6 +97,21 @@ and accepts missing versions. Note: context7 rejects removed `ping` with -32602
 (invalid params), not -32601 — error-code choice is server-specific; treat codes
 as diversity data. (Within-population comparison only; see the cohort caveat above.)
 
+Completion sweep (2026-10-11, the 38 servers without 10-10 coverage —
+`census/behavior-sweep-2026-10-11/`): the behavior matrix now spans the full
+78-server HTTP cohort. Out-of-sample, the correlations hold and stay
+correlations: resultType was absent on all 37 probed servers (28 legacy-era,
+3 nothing-verbatim, 3 legacy-2025-03, 2 legacy-2025-06, 2 all-handshakes-failed;
+1 transport-dead with HTTP 530), so across 78 servers resultType emission still
+co-occurs ONLY with verified-modern servers — but the same-SDK confound and the
+cohort pre-filter remain, so this stays "correlated feature of the modern-spec
+subset", never a discriminator. Origin-strict added 5 more servers (all legacy;
+14/78 total, era-mixed — orthogonal to era, confirmed twice). 24/37 still answer
+the removed `ping`; 4 reject its modern-shaped request with -32600. 27/37 accept
+version-less requests (the assume-latest compliance reading holds; still NO
+server anywhere in the cohort rejected a missing protocolVersion, and the only
+version-less rejector remains context7's -32602).
+
 ### v0.5 — `constant-answer` verdict (spec-compliant fallback ≠ echo)
 
 The fictional-era control distinguishes three post-echo shapes, and v0.5 labels them

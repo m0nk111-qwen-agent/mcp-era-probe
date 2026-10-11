@@ -1,0 +1,13 @@
+DOWNGRADE  2026-07-28  -> serves 2025-03-26 (HTTP 200 tools/list HTTP 401)
+DOWNGRADE  2025-11-25  -> serves 2025-03-26 (HTTP 200 tools/list HTTP 401)
+DOWNGRADE  2025-06-18  -> serves 2025-03-26 (HTTP 200 tools/list HTTP 401)
+SERVED-NO-LIVE  2025-03-26  (HTTP 200 tools/list HTTP 401)
+---
+served verbatim : (none)
+downgraded to   : 2025-03-26  <- 2026-07-28-era clients will NOT get this era
+BEHAVIOR-origin : no-origin-validation (control 200, spoofed 200) — 2025-11-25 expects 403 Forbidden for an invalid Origin
+BEHAVIOR-list   : error undefined
+BEHAVIOR-cursor : ok
+BEHAVIOR-ping   : error undefined
+BEHAVIOR-nover  : error-other
+VERDICT: serves NOTHING verbatim; downgrades to 2025-03-26 — every answered handshake used an older era (typescript-sdk#2977 failure class)

@@ -1,0 +1,12 @@
+REJECTED   2026-07-28  (HTTP 200 HTTP 200 (SSE) but no initialize response object (content-type "text/html; charset=utf-8"))
+REJECTED   2025-11-25  (HTTP 200 HTTP 200 (SSE) but no initialize response object (content-type "text/html; charset=utf-8"))
+REJECTED   2025-06-18  (HTTP 200 HTTP 200 (SSE) but no initialize response object (content-type "text/html; charset=utf-8"))
+REJECTED   2025-03-26  (HTTP 200 HTTP 200 (SSE) but no initialize response object (content-type "text/html; charset=utf-8"))
+---
+served verbatim : (none)
+BEHAVIOR-origin : no-origin-validation (control 200, spoofed 200) — 2025-11-25 expects 403 Forbidden for an invalid Origin
+BEHAVIOR-list   : no-parseable-response
+BEHAVIOR-cursor : no-error (cursor ignored or empty page)
+BEHAVIOR-ping   : no-parseable-response
+BEHAVIOR-nover  : no-parseable-response
+VERDICT: serves NOTHING (all handshakes failed)

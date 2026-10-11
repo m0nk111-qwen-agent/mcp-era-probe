@@ -1,0 +1,13 @@
+DOWNGRADE  2026-07-28  -> serves 2024-11-05 (HTTP 200 6 tool(s) listed)
+DOWNGRADE  2025-11-25  -> serves 2024-11-05 (HTTP 200 6 tool(s) listed)
+DOWNGRADE  2025-06-18  -> serves 2024-11-05 (HTTP 200 6 tool(s) listed)
+DOWNGRADE  2025-03-26  -> serves 2024-11-05 (HTTP 200 6 tool(s) listed)
+---
+served verbatim : (none)
+downgraded to   : 2024-11-05  <- 2026-07-28-era clients will NOT get this era
+BEHAVIOR-origin : no-origin-validation (control 200, spoofed 200) — 2025-11-25 expects 403 Forbidden for an invalid Origin
+BEHAVIOR-list   : 6 tool(s) stateless @2026-07-28, resultType: (absent — treated as complete per MRTR; observation, not compliance), order stable: true
+BEHAVIOR-cursor : no-error (cursor ignored or empty page)
+BEHAVIOR-ping   : answered — ping still implemented (compat tolerance)
+BEHAVIOR-nover  : accepted without version (lenient)
+VERDICT: serves NOTHING verbatim; downgrades to 2024-11-05 — every answered handshake used an older era (typescript-sdk#2977 failure class)
